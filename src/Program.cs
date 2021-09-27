@@ -109,6 +109,7 @@ namespace Gunloader
         {
           FileName = "ffmpeg",
           Arguments = $"-y -i {compilation} "                                +
+                      "-b:a 192K -vn "                                       +
                       $"-ss {start} "                                        +
                       $"{(!string.IsNullOrEmpty(end) ? $"-to {end}" : "")} " +
                       $"{number}.mp3"
