@@ -32,6 +32,14 @@ namespace Gunloader
       {
         "album=", "album name to move tracks to, and to assign to the tracks' metadata",
         s => Album = s
+      },
+      {
+        "artist=", "album artist to assign to the tracks' metadata",
+        s => Artist = s
+      },
+      {
+        "genre=", "genre to assign to the tracks' metadata",
+        s => Genre = s
       }
     };
 
@@ -39,6 +47,8 @@ namespace Gunloader
     public static FileInfo Records { get; set; } = new(Combine(CurrentDirectory, "tracks.txt"));
     public static FileInfo Source  { get; set; } = new(Combine(CurrentDirectory, NewGuid().ToString()));
     public static string   Album   { get; set; } = string.Empty; /* for the metadata and output directory name */
+    public static string   Artist  { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks  */
+    public static string   Genre   { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks  */
 
     public static void Main(string[] args)
     {
@@ -135,6 +145,8 @@ namespace Gunloader
                       "-metadata:s:v comment=\"Cover (front)\" " +
                       $"-metadata title=\"{title}\" "            +
                       $"-metadata album=\"{Album}\" "            +
+                      $"-metadata album_artist=\"{Artist}\" "    +
+                      $"-metadata genre=\"{Genre}\" "            +
                       $"{number}~1.mp3"
         })?.WaitForExit();
 
