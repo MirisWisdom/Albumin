@@ -123,7 +123,7 @@ namespace Gunloader
           FileName = "ffmpeg",
           Arguments = $"-y -i {compilation} -ss {cover:H:mm:ss} " +
                       "-vframes 1 "                               +
-                      $"{number}.png"
+                      $"{number}.jpg"
         })?.WaitForExit();
 
         /**
@@ -136,7 +136,7 @@ namespace Gunloader
         {
           FileName = "ffmpeg",
           Arguments = $"-y -i {number}.mp3 "                     +
-                      $"-i {number}.png "                        +
+                      $"-i {number}.jpg "                        +
                       "-map 0:0 "                                +
                       "-map 1:0 "                                +
                       "-c copy "                                 +
@@ -156,7 +156,7 @@ namespace Gunloader
 
         Move($"{number}~1.mp3", Combine(Album ?? string.Empty, $"{number}. {normalised}.mp3"));
 
-        Delete($"{number}.png");
+        Delete($"{number}.jpg");
         Delete($"{number}.mp3");
 
         WriteLine(new string('=', 80));
