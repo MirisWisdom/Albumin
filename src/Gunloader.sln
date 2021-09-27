@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gunloader", "Gunloader.csproj", "{CEB70AAD-142E-47CB-B7D7-F60CBBE51D1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CEB70AAD-142E-47CB-B7D7-F60CBBE51D1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEB70AAD-142E-47CB-B7D7-F60CBBE51D1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEB70AAD-142E-47CB-B7D7-F60CBBE51D1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEB70AAD-142E-47CB-B7D7-F60CBBE51D1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
