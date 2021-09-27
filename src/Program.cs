@@ -29,12 +29,17 @@ namespace Gunloader
       {
         "download=|file=", "path to a downloaded gundober playlist file",
         s => Download = new FileInfo(s)
+      },
+      {
+        "album=", "album name to assign to the tracks",
+        s => Album = s
       }
     };
 
     public static string   URL      { get; set; } = string.Empty;
     public static FileInfo Records  { get; set; } = new(Combine(CurrentDirectory, "tracks.txt"));
     public static FileInfo Download { get; set; } = new(Combine(CurrentDirectory, Guid.NewGuid().ToString()));
+    public static string   Album    { get; set; } = string.Empty;
 
     private static void Main(string[] args)
     {
@@ -49,6 +54,7 @@ namespace Gunloader
                       $"-o {Download.FullName}"
         });
 
+      var album    = Album;
       var download = Download.FullName;
       var records  = ReadAllLines(Records.FullName);
 
@@ -109,6 +115,7 @@ namespace Gunloader
                       "-metadata:s:v title=\"Album cover\" "     +
                       "-metadata:s:v comment=\"Cover (front)\" " +
                       $"-metadata title=\"{title}\" "            +
+                      $"-metadata album=\"{album}\" "            +
                       $"{number}~1.mp3"
         })?.WaitForExit();
 
