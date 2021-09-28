@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Mono.Options;
@@ -35,20 +36,24 @@ namespace Gunloader
       },
       {
         "artist=", "album artist to assign to the tracks' metadata",
-        s => Artist = s
+        s => Artists.Add(s)
       },
       {
         "genre=", "genre to assign to the tracks' metadata",
         s => Genre = s
+      },
+      {
+        "comment=", "comment to assign to the tracks' metadata",
+        s => Comment = s
       }
     };
 
-
-    public static FileInfo Records { get; set; } = new(Combine(CurrentDirectory, "tracks.txt"));
-    public static FileInfo Source  { get; set; } = new(Combine(CurrentDirectory, NewGuid().ToString()));
-    public static string   Album   { get; set; } = string.Empty; /* for the metadata and output directory name */
-    public static string   Artist  { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks  */
-    public static string   Genre   { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks  */
+    public static FileInfo     Records { get; set; } = new(Combine(CurrentDirectory, "tracks.txt"));
+    public static FileInfo     Source  { get; set; } = new(Combine(CurrentDirectory, NewGuid().ToString()));
+    public static string       Album   { get; set; } = string.Empty; /* for the metadata and output directory name */
+    public static List<string> Artists { get; set; } = new();        /* for the metadata in the output mp3 tracks  */
+    public static string       Comment { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks  */
+    public static string       Genre   { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks  */
 
     public static void Main(string[] args)
     {
@@ -134,13 +139,14 @@ namespace Gunloader
         Start(new ProcessStartInfo
         {
           FileName = "lame",
-          Arguments = "--vbr-new "          +
-                      $"--ti {number}.jpg " +
-                      $"--tt \"{title}\" "  +
-                      $"--tn \"{number}\" " +
-                      $"--ta \"{Artist}\" " +
-                      $"--tl \"{Album}\" "  +
-                      $"--tg \"{Genre}\" "  +
+          Arguments = "--vbr-new "                                  +
+                      $"--ti {number}.jpg "                         +
+                      $"--tt \"{title}\" "                          +
+                      $"--tn \"{number}\" "                         +
+                      $"--tl \"{Album}\" "                          +
+                      $"--tg \"{Genre}\" "                          +
+                      $"--tc \"{Comment}\" "                        +
+                      $"--tv \"TPE2={string.Join(';', Artists)}\" " +
                       $"{number}.wav "
         })?.WaitForExit();
 
