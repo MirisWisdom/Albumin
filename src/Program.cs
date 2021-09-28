@@ -69,7 +69,7 @@ namespace Gunloader
     public static string       Download { get; set; } = string.Empty; /* for youtube-dl video download invocation    */
     public static string       Album    { get; set; } = string.Empty; /* for the metadata and output directory name  */
     public static List<string> Artists  { get; set; } = new();        /* for the metadata in the output mp3 tracks   */
-    public static string       Comment  { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks   */
+    public static string       Comment  { get; set; } = Download;     /* for the metadata; default: source download  */
     public static string       Genre    { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks   */
     public static string       FFmpeg   { get; set; } = "ffmpeg";     /* path to ffmpeg for audio & cover extraction */
     public static string       LAME     { get; set; } = "lame";       /* path to lame for mp3 encoding & tagging     */
@@ -102,11 +102,11 @@ namespace Gunloader
         WriteLine(Source.FullName);
       }
 
-      var source  = Source.FullName;                /* source path   */
-      var records = ReadAllLines(Records.FullName); /* track records */
+      var records     = ReadAllLines(Records.FullName); /* track records */
+      var destination = new DirectoryInfo(Album);
 
-      if (!string.IsNullOrWhiteSpace(Album))
-        Directory.CreateDirectory(Album);
+      if (!destination.Exists)
+        destination.Create();
 
       /**
        * TODO: Make this a wee bit more object-oriented? For the purists and masochists who seek misery here...
@@ -118,8 +118,12 @@ namespace Gunloader
         var number = split[0];                        /* album track number  */
         var start  = split[1];                        /* track starting time */
         var title  = string.Join(' ', split.Skip(2)); /* track title         */
-        var cover = ParseExact(start, "H:mm:ss", InvariantCulture)
+        var frame = ParseExact(start, "H:mm:ss", InvariantCulture)
           .AddSeconds(30); /* (start time + 30 seconds) has correct thumbnail */
+
+        var cover        = new FileInfo($"{number}.jpg");
+        var intermediate = new FileInfo($"{number}.wav");
+        var encoded      = new FileInfo($"{number}.mp3");
 
         /**
          * Normalise output filename for Windows & Linux systems.
@@ -154,10 +158,10 @@ namespace Gunloader
         Start(new ProcessStartInfo
         {
           FileName = FFmpeg,
-          Arguments = $"-ss {cover:H:mm:ss} " +
-                      $"-y -i {source} "      +
+          Arguments = $"-ss {frame:H:mm:ss} " +
+                      $"-y -i {Source.Name} " +
                       "-vframes 1 "           +
-                      $"{number}.jpg"
+                      $"{cover.Name}"
         })?.WaitForExit();
 
         /**
@@ -169,8 +173,8 @@ namespace Gunloader
           FileName = FFmpeg,
           Arguments = $"-ss {start} "                                        +
                       $"{(!string.IsNullOrEmpty(end) ? $"-to {end}" : "")} " +
-                      $"-y -i {source} "                                     +
-                      $"{number}.wav"
+                      $"-y -i {Source.Name} "                                +
+                      $"{intermediate.Name}"
         })?.WaitForExit();
 
         /**
@@ -181,27 +185,38 @@ namespace Gunloader
         {
           FileName = LAME,
           Arguments = "--vbr-new "                                  +
-                      $"--ti {number}.jpg "                         +
+                      $"--ti {cover.Name} "                         +
                       $"--tt \"{title}\" "                          +
                       $"--tn \"{number}\" "                         +
                       $"--tl \"{Album}\" "                          +
                       $"--tg \"{Genre}\" "                          +
                       $"--tc \"{Comment}\" "                        +
                       $"--tv \"TPE2={string.Join(';', Artists)}\" " +
-                      $"{number}.wav "
+                      $"{intermediate.Name} "
         })?.WaitForExit();
 
         /**
-         * Move file to the normalised name of the track (within album directory if exists), and remove temporary files.
+         * Finalise the encoded file (with normalised name, destination and time attributes), then delete temp data.
          */
 
-        Move($"{number}.mp3", Combine(Album ?? string.Empty, $"{number}. {normalised}.mp3"));
+        encoded.MoveTo(Combine(destination.FullName, $"{number}. {normalised}.mp3"));
+        encoded.CreationTimeUtc   = Source.CreationTimeUtc;
+        encoded.LastAccessTimeUtc = Source.LastAccessTimeUtc;
+        encoded.LastWriteTimeUtc  = Source.LastWriteTimeUtc;
 
         Delete($"{number}.jpg");
         Delete($"{number}.wav");
 
         WriteLine(new string('=', 80));
       }
+
+      /**
+       * Set albun directory's timestamp to the source file's values. 
+       */
+
+      destination.CreationTimeUtc   = Source.CreationTimeUtc;
+      destination.LastAccessTimeUtc = Source.LastAccessTimeUtc;
+      destination.LastWriteTimeUtc  = Source.LastWriteTimeUtc;
     }
   }
 }
