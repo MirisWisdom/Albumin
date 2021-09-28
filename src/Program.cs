@@ -7,7 +7,6 @@ using static System.Array;
 using static System.Console;
 using static System.DateTime;
 using static System.Diagnostics.Process;
-using static System.Environment;
 using static System.Globalization.CultureInfo;
 using static System.Guid;
 using static System.IO.File;
@@ -23,19 +22,19 @@ namespace Gunloader
     public static readonly OptionSet OptionSet = new()
     {
       {
-        "records=|timestamps=|cue=", "path to records file with times and titles",
+        "tracks=|records=|timestamps=|cue=", "path to records file with track numbers, timestamps and song titles",
         s => Records = new FileInfo(s)
       },
       {
-        "compilation=|source=|file=", "path to a downloaded gundober compilation file",
+        "source=|video=|compilation=|file=", "path to an already-downloaded video file containing the compiled songs",
         s => Source = new FileInfo(s)
       },
       {
-        "album=", "album name to move tracks to, and to assign to the tracks' metadata",
+        "album=", "album title to assign to the tracks' metadata; also, directory name to move tracks to",
         s => Album = s
       },
       {
-        "artist=", "album artist to assign to the tracks' metadata",
+        "artist=", "album artist(s) to assign to the tracks' metadata; multiple: --artist 'a' --artist 'b', etc.",
         s => Artists.Add(s)
       },
       {
@@ -45,29 +44,38 @@ namespace Gunloader
       {
         "comment=", "comment to assign to the tracks' metadata",
         s => Comment = s
+      },
+      {
+        "ffmpeg=", "optional path to ffmpeg for audio & cover extraction",
+        s => Comment = s
+      },
+      {
+        "lame=", "optional path to lame for mp3 encoding & tagging",
+        s => Comment = s
       }
     };
 
-    public static FileInfo     Records { get; set; } = new(Combine(CurrentDirectory, "tracks.txt"));
-    public static FileInfo     Source  { get; set; } = new(Combine(CurrentDirectory, NewGuid().ToString()));
-    public static string       Album   { get; set; } = string.Empty; /* for the metadata and output directory name */
-    public static List<string> Artists { get; set; } = new();        /* for the metadata in the output mp3 tracks  */
-    public static string       Comment { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks  */
-    public static string       Genre   { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks  */
+    public static FileInfo     Records { get; set; } = new("tracks.txt");
+    public static FileInfo     Source  { get; set; } = new(NewGuid().ToString());
+    public static string       Album   { get; set; } = string.Empty; /* for the metadata and output directory name  */
+    public static List<string> Artists { get; set; } = new();        /* for the metadata in the output mp3 tracks   */
+    public static string       Comment { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks   */
+    public static string       Genre   { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks   */
+    public static string       FFmpeg  { get; set; } = "ffmpeg";     /* path to ffmpeg for audio & cover extraction */
+    public static string       LAME    { get; set; } = "lame";       /* path to lame for mp3 encoding & tagging     */
 
     public static void Main(string[] args)
     {
       OptionSet.WriteOptionDescriptions(Out);
       OptionSet.Parse(args);
 
-      var compilation = Source.FullName;                /* source path   */
-      var records     = ReadAllLines(Records.FullName); /* track records */
+      var source  = Source.FullName;                /* source path   */
+      var records = ReadAllLines(Records.FullName); /* track records */
 
       if (!string.IsNullOrWhiteSpace(Album))
         Directory.CreateDirectory(Album);
 
       /**
-       * TODO: Parallel implementation for contributing towards a more sustainable future for our planet.
        * TODO: Make this a wee bit more object-oriented? For the purists and masochists who seek misery here...
        */
 
@@ -112,9 +120,9 @@ namespace Gunloader
 
         Start(new ProcessStartInfo
         {
-          FileName = "ffmpeg",
+          FileName = FFmpeg,
           Arguments = $"-ss {cover:H:mm:ss} " +
-                      $"-y -i {compilation} " +
+                      $"-y -i {source} "      +
                       "-vframes 1 "           +
                       $"{number}.jpg"
         })?.WaitForExit();
@@ -125,10 +133,10 @@ namespace Gunloader
 
         Start(new ProcessStartInfo
         {
-          FileName = "ffmpeg",
+          FileName = FFmpeg,
           Arguments = $"-ss {start} "                                        +
                       $"{(!string.IsNullOrEmpty(end) ? $"-to {end}" : "")} " +
-                      $"-y -i {compilation} "                                +
+                      $"-y -i {source} "                                     +
                       $"{number}.wav"
         })?.WaitForExit();
 
@@ -138,7 +146,7 @@ namespace Gunloader
 
         Start(new ProcessStartInfo
         {
-          FileName = "lame",
+          FileName = LAME,
           Arguments = "--vbr-new "                                  +
                       $"--ti {number}.jpg "                         +
                       $"--tt \"{title}\" "                          +
