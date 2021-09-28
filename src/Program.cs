@@ -115,7 +115,7 @@ namespace Gunloader
         })?.WaitForExit();
 
         /**
-         * Extract the MP3 from the source file for the current track.
+         * Extract an intermediate WAV from the source file for the current track.
          */
 
         Start(new ProcessStartInfo
@@ -124,42 +124,34 @@ namespace Gunloader
           Arguments = $"-ss {start} "                                        +
                       $"{(!string.IsNullOrEmpty(end) ? $"-to {end}" : "")} " +
                       $"-y -i {compilation} "                                +
-                      "-b:a 192K -vn "                                       +
-                      $"{number}.mp3"
+                      $"{number}.wav"
         })?.WaitForExit();
 
         /**
-         * Embed cover art & album title metadata within the track.
-         *
-         * TODO: Figure out a way of extracting the audio *and* adding the data in one pass.
+         * Encode the intermeditate WAV into an MP3 with embedded art & metadata.
          */
 
         Start(new ProcessStartInfo
         {
-          FileName = "ffmpeg",
-          Arguments = $"-y -i {number}.mp3 "                     +
-                      $"-i {number}.jpg "                        +
-                      "-map 0:0 "                                +
-                      "-map 1:0 "                                +
-                      "-c copy "                                 +
-                      "-id3v2_version 3 "                        +
-                      "-metadata:s:v title=\"Album cover\" "     +
-                      "-metadata:s:v comment=\"Cover (front)\" " +
-                      $"-metadata title=\"{title}\" "            +
-                      $"-metadata album=\"{Album}\" "            +
-                      $"-metadata album_artist=\"{Artist}\" "    +
-                      $"-metadata genre=\"{Genre}\" "            +
-                      $"{number}~1.mp3"
+          FileName = "lame",
+          Arguments = "--vbr-new "          +
+                      $"--ti {number}.jpg " +
+                      $"--tt \"{title}\" "  +
+                      $"--tn \"{number}\" " +
+                      $"--ta \"{Artist}\" " +
+                      $"--tl \"{Album}\" "  +
+                      $"--tg \"{Genre}\" "  +
+                      $"{number}.wav "
         })?.WaitForExit();
 
         /**
          * Move file to the normalised name of the track (within album directory if exists), and remove temporary files.
          */
 
-        Move($"{number}~1.mp3", Combine(Album ?? string.Empty, $"{number}. {normalised}.mp3"));
+        Move($"{number}.mp3", Combine(Album ?? string.Empty, $"{number}. {normalised}.mp3"));
 
         Delete($"{number}.jpg");
-        Delete($"{number}.mp3");
+        Delete($"{number}.wav");
 
         WriteLine(new string('=', 80));
       }
