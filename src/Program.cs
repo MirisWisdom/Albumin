@@ -221,7 +221,7 @@ namespace Gunloader
       }
 
       /**
-       * Set albun directory's timestamp to the source file's values. 
+       * Set album directory's timestamp to the source file's values. 
        */
 
       destination.CreationTimeUtc   = Source.CreationTimeUtc;
