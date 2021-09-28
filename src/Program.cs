@@ -108,10 +108,10 @@ namespace Gunloader
         Start(new ProcessStartInfo
         {
           FileName = "ffmpeg",
-          Arguments = $"-y -i {compilation} "                                +
-                      "-b:a 192K -vn "                                       +
-                      $"-ss {start} "                                        +
+          Arguments = $"-ss {start} "                                        +
                       $"{(!string.IsNullOrEmpty(end) ? $"-to {end}" : "")} " +
+                      $"-y -i {compilation} "                                +
+                      "-b:a 192K -vn "                                       +
                       $"{number}.mp3"
         })?.WaitForExit();
 
@@ -122,8 +122,9 @@ namespace Gunloader
         Start(new ProcessStartInfo
         {
           FileName = "ffmpeg",
-          Arguments = $"-y -i {compilation} -ss {cover:H:mm:ss} " +
-                      "-vframes 1 "                               +
+          Arguments = $"-ss {cover:H:mm:ss} " +
+                      $"-y -i {compilation} " +
+                      "-vframes 1 "           +
                       $"{number}.jpg"
         })?.WaitForExit();
 
