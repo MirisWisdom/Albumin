@@ -7,6 +7,7 @@ using static System.Array;
 using static System.Console;
 using static System.DateTime;
 using static System.Diagnostics.Process;
+using static System.Environment;
 using static System.Globalization.CultureInfo;
 using static System.Guid;
 using static System.IO.File;
@@ -28,6 +29,10 @@ namespace Gunloader
       {
         "source=|video=|compilation=|file=", "path to an already-downloaded video file containing the compiled songs",
         s => Source = new FileInfo(s)
+      },
+      {
+        "download=", "download video from given url to use as the source for songs",
+        s => Download = s
       },
       {
         "album=", "album title to assign to the tracks' metadata; also, directory name to move tracks to",
@@ -52,22 +57,50 @@ namespace Gunloader
       {
         "lame=", "optional path to lame for mp3 encoding & tagging",
         s => Comment = s
+      },
+      {
+        "youtube-dl=|ytdl=", "optional path to youtube-dl for video downloading",
+        s => YTDL = s
       }
     };
 
-    public static FileInfo     Records { get; set; } = new("tracks.txt");
-    public static FileInfo     Source  { get; set; } = new(NewGuid().ToString());
-    public static string       Album   { get; set; } = string.Empty; /* for the metadata and output directory name  */
-    public static List<string> Artists { get; set; } = new();        /* for the metadata in the output mp3 tracks   */
-    public static string       Comment { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks   */
-    public static string       Genre   { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks   */
-    public static string       FFmpeg  { get; set; } = "ffmpeg";     /* path to ffmpeg for audio & cover extraction */
-    public static string       LAME    { get; set; } = "lame";       /* path to lame for mp3 encoding & tagging     */
+    public static FileInfo     Records  { get; set; } = new("tracks.txt");
+    public static FileInfo     Source   { get; set; } = new(NewGuid().ToString());
+    public static string       Download { get; set; } = string.Empty; /* for youtube-dl video download invocation    */
+    public static string       Album    { get; set; } = string.Empty; /* for the metadata and output directory name  */
+    public static List<string> Artists  { get; set; } = new();        /* for the metadata in the output mp3 tracks   */
+    public static string       Comment  { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks   */
+    public static string       Genre    { get; set; } = string.Empty; /* for the metadata in the output mp3 tracks   */
+    public static string       FFmpeg   { get; set; } = "ffmpeg";     /* path to ffmpeg for audio & cover extraction */
+    public static string       LAME     { get; set; } = "lame";       /* path to lame for mp3 encoding & tagging     */
+    public static string       YTDL     { get; set; } = "youtube-dl"; /* path to youtube-d for video downloading     */
 
     public static void Main(string[] args)
     {
       OptionSet.WriteOptionDescriptions(Out);
       OptionSet.Parse(args);
+
+      /**
+       * Download video if requested & it doesn't already exist on the filesystem.
+       */
+
+      if (!string.IsNullOrEmpty(Download) && !Source.Exists)
+      {
+        Start(new ProcessStartInfo
+        {
+          FileName = YTDL,
+          Arguments = $"{Download} " +
+                      $"--output {Source}"
+        })?.WaitForExit();
+
+        /**
+         * Infer file extension of the downloaded file.
+         */
+
+        Source = new FileInfo(Directory.GetFiles(CurrentDirectory, $"{Source.Name}*")[0]);
+
+        WriteLine(Source.FullName);
+      }
 
       var source  = Source.FullName;                /* source path   */
       var records = ReadAllLines(Records.FullName); /* track records */
