@@ -102,6 +102,19 @@ namespace Gunloader
         WriteLine($"{start} {end}");
 
         /**
+         * Extract the cover art from the source file for the current track.
+         */
+
+        Start(new ProcessStartInfo
+        {
+          FileName = "ffmpeg",
+          Arguments = $"-ss {cover:H:mm:ss} " +
+                      $"-y -i {compilation} " +
+                      "-vframes 1 "           +
+                      $"{number}.jpg"
+        })?.WaitForExit();
+
+        /**
          * Extract the MP3 from the source file for the current track.
          */
 
@@ -113,19 +126,6 @@ namespace Gunloader
                       $"-y -i {compilation} "                                +
                       "-b:a 192K -vn "                                       +
                       $"{number}.mp3"
-        })?.WaitForExit();
-
-        /**
-         * Extract the cover art from the source file for the current track.
-         */
-
-        Start(new ProcessStartInfo
-        {
-          FileName = "ffmpeg",
-          Arguments = $"-ss {cover:H:mm:ss} " +
-                      $"-y -i {compilation} " +
-                      "-vframes 1 "           +
-                      $"{number}.jpg"
         })?.WaitForExit();
 
         /**
