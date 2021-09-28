@@ -69,7 +69,7 @@ namespace Gunloader
     public static string       Download { get; set; } = string.Empty;              /* youtube-dl video download       */
     public static string       Album    { get; set; } = string.Empty;              /* metadata and directory name     */
     public static List<string> Artists  { get; set; } = new() {"Various Artists"}; /* metadata in the encoded tracks  */
-    public static string       Comment  { get; set; } = Download;                  /* metadata; default: download url */
+    public static string       Comment  { get; set; } = string.Empty;              /* metadata; default: download url */
     public static string       Genre    { get; set; } = string.Empty;              /* metadata in the encoded tracks  */
     public static string       FFmpeg   { get; set; } = "ffmpeg";                  /* audio & cover extraction        */
     public static string       LAME     { get; set; } = "lame";                    /* mp3 encoding & tagging          */
@@ -80,26 +80,36 @@ namespace Gunloader
       OptionSet.WriteOptionDescriptions(Out);
       OptionSet.Parse(args);
 
-      /**
-       * Download video if requested & it doesn't already exist on the filesystem.
-       */
-
-      if (!string.IsNullOrEmpty(Download) && !Source.Exists)
+      if (!string.IsNullOrEmpty(Download))
       {
-        Start(new ProcessStartInfo
-        {
-          FileName = YTDL,
-          Arguments = $"{Download} " +
-                      $"--output {Source}"
-        })?.WaitForExit();
+        /**
+         * Set blank comment to download URL for posterity. 
+         */
+
+        if (string.IsNullOrEmpty(Comment)) 
+          Comment = Download;
 
         /**
+         * Download video if requested & it doesn't already exist on the filesystem.
+         */
+
+        if (!Source.Exists)
+        {
+          Start(new ProcessStartInfo
+          {
+            FileName = YTDL,
+            Arguments = $"{Download} " +
+                        $"--output {Source}"
+          })?.WaitForExit();
+
+          /**
          * Infer file extension of the downloaded file.
          */
 
-        Source = new FileInfo(Directory.GetFiles(CurrentDirectory, $"{Source.Name}*")[0]);
+          Source = new FileInfo(Directory.GetFiles(CurrentDirectory, $"{Source.Name}*")[0]);
 
-        WriteLine(Source.FullName);
+          WriteLine(Source.FullName);
+        }
       }
 
       var records     = ReadAllLines(Records.FullName); /* track records */
