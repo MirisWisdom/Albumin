@@ -1,6 +1,6 @@
 <html>
     <h1 align='center'>
-        YouTube.Album.Extract
+        YouTube Album Extract
     </h1>
     <p align='center'>
         Extract & curate MP3 songs from YouTube album videos.
@@ -12,11 +12,11 @@
     </p>
 </html>
 
-# Introduction
+## Introduction
 
 This project allows you to transform long YouTube album videos into properly curated MP3 songs.
 
-# Features
+## Features
 
 - Encodes a long video's audio into separate MP3 tracks using FFmpeg
 - Tagging abilities (title, album, artist(s), comment, genre, etc.) using LAME
@@ -24,7 +24,7 @@ This project allows you to transform long YouTube album videos into properly cur
 - Embedded cover art, using thumbnails derived from the provided video
 - Batch processing of multiple album videos from YouTube or local videos
 
-# Usage
+## Usage
 
 | Parameter                                        | Description                                                                              |
 | ------------------------------------------------ | ---------------------------------------------------------------------------------------- |
@@ -40,7 +40,7 @@ This project allows you to transform long YouTube album videos into properly cur
 | `--lame=VALUE`                                   | optional path to lame for mp3 encoding & tagging                                         |
 | `--youtube-dl, --ytdl=VALUE`                     | optional path to youtube-dl for video downloading                                        |
 
-## Tracks Records
+### Tracks Records
 
 Create a text file containing the list of songs. Each line *must* comprise of the following attributes, in the given order:
 
@@ -57,7 +57,7 @@ Each attribute is separated by a space. Example of a valid file:
 04 0:12:23 LOVE SOMEBODY - 福井麻利子 「逮捕しちゃうぞ」一期OP3
 ```
 
-## Single Album
+### Single Album
 
 ```shell
 ./gunloader \
@@ -76,7 +76,7 @@ Each attribute is separated by a space. Example of a valid file:
     --comment 'Greetings to GitHub'
 ```
 
-## Batch Albums
+### Batch Albums
 
 Create a text file containing the list of albums. Each line *must* comprise of the following attributes, in the given order:
 
@@ -111,14 +111,14 @@ Then, invoke the program with the `--batch <batch file>` argument:
 
 These limitations may be removed in the future.
 
-# Dependencies
+## Dependencies
 
 - NET Core 5 for running this poor man's solution
 - FFmpeg for audio & cover art extraction
 - LAME for MP3 encoding w/ metadata
 - youtube-dl for downloading videos
 
-# FAQ
+## FAQ
 
 It's called `gunloader` because it was originally meant to be used to download compilations by Gundober.
 
