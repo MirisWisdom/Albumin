@@ -66,11 +66,11 @@ namespace Gunloader
 
     public static FileInfo     Records  { get; set; } = new("tracks.txt");         /* tracks numbers & titles         */
     public static FileInfo     Source   { get; set; } = new(NewGuid().ToString()); /* local video source              */
-    public static string       Download { get; set; } = string.Empty;              /* youtube-dl video download       */
-    public static string       Album    { get; set; } = string.Empty;              /* metadata and directory name     */
+    public static string       Download { get; set; }                              /* youtube-dl video download       */
+    public static string       Album    { get; set; }                              /* metadata and directory name     */
     public static List<string> Artists  { get; set; } = new() {"Various Artists"}; /* metadata in the encoded tracks  */
-    public static string       Comment  { get; set; } = string.Empty;              /* metadata; default: download url */
-    public static string       Genre    { get; set; } = string.Empty;              /* metadata in the encoded tracks  */
+    public static string       Comment  { get; set; }                              /* metadata; default: download url */
+    public static string       Genre    { get; set; }                              /* metadata in the encoded tracks  */
     public static string       FFmpeg   { get; set; } = "ffmpeg";                  /* audio & cover extraction        */
     public static string       LAME     { get; set; } = "lame";                    /* mp3 encoding & tagging          */
     public static string       YTDL     { get; set; } = "youtube-dl";              /* video downloading               */
@@ -80,13 +80,13 @@ namespace Gunloader
       OptionSet.WriteOptionDescriptions(Out);
       OptionSet.Parse(args);
 
-      if (!string.IsNullOrEmpty(Download))
+      if (!string.IsNullOrWhiteSpace(Download))
       {
         /**
          * Set blank comment to download URL for posterity. 
          */
 
-        if (string.IsNullOrEmpty(Comment)) 
+        if (string.IsNullOrWhiteSpace(Comment))
           Comment = Download;
 
         /**
