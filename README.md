@@ -26,19 +26,16 @@ This project allows you to transform long YouTube album videos into properly cur
 
 ## Usage
 
-| Parameter                                        | Description                                                                              |
-| ------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| `--tracks, --records, --timestamps, --cue=VALUE` | path to records file with track numbers, timestamps and song titles                      |
-| `--source, --video, --compilation, --file=VALUE` | path to an already-downloaded video file containing the compiled songs                   |
-| `--download=VALUE`                               | download video from given url to use as the source for songs                             |
-| `--batch=VALUE`                                  | encode (and download) albums specified in the given file                                 |
-| `--album=VALUE`                                  | album title to assign to the tracks' metadata; also, directory name to move tracks to    |
-| `--artist=VALUE`                                 | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
-| `--genre=VALUE`                                  | genre to assign to the tracks' metadata                                                  |
-| `--comment=VALUE`                                | comment to assign to the tracks' metadata                                                |
-| `--ffmpeg=VALUE`                                 | optional path to ffmpeg for audio & cover extraction                                     |
-| `--lame=VALUE`                                   | optional path to lame for mp3 encoding & tagging                                         |
-| `--youtube-dl, --ytdl=VALUE`                     | optional path to youtube-dl for video downloading                                        |
+| Parameter           | Description                                                                              |
+| ------------------- | ---------------------------------------------------------------------------------------- |
+| `--tracks=VALUE`    | path to records file with track numbers, timestamps and song titles                      |
+| `--file=VALUE`      | path to an already-downloaded video file containing the compiled songs                   |
+| `--download=VALUE`  | download video from given url to use as the source for songs                             |
+| `--batch=VALUE`     | encode (and download) albums specified in the given file                                 |
+| `--album=VALUE`     | album title to assign to the tracks' metadata; also, directory name to move tracks to    |
+| `--artist=VALUE`    | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
+| `--genre=VALUE`     | genre to assign to the tracks' metadata                                                  |
+| `--comment=VALUE`   | comment to assign to the tracks' metadata                                                |
 
 ### Tracks Records
 
