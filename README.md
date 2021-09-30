@@ -22,6 +22,7 @@ This project allows you to transform long YouTube album videos into properly cur
 - Tagging abilities (title, album, artist(s), comment, genre, etc.) using LAME
 - Downloading using YouTube-DL, or using an existing video file
 - Embedded cover art, using thumbnails derived from the provided video
+- Batch processing of multiple album videos from YouTube or local videos
 
 # Usage
 
@@ -30,6 +31,7 @@ This project allows you to transform long YouTube album videos into properly cur
 | `--tracks, --records, --timestamps, --cue=VALUE` | path to records file with track numbers, timestamps and song titles                      |
 | `--source, --video, --compilation, --file=VALUE` | path to an already-downloaded video file containing the compiled songs                   |
 | `--download=VALUE`                               | download video from given url to use as the source for songs                             |
+| `--batch=VALUE`                                  | encode (and download) albums specified in the given file                                 |
 | `--album=VALUE`                                  | album title to assign to the tracks' metadata; also, directory name to move tracks to    |
 | `--artist=VALUE`                                 | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
 | `--genre=VALUE`                                  | genre to assign to the tracks' metadata                                                  |
@@ -38,24 +40,7 @@ This project allows you to transform long YouTube album videos into properly cur
 | `--lame=VALUE`                                   | optional path to lame for mp3 encoding & tagging                                         |
 | `--youtube-dl, --ytdl=VALUE`                     | optional path to youtube-dl for video downloading                                        |
 
-```shell
-./gunloader \
-    # download from youtube using youtube-dl
-    --download "https://youtube.dl/id_goes_here" \
-    # or use an existing video on your computer
-    --source "~/video.mp4" \
-
-    # file with track times & titles (see below)
-    --tracks '~/tracks.txt' \
-
-    # additional metadata for the mp3 files
-    --album "A Nifty Title" \
-    --genre "OP/ED/IN/IM" \
-    --artist "Various Artists" \
-    --comment 'Greetings to GitHub'
-```
-
-## Tracks File
+## Tracks Records
 
 Create a text file containing the list of songs. Each line *must* comprise of the following attributes, in the given order:
 
@@ -71,6 +56,60 @@ Each attribute is separated by a space. Example of a valid file:
 03 0:08:48 僕であるために - FLYING KIDS 「逮捕しちゃうぞ」一期OP2
 04 0:12:23 LOVE SOMEBODY - 福井麻利子 「逮捕しちゃうぞ」一期OP3
 ```
+
+## Single Album
+
+```shell
+./gunloader \
+    # download from youtube using youtube-dl
+    --download "https://youtube.dl/id_goes_here" \
+    # or use an existing video on your computer
+    --source "~/video.mp4" \
+
+    # file with track times & titles (see above)
+    --tracks '~/tracks.txt' \
+
+    # additional metadata for the mp3 files
+    --album "A Nifty Title" \
+    --genre "OP/ED/IN/IM" \
+    --artist "Various Artists" \
+    --comment 'Greetings to GitHub'
+```
+
+## Batch Albums
+
+Create a text file containing the list of albums. Each line *must* comprise of the following attributes, in the given order:
+
+1. Album source (YouTube URL or a local file)
+2. Path to the track records for the album (see above)
+3. Title of the album (used for MP3 tagging & output directory)
+
+Example of a valid batch file:
+
+```
+https://youtu.be/pCsFmYJh9sg 90s-songs.txt 90'sアニメ主題歌セレクション RB-018【奇跡の向こう側へ】 Ver.2
+90s-nostalgic-songs.mp4 tracks-02.txt 90'sアニメ主題歌セレクション RB-019【傷だらけのツバサ】
+```
+
+Then, invoke the program with the `--batch <batch file>` argument:
+
+```
+./gunloader \
+    --batch "90s-albums.txt" \
+
+    # additional metadata
+    --album "A Nifty Title" \
+    --genre "OP/ED/IN/IM" \
+    --artist "Various Artists" \
+    --comment 'Greetings to GitHub'
+```
+
+**NOTE**
+
+- Each of the aforementioned attribute is separated by a space
+- The source & tracks file paths must NOT have any spaces within them.
+
+These limitations may be removed in the future.
 
 # Dependencies
 

@@ -35,6 +35,10 @@ namespace Gunloader
         s => Download = s
       },
       {
+        "batch=", "download video from given url to use as the source for songs",
+        s => Batch = s
+      },
+      {
         "album=", "album title to assign to the tracks' metadata; also, directory name to move tracks to",
         s => Album = s
       },
@@ -67,6 +71,7 @@ namespace Gunloader
     public static FileInfo     Records  { get; set; } = new("tracks.txt");         /* tracks numbers & titles         */
     public static FileInfo     Source   { get; set; } = new(NewGuid().ToString()); /* local video source              */
     public static string       Download { get; set; }                              /* youtube-dl video download       */
+    public static string       Batch    { get; set; }                              /* batch self-invocation           */
     public static string       Album    { get; set; }                              /* metadata and directory name     */
     public static List<string> Artists  { get; set; } = new() {"Various Artists"}; /* metadata in the encoded tracks  */
     public static string       Comment  { get; set; }                              /* metadata; default: download url */
@@ -79,6 +84,41 @@ namespace Gunloader
     {
       OptionSet.WriteOptionDescriptions(Out);
       OptionSet.Parse(args);
+      Invoke();
+    }
+
+    public static void Invoke()
+    {
+      /**
+       * Rudmientary batch porocessing. This is most definitely Loveraftian in nature.
+       */
+
+      if (!string.IsNullOrWhiteSpace(Batch))
+      {
+        var batch = new FileInfo(Batch);
+        Batch = null;
+
+        foreach (var record in ReadLines(batch.FullName))
+        {
+          var split = record.Split(' ');
+
+          Album   = string.Join(' ', split.Skip(2));
+          Records = new FileInfo(split[1]);
+
+          if (split[0].Contains("https://youtu"))
+            Download = split[0];
+          else
+            Source = new FileInfo(split[0]);
+
+          Invoke();
+        }
+
+        return;
+      }
+
+      /**
+       * Download the video representing the album in question.
+       */
 
       if (!string.IsNullOrWhiteSpace(Download))
       {
@@ -111,6 +151,10 @@ namespace Gunloader
           WriteLine(Source.FullName);
         }
       }
+
+      /**
+       * Begin the extraction & encoding procedures...
+       */
 
       var records     = ReadAllLines(Records.FullName); /* track records */
       var destination = new DirectoryInfo(Album);
