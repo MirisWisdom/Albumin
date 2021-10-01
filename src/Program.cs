@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Text.RegularExpressions;
-using static System.Array;
 using static System.Console;
 using static System.DateTime;
 using static System.Diagnostics.Process;
@@ -12,6 +12,7 @@ using static System.Globalization.CultureInfo;
 using static System.Guid;
 using static System.IO.File;
 using static System.IO.Path;
+using static System.Text.Json.JsonSerializer;
 
 namespace Gunloader
 {
@@ -47,31 +48,76 @@ namespace Gunloader
       }
 
       /**
+       * Convert legacy Records text file to JSON.
+       */
+
+      if (Records is {Exists: true} && Records.Extension.Contains("txt"))
+      {
+        var path = GetFileNameWithoutExtension(Records.FullName) + ".json";
+        var json = Serialize(ReadAllLines(Records.FullName)
+          .Select(record => record.Split(' '))
+          .Select(split => new Track
+          {
+            Number = split[0],                       /* album track number  */
+            Start  = split[1],                       /* track starting time */
+            Title  = string.Join(' ', split.Skip(2)) /* track title         */
+          }).ToList(), new JsonSerializerOptions {WriteIndented = true});
+
+        WriteAllText(path, json);
+        WriteLine($"Serialised '{GetFileName(path)}'. Feel free to review/edit it, then press any key to continue...");
+        ReadLine();
+      }
+
+      /**
+       * Convert legacy Batch text file to JSON.
+       */
+
+      if (Batch is {Exists: true} && Batch.Extension.Contains("txt"))
+      {
+        var path = GetFileNameWithoutExtension(Batch.FullName) + ".json";
+        var json = Serialize(ReadAllLines(Batch.FullName)
+          .Select(album => album.Split(' '))
+          .Select(split => new Album
+          {
+            Source  = split[0],                       /* album source video */
+            Records = split[1],                       /* album records path */
+            Title   = string.Join(' ', split.Skip(2)) /* album title        */
+          }).ToList(), new JsonSerializerOptions {WriteIndented = true});
+
+        WriteAllText(path, json);
+        WriteLine($"Serialised '{GetFileName(path)}'. Feel free to review/edit it, then press any key to continue...");
+        ReadLine();
+      }
+
+      /**
        * Rudmientary batch porocessing. This is most definitely Loveraftian in nature.
        */
 
       if (Batch != null)
       {
-        var path = Batch.FullName;
-        Batch = null;
+        var path   = Batch.FullName;
+        var albums = Deserialize<List<Album>>(ReadAllText(path));
 
-        foreach (var record in ReadLines(path))
+        Batch = null; /* prevent infinite loop */
+
+        if (albums == null)
+          Exit(1);
+
+        foreach (var album in albums)
         {
-          var split = record.Split(' ');
-
-          Album   = string.Join(' ', split.Skip(2));
-          Records = new FileInfo(split[1]);
+          Album   = album.Title;
+          Records = new FileInfo(album.Records);
           Comment = null; /* reset for next inference */
 
-          if (split[0].Contains("https://youtu"))
-            Download = split[0];
+          if (album.Source.Contains("https://youtu"))
+            Download = album.Source;
           else
-            Source = new FileInfo(split[0]);
+            Source = new FileInfo(album.Source);
 
           Invoke();
         }
 
-        return;
+        Exit(0);
       }
 
       /**
@@ -121,7 +167,7 @@ namespace Gunloader
        * Begin the extraction & encoding procedures...
        */
 
-      var records     = ReadAllLines(Records.FullName); /* track records */
+      var records     = Deserialize<List<Track>>(ReadAllText(Records.FullName)); /* track records */
       var destination = new DirectoryInfo(Album);
 
       if (!destination.Exists)
@@ -131,12 +177,14 @@ namespace Gunloader
        * TODO: Make this a wee bit more object-oriented? For the purists and masochists who seek misery here...
        */
 
+      if (records == null)
+        Exit(1);
+
       foreach (var record in records)
       {
-        var split  = record.Split(' ');
-        var number = split[0];                        /* album track number  */
-        var start  = split[1];                        /* track starting time */
-        var title  = string.Join(' ', split.Skip(2)); /* track title         */
+        var number = record.Number; /* album track number  */
+        var start  = record.Start;  /* track starting time */
+        var title  = record.Title;  /* track title         */
         var frame = ParseExact(start, "H:mm:ss", InvariantCulture)
           .AddSeconds(30); /* (start time + 30 seconds) has correct thumbnail */
 
@@ -162,9 +210,10 @@ namespace Gunloader
         }.Aggregate(title, (current, character) =>
           current.Replace(character, ""));
 
-        var end = IndexOf(records, record) + 1 >= records.Length
+        var next = records.FindIndex(r => r.Number.Equals(record.Number));
+        var end = next + 1 >= records.Count
           ? string.Empty
-          : records[IndexOf(records, record) + 1].Split(' ')[1];
+          : records[next + 1].Start;
 
         WriteLine(new string('-', 80));
         WriteLine($"{number}. {title}");

@@ -39,7 +39,9 @@ This project allows you to transform long YouTube album videos into properly cur
 
 ### Tracks Records
 
-Create a text file containing the list of songs. Each line *must* comprise of the following attributes, in the given order:
+The records file specifies each song's track number, starting time in the video, and the title of the track.
+
+For simplicity, create a text file containing the list of songs. Each line *must* comprise of the following attributes, in the given order:
 
 1. Track number
 2. Starting time in the provided video
@@ -54,7 +56,31 @@ Each attribute is separated by a space. Example of a valid file:
 04 0:12:23 LOVE SOMEBODY - 福井麻利子 「逮捕しちゃうぞ」一期OP3
 ```
 
+The program will convert the text file to a more flexible & spiffy JSON-based format, which is recommended to use subsequently:
+
+```json
+[
+  {
+    "track": "01",
+    "start": "0:00:00",
+    "title": "All You Need Is Love"
+  },
+  {
+    "track": "02",
+    "start": "0:05:20",
+    "title": "TOKIO"
+  },
+  {
+    "track": "03",
+    "start": "0:09:37",
+    "title": "Still Small Voice"
+  }
+]
+```
+
 ### Single Album
+
+Create the records file as specified above, then invoke the program as necessary:
 
 ```shell
 ./gunloader \
@@ -101,12 +127,7 @@ Then, invoke the program with the `--batch <batch file>` argument:
     --comment 'Greetings to GitHub'
 ```
 
-**NOTE**
-
-- Each of the aforementioned attribute is separated by a space
-- The source & tracks file paths must NOT have any spaces within them.
-
-These limitations may be removed in the future.
+Like the records file, the program will create a more flexible JSON version of the batch file, which is recommended for subsequent usage.
 
 ## Dependencies
 
