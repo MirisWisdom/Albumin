@@ -42,7 +42,7 @@ namespace Gunloader
       },
       {
         "batch=", "download video from given url to use as the source for songs",
-        s => Batch = s
+        s => Batch = new FileInfo(s)
       },
       {
         "album=", "album title to assign to the tracks' metadata; also, directory name to move tracks to",

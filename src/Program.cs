@@ -23,7 +23,7 @@ namespace Gunloader
     public static FileInfo     Records  { get; set; } = new("tracks.txt");         /* tracks numbers & titles         */
     public static FileInfo     Source   { get; set; } = new(NewGuid().ToString()); /* local video source              */
     public static string       Download { get; set; }                              /* youtube-dl video download       */
-    public static string       Batch    { get; set; }                              /* batch self-invocation           */
+    public static FileInfo     Batch    { get; set; }                              /* batch self-invocation           */
     public static string       Album    { get; set; }                              /* metadata and directory name     */
     public static List<string> Artists  { get; set; } = new() {"Various Artists"}; /* metadata in the encoded tracks  */
     public static string       Comment  { get; set; }                              /* metadata; default: download url */
@@ -44,12 +44,12 @@ namespace Gunloader
        * Rudmientary batch porocessing. This is most definitely Loveraftian in nature.
        */
 
-      if (!string.IsNullOrWhiteSpace(Batch))
+      if (Batch != null)
       {
-        var batch = new FileInfo(Batch);
+        var path = Batch.FullName;
         Batch = null;
 
-        foreach (var record in ReadLines(batch.FullName))
+        foreach (var record in ReadLines(path))
         {
           var split = record.Split(' ');
 
