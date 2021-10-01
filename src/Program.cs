@@ -20,7 +20,7 @@ namespace Gunloader
    */
   public static partial class Program
   {
-    public static FileInfo     Records  { get; set; } = new("tracks.txt");         /* tracks numbers & titles         */
+    public static FileInfo     Records  { get; set; }                              /* tracks numbers & titles         */
     public static FileInfo     Source   { get; set; } = new(NewGuid().ToString()); /* local video source              */
     public static string       Download { get; set; }                              /* youtube-dl video download       */
     public static FileInfo     Batch    { get; set; }                              /* batch self-invocation           */
@@ -40,6 +40,12 @@ namespace Gunloader
 
     public static void Invoke()
     {
+      if (Records is not {Exists: true} && Batch is not {Exists: true})
+      {
+        WriteLine("Please provide a valid records or batch file.");
+        Exit(1);
+      }
+
       /**
        * Rudmientary batch porocessing. This is most definitely Loveraftian in nature.
        */
