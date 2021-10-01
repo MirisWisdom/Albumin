@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Mono.Options;
 
@@ -50,7 +51,11 @@ namespace Gunloader
       },
       {
         "artist=", "album artist(s) to assign to the tracks' metadata; multiple: --artist 'a' --artist 'b', etc.",
-        s => Artists.Add(s)
+        s =>
+        {
+          Artists ??= new List<string>();
+          Artists.Add(s);
+        }
       },
       {
         "genre=", "genre to assign to the tracks' metadata",

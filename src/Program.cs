@@ -26,7 +26,7 @@ namespace Gunloader
     public static string       Download { get; set; }                              /* youtube-dl video download       */
     public static FileInfo     Batch    { get; set; }                              /* batch self-invocation           */
     public static string       Album    { get; set; }                              /* metadata and directory name     */
-    public static List<string> Artists  { get; set; } = new() {"Various Artists"}; /* metadata in the encoded tracks  */
+    public static List<string> Artists  { get; set; }                              /* metadata in the encoded tracks  */
     public static string       Comment  { get; set; }                              /* metadata; default: download url */
     public static string       Genre    { get; set; }                              /* metadata in the encoded tracks  */
     public static string       FFmpeg   { get; set; } = "ffmpeg";                  /* audio & cover extraction        */
@@ -58,9 +58,13 @@ namespace Gunloader
           .Select(record => record.Split(' '))
           .Select(split => new Track
           {
-            Number = split[0],                       /* album track number  */
-            Start  = split[1],                       /* track starting time */
-            Title  = string.Join(' ', split.Skip(2)) /* track title         */
+            Number  = split[0], /* album track number  */
+            Start   = split[1], /* track starting time */
+            Title   = string.Join(' ', split.Skip(2)) /* track title         */,
+            Genre   = Genre,
+            Album   = Album,
+            Comment = Comment,
+            Artists = Artists
           }).ToList(), new JsonSerializerOptions {WriteIndented = true});
 
         WriteAllText(path, json);
@@ -79,9 +83,12 @@ namespace Gunloader
           .Select(album => album.Split(' '))
           .Select(split => new Album
           {
-            Source  = split[0],                       /* album source video */
-            Records = split[1],                       /* album records path */
-            Title   = string.Join(' ', split.Skip(2)) /* album title        */
+            Source  = split[0], /* album source video */
+            Records = split[1], /* album records path */
+            Title   = string.Join(' ', split.Skip(2)) /* album title        */,
+            Genre   = Genre,
+            Comment = Comment,
+            Artists = Artists
           }).ToList(), new JsonSerializerOptions {WriteIndented = true});
 
         WriteAllText(path, json);
@@ -106,8 +113,10 @@ namespace Gunloader
         foreach (var album in albums)
         {
           Album   = album.Title;
+          Artists = album.Artists ?? Artists;
           Records = new FileInfo(album.Records);
-          Comment = null; /* reset for next inference */
+          Comment = !string.IsNullOrWhiteSpace(album.Comment) ? album.Comment : Comment;
+          Genre   = !string.IsNullOrWhiteSpace(album.Genre) ? album.Genre : Genre;
 
           if (album.Source.Contains("https://youtu"))
             Download = album.Source;
@@ -182,9 +191,14 @@ namespace Gunloader
 
       foreach (var record in records)
       {
-        var number = record.Number; /* album track number  */
-        var start  = record.Start;  /* track starting time */
-        var title  = record.Title;  /* track title         */
+        var number  = record.Number; /* album track number  */
+        var start   = record.Start;  /* track starting time */
+        var title   = record.Title;  /* track title         */
+        var artists = record.Artists ?? Artists;
+        var album   = !string.IsNullOrWhiteSpace(record.Album) ? record.Album : Album;
+        var genre   = !string.IsNullOrWhiteSpace(record.Genre) ? record.Genre : Genre;
+        var comment = !string.IsNullOrWhiteSpace(record.Comment) ? record.Comment : Comment;
+
         var frame = ParseExact(start, "H:mm:ss", InvariantCulture)
           .AddSeconds(30); /* (start time + 30 seconds) has correct thumbnail */
 
@@ -256,10 +270,10 @@ namespace Gunloader
                       $"--ti {cover.Name} "                         +
                       $"--tt \"{title}\" "                          +
                       $"--tn \"{number}\" "                         +
-                      $"--tl \"{Album}\" "                          +
-                      $"--tg \"{Genre}\" "                          +
-                      $"--tc \"{Comment}\" "                        +
-                      $"--tv \"TPE2={string.Join(';', Artists)}\" " +
+                      $"--tl \"{album}\" "                          +
+                      $"--tg \"{genre}\" "                          +
+                      $"--tc \"{comment}\" "                        +
+                      $"--tv \"TPE2={string.Join(';', artists)}\" " +
                       $"{intermediate.Name} "
         })?.WaitForExit();
 

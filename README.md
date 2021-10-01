@@ -56,28 +56,6 @@ Each attribute is separated by a space. Example of a valid file:
 04 0:12:23 LOVE SOMEBODY - 福井麻利子 「逮捕しちゃうぞ」一期OP3
 ```
 
-The program will convert the text file to a more flexible & spiffy JSON-based format, which is recommended to use subsequently:
-
-```json
-[
-  {
-    "track": "01",
-    "start": "0:00:00",
-    "title": "All You Need Is Love"
-  },
-  {
-    "track": "02",
-    "start": "0:05:20",
-    "title": "TOKIO"
-  },
-  {
-    "track": "03",
-    "start": "0:09:37",
-    "title": "Still Small Voice"
-  }
-]
-```
-
 ### Single Album
 
 Create the records file as specified above, then invoke the program as necessary:
@@ -92,12 +70,46 @@ Create the records file as specified above, then invoke the program as necessary
     # file with track times & titles (see above)
     --tracks '~/tracks.txt' \
 
-    # additional metadata for the mp3 files
+    # mass fill with metadata
     --album "A Nifty Title" \
     --genre "OP/ED/IN/IM" \
-    --artist "Various Artists" \
-    --comment 'Greetings to GitHub'
+    --artist "Various" --artist "Artists" \
+    --comment 'Very Important Music'
 ```
+
+The program will convert the provided records file to a more flexible & spiffy JSON-based format. This format combines the values in the provided text file with the provided parameter values:
+
+```json
+[
+  {
+    "track": "01",
+    "start": "0:00:00",
+    "title": "All You Need Is Love",
+    "album": "90s Nostalgia",
+    "genre": "OP / ED",
+    "comment": "Very Important Music",
+    "artists": [
+      "Various",
+      "Artists"
+    ]
+  },
+  // ...
+  {
+    "track": "03",
+    "start": "0:09:37",
+    "title": "Still Small Voice",
+    "album": "90s Nostalgia",
+    "genre": "OP / ED",
+    "comment": "Very Important Music",
+    "artists": [
+      "Various",
+      "Artists"
+    ]
+  },
+]
+```
+
+Please review it and ensure that the values are your desired ones. The values in this file are considered final, and will override values from other sources (e.g. parameters, batch file, etc.).
 
 ### Batch Albums
 
@@ -116,18 +128,46 @@ https://youtu.be/pCsFmYJh9sg 90s-songs.txt 90'sアニメ主題歌セレクショ
 
 Then, invoke the program with the `--batch <batch file>` argument:
 
-```
+```shell
 ./gunloader \
     --batch "90s-albums.txt" \
 
-    # additional metadata
-    --album "A Nifty Title" \
+    # mass fill with metadata
     --genre "OP/ED/IN/IM" \
-    --artist "Various Artists" \
-    --comment 'Greetings to GitHub'
+    --artist "Various"  --artist "Artists" \
+    --comment 'Very Important Music'
 ```
 
-Like the records file, the program will create a more flexible JSON version of the batch file, which is recommended for subsequent usage.
+Like the records file, the program will create a more flexible JSON version of the batch file, which is recommended for subsequent usage:
+
+```json
+[
+  {
+    "source": "https://youtu.be/pCsFmYJh9sg",
+    "records": "90s-songs.txt",
+    "title": "90's RB-018",
+    "genre": "OP / ED",
+    "comment": "Very Important Music",
+    "artists": [
+      "Various",
+      "Artists"
+    ]
+  },
+  {
+    "source": "90s-nostalgic-songs.mp4",
+    "records": "tracks-02.txt",
+    "title": "90's RB-019",
+    "genre": "OP / ED",
+    "comment": "Very Important Music",
+    "artists": [
+      "Various",
+      "Artists"
+    ]
+  }
+]
+```
+
+Note that the metadata in the referenced records files will override the ones in the batch file. The metadata in the batch file is to "fill in the gaps".
 
 ## Dependencies
 
