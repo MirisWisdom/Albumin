@@ -62,6 +62,10 @@ namespace Gunloader
         s => Genre = s
       },
       {
+        "cover=", "path to album art image for assigning to songs",
+        s => Cover = new FileInfo(s)
+      },
+      {
         "comment=", "comment to assign to the tracks' metadata",
         s => Comment = s
       },

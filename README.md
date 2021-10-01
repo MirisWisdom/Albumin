@@ -21,21 +21,22 @@ This project allows you to transform long YouTube album videos into properly cur
 - Encodes a long video's audio into separate MP3 tracks using FFmpeg
 - Tagging abilities (title, album, artist(s), comment, genre, etc.) using LAME
 - Downloading using YouTube-DL, or using an existing video file
-- Embedded cover art, using thumbnails derived from the provided video
+- Embedded cover art, using thumbnails derived from the provided video, or an existing image
 - Batch processing of multiple album videos from YouTube or local videos
 
 ## Usage
 
-| Parameter           | Description                                                                              |
-| ------------------- | ---------------------------------------------------------------------------------------- |
-| `--tracks=VALUE`    | path to records file with track numbers, timestamps and song titles                      |
-| `--file=VALUE`      | path to an already-downloaded video file containing the compiled songs                   |
-| `--download=VALUE`  | download video from given url to use as the source for songs                             |
-| `--batch=VALUE`     | encode (and download) albums specified in the given file                                 |
-| `--album=VALUE`     | album title to assign to the tracks' metadata; also, directory name to move tracks to    |
-| `--artist=VALUE`    | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
-| `--genre=VALUE`     | genre to assign to the tracks' metadata                                                  |
-| `--comment=VALUE`   | comment to assign to the tracks' metadata                                                |
+| Parameter          | Description                                                                              |
+| ------------------ | ---------------------------------------------------------------------------------------- |
+| `--tracks=VALUE`   | path to records file with track numbers, timestamps and song titles                      |
+| `--file=VALUE`     | path to an already-downloaded video file containing the compiled songs                   |
+| `--download=VALUE` | download video from given url to use as the source for songs                             |
+| `--batch=VALUE`    | encode (and download) albums specified in the given file                                 |
+| `--album=VALUE`    | album title to assign to the tracks' metadata; also, directory name to move tracks to    |
+| `--artist=VALUE`   | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
+| `--genre=VALUE`    | genre to assign to the tracks' metadata                                                  |
+| `--comment=VALUE`  | comment to assign to the tracks' metadata                                                |
+| `--cover=VALUE`    | optional path to album art image for assigning to songs                                  |
 
 ### Tracks Records
 
@@ -86,6 +87,7 @@ The program will convert the provided records file to a more flexible & spiffy J
     "start": "0:00:00",
     "title": "All You Need Is Love",
     "album": "90s Nostalgia",
+    "cover": "~/album.jpg",
     "genre": "OP / ED",
     "comment": "Very Important Music",
     "artists": [
@@ -99,6 +101,7 @@ The program will convert the provided records file to a more flexible & spiffy J
     "start": "0:09:37",
     "title": "Still Small Voice",
     "album": "90s Nostalgia",
+    "cover": "~/album.jpg",
     "genre": "OP / ED",
     "comment": "Very Important Music",
     "artists": [
@@ -146,6 +149,7 @@ Like the records file, the program will create a more flexible JSON version of t
     "source": "https://youtu.be/pCsFmYJh9sg",
     "records": "90s-songs.txt",
     "title": "90's RB-018",
+    "cover": "~/album.jpg",
     "genre": "OP / ED",
     "comment": "Very Important Music",
     "artists": [
@@ -157,6 +161,7 @@ Like the records file, the program will create a more flexible JSON version of t
     "source": "90s-nostalgic-songs.mp4",
     "records": "tracks-02.txt",
     "title": "90's RB-019",
+    "cover": "~/album.jpg",
     "genre": "OP / ED",
     "comment": "Very Important Music",
     "artists": [

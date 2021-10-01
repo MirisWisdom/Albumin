@@ -29,6 +29,7 @@ namespace Gunloader
     public static List<string> Artists  { get; set; }                              /* metadata in the encoded tracks  */
     public static string       Comment  { get; set; }                              /* metadata; default: download url */
     public static string       Genre    { get; set; }                              /* metadata in the encoded tracks  */
+    public static FileInfo     Cover    { get; set; }                              /* custom album art cover          */
     public static string       FFmpeg   { get; set; } = "ffmpeg";                  /* audio & cover extraction        */
     public static string       LAME     { get; set; } = "lame";                    /* mp3 encoding & tagging          */
     public static string       YTDL     { get; set; } = "youtube-dl";              /* video downloading               */
@@ -64,7 +65,8 @@ namespace Gunloader
             Genre   = Genre,
             Album   = Album,
             Comment = Comment,
-            Artists = Artists
+            Artists = Artists,
+            Cover   = Cover.FullName
           }).ToList(), new JsonSerializerOptions {WriteIndented = true});
 
         WriteAllText(path, json);
@@ -88,7 +90,8 @@ namespace Gunloader
             Title   = string.Join(' ', split.Skip(2)) /* album title        */,
             Genre   = Genre,
             Comment = Comment,
-            Artists = Artists
+            Artists = Artists,
+            Cover   = Cover.FullName
           }).ToList(), new JsonSerializerOptions {WriteIndented = true});
 
         WriteAllText(path, json);
@@ -117,6 +120,7 @@ namespace Gunloader
           Records = new FileInfo(album.Records);
           Comment = !string.IsNullOrWhiteSpace(album.Comment) ? album.Comment : Comment;
           Genre   = !string.IsNullOrWhiteSpace(album.Genre) ? album.Genre : Genre;
+          Cover   = !string.IsNullOrWhiteSpace(album.Cover) ? new FileInfo(album.Cover) : Cover;
 
           if (album.Source.Contains("https://youtu"))
             Download = album.Source;
@@ -191,18 +195,14 @@ namespace Gunloader
 
       foreach (var record in records)
       {
-        var number  = record.Number; /* album track number  */
-        var start   = record.Start;  /* track starting time */
-        var title   = record.Title;  /* track title         */
-        var artists = record.Artists ?? Artists;
-        var album   = !string.IsNullOrWhiteSpace(record.Album) ? record.Album : Album;
-        var genre   = !string.IsNullOrWhiteSpace(record.Genre) ? record.Genre : Genre;
-        var comment = !string.IsNullOrWhiteSpace(record.Comment) ? record.Comment : Comment;
-
-        var frame = ParseExact(start, "H:mm:ss", InvariantCulture)
-          .AddSeconds(30); /* (start time + 30 seconds) has correct thumbnail */
-
-        var cover        = new FileInfo($"{number}.jpg");
+        var number       = record.Number; /* album track number  */
+        var start        = record.Start;  /* track starting time */
+        var title        = record.Title;  /* track title         */
+        var artists      = record.Artists ?? Artists;
+        var album        = !string.IsNullOrWhiteSpace(record.Album) ? record.Album : Album;
+        var genre        = !string.IsNullOrWhiteSpace(record.Genre) ? record.Genre : Genre;
+        var comment      = !string.IsNullOrWhiteSpace(record.Comment) ? record.Comment : Comment;
+        var cover        = !string.IsNullOrWhiteSpace(record.Cover) ? new FileInfo(record.Cover) : Cover;
         var intermediate = new FileInfo($"{number}.wav");
         var encoded      = new FileInfo($"{number}.mp3");
 
@@ -234,17 +234,25 @@ namespace Gunloader
         WriteLine($"{start} {end}");
 
         /**
-         * Extract the cover art from the source file for the current track.
+         * Extract the cover art from the source file for the current track as a fallback.
          */
 
-        Start(new ProcessStartInfo
+        if (cover is not {Exists: true})
         {
-          FileName = FFmpeg,
-          Arguments = $"-ss {frame:H:mm:ss} " +
-                      $"-y -i {Source.Name} " +
-                      "-vframes 1 "           +
-                      $"{cover.Name}"
-        })?.WaitForExit();
+          cover = new FileInfo($"{number}.jpg");
+
+          var frame = ParseExact(start, "H:mm:ss", InvariantCulture)
+            .AddSeconds(30); /* (start time + 30 seconds) has correct thumbnail */
+
+          Start(new ProcessStartInfo
+          {
+            FileName = FFmpeg,
+            Arguments = $"-ss {frame:H:mm:ss} " +
+                        $"-y -i {Source.Name} " +
+                        "-vframes 1 "           +
+                        $"{cover.Name}"
+          })?.WaitForExit();
+        }
 
         /**
          * Extract an intermediate WAV from the source file for the current track.
@@ -286,8 +294,11 @@ namespace Gunloader
         encoded.LastAccessTimeUtc = Source.LastAccessTimeUtc;
         encoded.LastWriteTimeUtc  = Source.LastWriteTimeUtc;
 
-        Delete($"{number}.jpg");
-        Delete($"{number}.wav");
+        if (cover.Exists)
+          cover.Delete();
+
+        if (intermediate.Exists)
+          intermediate.Delete();
 
         WriteLine(new string('=', 80));
       }
