@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using static System.Array;
 using static System.Console;
 using static System.DateTime;
@@ -54,6 +55,7 @@ namespace Gunloader
 
           Album   = string.Join(' ', split.Skip(2));
           Records = new FileInfo(split[1]);
+          Comment = null; /* reset for next inference */
 
           if (split[0].Contains("https://youtu"))
             Download = split[0];
@@ -70,36 +72,43 @@ namespace Gunloader
        * Download the video representing the album in question.
        */
 
-      if (!string.IsNullOrWhiteSpace(Download))
+      if (!string.IsNullOrWhiteSpace(Download) && !Source.Exists)
       {
-        /**
-         * Set blank comment to download URL for posterity. 
-         */
-
-        if (string.IsNullOrWhiteSpace(Comment))
-          Comment = Download;
-
-        /**
-         * Download video if requested & it doesn't already exist on the filesystem.
-         */
-
-        if (!Source.Exists)
+        Start(new ProcessStartInfo
         {
-          Start(new ProcessStartInfo
-          {
-            FileName = YTDL,
-            Arguments = $"{Download} " +
-                        $"--output {Source}"
-          })?.WaitForExit();
+          FileName = YTDL,
+          Arguments = $"{Download} " +
+                      $"--output {Source}"
+        })?.WaitForExit();
 
-          /**
+        /**
          * Infer file extension of the downloaded file.
          */
 
-          Source = new FileInfo(Directory.GetFiles(CurrentDirectory, $"{Source.Name}*")[0]);
+        Source = new FileInfo(Directory.GetFiles(CurrentDirectory, $"{Source.Name}*")[0]);
 
-          WriteLine(Source.FullName);
-        }
+        WriteLine(Source.FullName);
+      }
+
+      /**
+       * Assign Source's YouTube URL to blank Comments.
+       *
+       * -   If a Download URL is provided, its value will be used for the Comment; otherwise...
+       *
+       * -   If the Source file name is heuristically determined to be a YouTube ID, then its value will be used.
+       *     YouTube ID requirements: 11 characters; allowed characters: alphanumeric, dashes and underscores.
+       */
+
+      if (string.IsNullOrWhiteSpace(Comment))
+      {
+        var id   = GetFileNameWithoutExtension(Source.Name);
+        var rule = new Regex("[a-zA-Z0-9_-]{11}");
+
+        if (rule.IsMatch(id))
+          Comment = $"https://youtu.be/{id}";
+
+        if (!string.IsNullOrWhiteSpace(Download))
+          Comment = Download;
       }
 
       /**
