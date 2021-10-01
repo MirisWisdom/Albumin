@@ -83,16 +83,16 @@ The program will convert the provided records file to a more flexible & spiffy J
 ```json
 [
   {
-    "track": "01",
-    "start": "0:00:00",
-    "title": "All You Need Is Love",
-    "album": "90s Nostalgia",
-    "cover": "~/album.jpg",
-    "genre": "OP / ED",
-    "comment": "Very Important Music",
+    "track": "01",                     /* track number                                */
+    "start": "0:00:00",                /* starting time in the video                  */
+    "title": "All You Need Is Love",   /* song title                                  */
+    "album": "90s Nostalgia",          /* album title                                 */
+    "cover": "~/album.jpg",            /* cover path; leave empty for auto-extraction */
+    "genre": "OP / ED",                /* song genre                                  */
+    "comment": "Very Important Music", /* comment; default: source/youtube url        */
     "artists": [
-      "Various",
-      "Artists"
+      "Various",                       /* artist 1                                    */
+      "Artists"                        /* artist 2                                    */
     ]
   },
   // ...
@@ -146,15 +146,15 @@ Like the records file, the program will create a more flexible JSON version of t
 ```json
 [
   {
-    "source": "https://youtu.be/pCsFmYJh9sg",
-    "records": "90s-songs.txt",
-    "title": "90's RB-018",
-    "cover": "~/album.jpg",
-    "genre": "OP / ED",
-    "comment": "Very Important Music",
+    "source": "https://youtu.be/pCsFmYJh9sg", /* youtube url or local video path             */
+    "records": "90s-songs.txt",               /* path to records file for the album          */
+    "title": "90's RB-018",                   /* fallback album title                        */
+    "cover": "~/album.jpg",                   /* cover path; leave empty for auto-extraction */
+    "genre": "OP / ED",                       /* song genre                                  */
+    "comment": "Very Important Music",        /* comment; default: source/youtube url        */
     "artists": [
-      "Various",
-      "Artists"
+      "Various",                              /* artist 1                                    */
+      "Artists"                               /* artist 2                                    */
     ]
   },
   {
