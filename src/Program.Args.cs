@@ -48,6 +48,10 @@ namespace Gunloader
         }
       },
       {
+        "lossless", "use lossless flac encoding instead of mp3 (and also png instead of jpeg for cover art)",
+        s => Lossless= s != null
+      },
+      {
         "tracks=|records=|timestamps=|cue=", "path to records file with track numbers, timestamps and song titles",
         s => Records = new FileInfo(s)
       },
@@ -94,6 +98,10 @@ namespace Gunloader
       {
         "lame=", "optional path to lame for mp3 encoding & tagging",
         s => LAME = s
+      },
+      {
+        "flac=", "optional path to flac for flac encoding & tagging",
+        s => FLAC = s
       },
       {
         "youtube-dl=|ytdl=", "optional path to youtube-dl for video downloading",

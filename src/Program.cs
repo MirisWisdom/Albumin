@@ -39,6 +39,7 @@ namespace Gunloader
    */
   public static partial class Program
   {
+    public static bool         Lossless { get; set; }                              /* use flac instead of mp3         */
     public static FileInfo     Records  { get; set; }                              /* tracks numbers & titles         */
     public static FileInfo     Source   { get; set; } = new(NewGuid().ToString()); /* local video source              */
     public static string       Download { get; set; }                              /* youtube-dl video download       */
@@ -51,6 +52,7 @@ namespace Gunloader
     public static string       FFmpeg   { get; set; } = "ffmpeg";                  /* audio & cover extraction        */
     public static string       LAME     { get; set; } = "lame";                    /* mp3 encoding & tagging          */
     public static string       YTDL     { get; set; } = "youtube-dl";              /* video downloading               */
+    public static string       FLAC     { get; set; } = "flac";                    /* flac encoding & tagging         */
 
     public static void Main(string[] args)
     {
@@ -226,7 +228,7 @@ namespace Gunloader
         var comment      = !string.IsNullOrWhiteSpace(record.Comment) ? record.Comment : Comment;
         var cover        = !string.IsNullOrWhiteSpace(record.Cover) ? new FileInfo(record.Cover) : Cover;
         var intermediate = new FileInfo($"{number}.wav");
-        var encoded      = new FileInfo($"{number}.mp3");
+        var encoded      = new FileInfo($"{number}.{(Lossless ? "flac" : "mp3")}");
 
         /**
          * Normalise output filename for Windows & Linux systems.
@@ -261,7 +263,7 @@ namespace Gunloader
 
         if (cover is not {Exists: true})
         {
-          cover = new FileInfo($"{number}.jpg");
+          cover = new FileInfo($"{number}.{(Lossless ? "png" : "jpg")}");
 
           var frame = ParseExact(start, "H:mm:ss", InvariantCulture)
             .AddSeconds(30); /* (start time + 30 seconds) has correct thumbnail */
@@ -289,29 +291,49 @@ namespace Gunloader
                       $"{intermediate.Name}"
         })?.WaitForExit();
 
-        /**
-         * Encode the intermeditate WAV into an MP3 with embedded art & metadata.
-         */
+        if (Lossless)
+          /**
+           * Encode the intermeditate WAV into a FLAC with embedded art & metadata.
+           */
 
-        Start(new ProcessStartInfo
-        {
-          FileName = LAME,
-          Arguments = "--vbr-new "                                  +
-                      $"--ti {cover.Name} "                         +
-                      $"--tt \"{title}\" "                          +
-                      $"--tn \"{number}\" "                         +
-                      $"--tl \"{album}\" "                          +
-                      $"--tg \"{genre}\" "                          +
-                      $"--tc \"{comment}\" "                        +
-                      $"--tv \"TPE2={string.Join(';', artists)}\" " +
-                      $"{intermediate.Name} "
-        })?.WaitForExit();
+          Start(new ProcessStartInfo
+          {
+            FileName = FLAC,
+            Arguments = "--best "                                        +
+                        $"--picture=\"{cover.Name}\" "                   +
+                        $"--tag=TITLE=\"{title}\" "                      +
+                        $"--tag=TRACKNUMBER=\"{number}\" "               +
+                        $"--tag=ALBUM=\"{album}\" "                      +
+                        $"--tag=GENRE=\"{genre}\" "                      +
+                        $"--tag=COMMENT=\"{comment}\" "                  +
+                        $"--tag=ARTIST=\"{string.Join(';', artists)}\" " +
+                        $"{intermediate.Name} "
+          })?.WaitForExit();
+
+        else
+          /**
+           * Encode the intermeditate WAV into an MP3 with embedded art & metadata.
+           */
+
+          Start(new ProcessStartInfo
+          {
+            FileName = LAME,
+            Arguments = "--vbr-new "                                  +
+                        $"--ti {cover.Name} "                         +
+                        $"--tt \"{title}\" "                          +
+                        $"--tn \"{number}\" "                         +
+                        $"--tl \"{album}\" "                          +
+                        $"--tg \"{genre}\" "                          +
+                        $"--tc \"{comment}\" "                        +
+                        $"--tv \"TPE2={string.Join(';', artists)}\" " +
+                        $"{intermediate.Name} "
+          })?.WaitForExit();
 
         /**
          * Finalise the encoded file (with normalised name, destination and time attributes), then delete temp data.
          */
 
-        encoded.MoveTo(Combine(destination.FullName, $"{number}. {normalised}.mp3"));
+        encoded.MoveTo(Combine(destination.FullName, $"{number}. {normalised}{encoded.Extension}"));
         encoded.CreationTimeUtc   = Source.CreationTimeUtc;
         encoded.LastAccessTimeUtc = Source.LastAccessTimeUtc;
         encoded.LastWriteTimeUtc  = Source.LastWriteTimeUtc;

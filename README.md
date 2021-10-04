@@ -3,7 +3,7 @@
         YouTube Album Extract
     </h1>
     <p align='center'>
-        Extract & curate MP3 songs from YouTube album videos.
+        Extract & curate MP3 / FLAC songs from YouTube album videos.
         <br>
         <br>
         <img src='https://user-images.githubusercontent.com/10241434/135048812-156d9a9a-0218-42e8-9bcf-1b67ff7acbef.png'>
@@ -14,20 +14,21 @@
 
 ## Introduction
 
-This project allows you to transform long YouTube album videos into properly curated MP3 songs.
+This project allows you to transform long YouTube album videos into properly curated MP3 and FLAC songs.
 
 ## Features
 
-- Encodes a long video's audio into separate MP3 tracks using FFmpeg
-- Tagging abilities (title, album, artist(s), comment, genre, etc.) using LAME
+- Encodes a long video's audio into separate MP3 and FLAC tracks
+- Tagging abilities (title, album, artist(s), comment, genre, etc.)
 - Downloading using YouTube-DL, or using an existing video file
-- Embedded cover art, using thumbnails derived from the provided video, or an existing image
+- Embedded cover art, using thumbnails derived from the provided video using, or an existing image
 - Batch processing of multiple album videos from YouTube or local videos
 
 ## Usage
 
 | Parameter          | Description                                                                              |
 | ------------------ | ---------------------------------------------------------------------------------------- |
+| `--lossless`       | use lossless flac encoding instead of mp3 (and also png instead of jpeg for cover art)   |
 | `--tracks=VALUE`   | path to records file with track numbers, timestamps and song titles                      |
 | `--file=VALUE`     | path to an already-downloaded video file containing the compiled songs                   |
 | `--download=VALUE` | download video from given url to use as the source for songs                             |
@@ -119,7 +120,7 @@ Create a text file containing the list of albums. Each line *must* comprise of t
 
 1. Album source (YouTube URL or a local file)
 2. Path to the track records for the album (see above)
-3. Title of the album (used for MP3 tagging & output directory)
+3. Title of the album (used for MP3/FLAC tagging & output directory)
 
 Example of a valid batch file:
 
@@ -178,6 +179,7 @@ Note that the metadata in the referenced records files will override the ones in
 - NET Core 5 for running this poor man's solution
 - FFmpeg for audio & cover art extraction
 - LAME for MP3 encoding w/ metadata
+- FLAC for FLAC encoding w/ metadata
 - youtube-dl for downloading videos
 
 ## FAQ
