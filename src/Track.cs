@@ -30,6 +30,6 @@ namespace Gunloader
     [JsonPropertyName("cover")]   public string       Cover   { get; set; } = string.Empty;
     [JsonPropertyName("genre")]   public string       Genre   { get; set; } = string.Empty;
     [JsonPropertyName("comment")] public string       Comment { get; set; } = string.Empty;
-    [JsonPropertyName("artists")] public List<string> Artists { get; set; } = new() {"Various Artists"};
+    [JsonPropertyName("artists")] public List<string> Artists { get; set; } = new();
   }
 }

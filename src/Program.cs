@@ -44,7 +44,7 @@ namespace Gunloader
     public static string       Download { get; set; }                              /* youtube-dl video download       */
     public static FileInfo     Batch    { get; set; }                              /* batch self-invocation           */
     public static string       Album    { get; set; }                              /* metadata and directory name     */
-    public static List<string> Artists  { get; set; }                              /* metadata in the encoded tracks  */
+    public static List<string> Artists  { get; set; } = new() {"Various Artists"}; /* metadata in the encoded tracks  */
     public static string       Comment  { get; set; }                              /* metadata; default: download url */
     public static string       Genre    { get; set; }                              /* metadata in the encoded tracks  */
     public static FileInfo     Cover    { get; set; }                              /* custom album art cover          */
@@ -84,12 +84,14 @@ namespace Gunloader
             Album   = Album,
             Comment = Comment,
             Artists = Artists,
-            Cover   = Cover.FullName
+            Cover   = Cover?.FullName
           }).ToList(), new JsonSerializerOptions {WriteIndented = true});
 
         WriteAllText(path, json);
         WriteLine($"Serialised '{GetFileName(path)}'. Feel free to review/edit it, then press any key to continue...");
         ReadLine();
+
+        Records = new FileInfo(path);
       }
 
       /**
@@ -109,12 +111,14 @@ namespace Gunloader
             Genre   = Genre,
             Comment = Comment,
             Artists = Artists,
-            Cover   = Cover.FullName
+            Cover   = Cover?.FullName
           }).ToList(), new JsonSerializerOptions {WriteIndented = true});
 
         WriteAllText(path, json);
         WriteLine($"Serialised '{GetFileName(path)}'. Feel free to review/edit it, then press any key to continue...");
         ReadLine();
+
+        Batch = new FileInfo(path);
       }
 
       /**
