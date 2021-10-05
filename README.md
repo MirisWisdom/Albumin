@@ -28,7 +28,7 @@ This project allows you to transform long YouTube album videos into properly cur
 
 | Parameter          | Description                                                                              |
 | ------------------ | ---------------------------------------------------------------------------------------- |
-| `--lossless`       | use lossless flac encoding instead of mp3 (and also png instead of jpeg for cover art)   |
+| `--lossy`          | use lossy mp3 encoding instead of flac (and also jpeg instead of png for cover art)      |
 | `--tracks=VALUE`   | path to records file with track numbers, timestamps and song titles                      |
 | `--file=VALUE`     | path to an already-downloaded video file containing the compiled songs                   |
 | `--download=VALUE` | download video from given url to use as the source for songs                             |

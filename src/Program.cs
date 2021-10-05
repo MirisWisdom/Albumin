@@ -39,7 +39,7 @@ namespace Gunloader
    */
   public static partial class Program
   {
-    public static bool         Lossless { get; set; }                              /* use flac instead of mp3         */
+    public static bool         Lossy    { get; set; }                              /* use mp3 instead of flac         */
     public static FileInfo     Records  { get; set; }                              /* tracks numbers & titles         */
     public static FileInfo     Source   { get; set; } = new(NewGuid().ToString()); /* local video source              */
     public static string       Download { get; set; }                              /* youtube-dl video download       */
@@ -228,7 +228,7 @@ namespace Gunloader
         var comment      = !string.IsNullOrWhiteSpace(record.Comment) ? record.Comment : Comment;
         var cover        = !string.IsNullOrWhiteSpace(record.Cover) ? new FileInfo(record.Cover) : Cover;
         var intermediate = new FileInfo($"{number}.wav");
-        var encoded      = new FileInfo($"{number}.{(Lossless ? "flac" : "mp3")}");
+        var encoded      = new FileInfo($"{number}.{(Lossy ? "mp3" : "flac")}");
 
         /**
          * Normalise output filename for Windows & Linux systems.
@@ -263,7 +263,7 @@ namespace Gunloader
 
         if (cover is not {Exists: true})
         {
-          cover = new FileInfo($"{number}.{(Lossless ? "png" : "jpg")}");
+          cover = new FileInfo($"{number}.{(Lossy ? "jpg" : "png")}");
 
           var frame = ParseExact(start, "H:mm:ss", InvariantCulture)
             .AddSeconds(30); /* (start time + 30 seconds) has correct thumbnail */
@@ -291,7 +291,7 @@ namespace Gunloader
                       $"{intermediate.Name}"
         })?.WaitForExit();
 
-        if (Lossless)
+        if (!Lossy)
           /**
            * Encode the intermeditate WAV into a FLAC with embedded art & metadata.
            */

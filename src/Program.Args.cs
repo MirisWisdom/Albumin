@@ -48,8 +48,8 @@ namespace Gunloader
         }
       },
       {
-        "lossless", "use lossless flac encoding instead of mp3 (and also png instead of jpeg for cover art)",
-        s => Lossless= s != null
+        "lossy", "use lossy mp3 encoding instead of flac (and also jpeg instead of png for cover art)",
+        s => Lossy= s != null
       },
       {
         "tracks=|records=|timestamps=|cue=", "path to records file with track numbers, timestamps and song titles",
