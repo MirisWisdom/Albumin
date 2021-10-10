@@ -18,6 +18,7 @@
 
 using System;
 using System.IO;
+using Gunloader.Persistence;
 using Gunloader.Programs;
 using Mono.Options;
 
@@ -100,6 +101,15 @@ namespace Gunloader
         "comment=",
         "comment to assign to the tracks' metadata",
         s => Metadata.Comment = s
+      },
+      {
+        "xml",
+        "use xml format instead of json",
+        s =>
+        {
+          if (s != null)
+            Toolkit.Serialisation = new XML();
+        }
       },
       {
         "ffmpeg=",
