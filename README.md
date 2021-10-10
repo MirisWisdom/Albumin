@@ -37,6 +37,7 @@ This project allows you to transform long YouTube album videos into properly cur
 | `--genre=VALUE`   | genre to assign to the tracks' metadata                                                  |
 | `--comment=VALUE` | comment to assign to the tracks' metadata                                                |
 | `--cover=VALUE`   | optional path to album art image for assigning to songs                                  |
+| `--xml`           | use xml format instead of json                                                           |
 
 ### Tracks Records
 
@@ -78,7 +79,7 @@ Create the records file as specified above, then invoke the program as necessary
     --comment 'Very Important Music'
 ```
 
-The program will compile the provided records file and metadata into a JSON file:
+The program will compile the provided records file and metadata into a `.gun` file with the following contents:
 
 ```json
 {
@@ -117,10 +118,13 @@ The program will compile the provided records file and metadata into a JSON file
       "start": "0:05:20",
       "end": "0:09:37"
     }
+  ]
 }
 ```
 
 Please review it and ensure that the values are your desired ones. The values in this file will be used for the encoding process.
+
+Also, XML can be used instead of JSON by passing `--xml` as a parameter.
 
 ### Batch Albums
 
