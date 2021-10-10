@@ -17,8 +17,8 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
+using Gunloader.Programs;
 using Mono.Options;
 
 namespace Gunloader
@@ -31,8 +31,9 @@ namespace Gunloader
     public static readonly OptionSet OptionSet = new()
     {
       {
-        "help|about|version", "show program information, instructions, etc.",
-        s =>
+        "help|about|version",
+        "show program information, instructions, etc.",
+        _ =>
         {
           Console.WriteLine(@"                            __                __               ");
           Console.WriteLine(@"         ____ ___  ______  / /___  ____ _____/ /__  _____      ");
@@ -48,64 +49,77 @@ namespace Gunloader
         }
       },
       {
-        "lossy", "use lossy mp3 encoding instead of flac (and also jpeg instead of png for cover art)",
-        s => Lossy= s != null
-      },
-      {
-        "tracks=|records=|timestamps=|cue=", "path to records file with track numbers, timestamps and song titles",
-        s => Records = new FileInfo(s)
-      },
-      {
-        "source=|video=|compilation=|file=", "path to an already-downloaded video file containing the compiled songs",
-        s => Source = new FileInfo(s)
-      },
-      {
-        "download=", "download video from given url to use as the source for songs",
-        s => Download = s
-      },
-      {
-        "batch=", "download video from given url to use as the source for songs",
-        s => Batch = new FileInfo(s)
-      },
-      {
-        "album=", "album title to assign to the tracks' metadata; also, directory name to move tracks to",
-        s => Album = s
-      },
-      {
-        "artist=", "album artist(s) to assign to the tracks' metadata; multiple: --artist 'a' --artist 'b', etc.",
+        "lossy",
+        "use lossy mp3 encoding instead of flac (and also jpeg instead of png for cover art)",
         s =>
         {
-          Artists ??= new List<string>();
-          Artists.Add(s);
+          if (s == null)
+            return;
+
+          Lossy                = true;
+          Toolkit.Encoder      = new LAME();
+          Toolkit.FFmpeg.Lossy = true;
         }
       },
       {
-        "genre=", "genre to assign to the tracks' metadata",
-        s => Genre = s
+        "tracks=|records=|timestamps=|cue=",
+        "path to records file with track numbers, timestamps and song titles",
+        s => Record = new FileInfo(s)
       },
       {
-        "cover=", "path to album art image for assigning to songs",
-        s => Cover = new FileInfo(s)
+        "source=|video=|compilation=|file=",
+        "path to the video containing the compiled songs (can be a youtube video or local file)",
+        s => Source = s
       },
       {
-        "comment=", "comment to assign to the tracks' metadata",
-        s => Comment = s
+        "batch=",
+        "download video from given url to use as the source for songs",
+        s => Batch = new FileInfo(s)
       },
       {
-        "ffmpeg=", "optional path to ffmpeg for audio & cover extraction",
-        s => FFmpeg = s
+        "album=",
+        "album title to assign to the tracks' metadata; also, directory name to move tracks to",
+        s => Metadata.Album = s
       },
       {
-        "lame=", "optional path to lame for mp3 encoding & tagging",
-        s => LAME = s
+        "artist=",
+        "album artist(s) to assign to the tracks' metadata; multiple: --artist 'a' --artist 'b', etc.",
+        s => Metadata.Artists.Add(s)
       },
       {
-        "flac=", "optional path to flac for flac encoding & tagging",
-        s => FLAC = s
+        "genre=",
+        "genre to assign to the tracks' metadata",
+        s => Metadata.Genre = s
       },
       {
-        "youtube-dl=|ytdl=", "optional path to youtube-dl for video downloading",
-        s => YTDL = s
+        "cover=",
+        "path to album art image for assigning to songs",
+        s => Metadata.Cover = s
+      },
+      {
+        "comment=",
+        "comment to assign to the tracks' metadata",
+        s => Metadata.Comment = s
+      },
+      {
+        "ffmpeg=",
+        "optional path to ffmpeg for audio & cover extraction",
+        s => Toolkit.FFmpeg.Program = s
+      },
+      {
+        "lame=",
+        "optional path to lame for mp3 encoding & tagging",
+        s => Toolkit.Encoder = new LAME {Program = s}
+      },
+      {
+        "flac=",
+        "optional path to flac for flac encoding & tagging",
+        s => Toolkit.Encoder = new FLAC {Program = s}
+      },
+      {
+        "youtube-dl=|ytdl=",
+        "optional path to youtube-dl for video downloading",
+        s => Toolkit.YTDL.Program = s
       }
     };
   }

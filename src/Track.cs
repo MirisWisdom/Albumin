@@ -16,20 +16,55 @@
  * along with Gunloader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.Json.Serialization;
+using System.Xml.Serialization;
+using Gunloader.Programs;
 
 namespace Gunloader
 {
   public class Track
   {
-    [JsonPropertyName("track")]   public string       Number  { get; set; } = string.Empty;
-    [JsonPropertyName("start")]   public string       Start   { get; set; } = string.Empty;
-    [JsonPropertyName("title")]   public string       Title   { get; set; } = string.Empty;
-    [JsonPropertyName("album")]   public string       Album   { get; set; } = string.Empty;
-    [JsonPropertyName("cover")]   public string       Cover   { get; set; } = string.Empty;
-    [JsonPropertyName("genre")]   public string       Genre   { get; set; } = string.Empty;
-    [JsonPropertyName("comment")] public string       Comment { get; set; } = string.Empty;
-    [JsonPropertyName("artists")] public List<string> Artists { get; set; } = new();
+    [JsonPropertyName("title")]    public string   Title    { get; set; } = string.Empty;
+    [JsonPropertyName("number")]   public string   Number   { get; set; } = string.Empty;
+    [JsonPropertyName("metadata")] public Metadata Metadata { get; set; } = new();
+    [JsonPropertyName("start")]    public string   Start    { get; set; } = string.Empty;
+    [JsonPropertyName("end")]      public string   End      { get; set; } = string.Empty;
+
+    /**
+     * Normalise output filename for Windows & Linux systems.
+     */
+
+    [JsonIgnore]
+    [XmlIgnore]
+    public string Normalised => new[]
+    {
+      "<",  /* win */
+      ">",  /* win */
+      ":",  /* win */
+      "\"", /* win */
+      "/",  /* lin */
+      "\\", /* win */
+      "|",  /* win */
+      "?",  /* win */
+      "*"   /* win */
+    }.Aggregate(Title, (current, character) =>
+      current.Replace(character, ""));
+
+    public FileInfo Encode(Toolkit toolkit, FileInfo video)
+    {
+      var cover   = toolkit.FFmpeg.ExtractCover(video, this);
+      var audio   = toolkit.FFmpeg.ExtractAudio(video, this);
+      var encoded = toolkit.Encoder.Encode(this, audio, cover);
+
+      if (cover.Exists)
+        cover.Delete();
+
+      if (audio.Exists)
+        audio.Delete();
+
+      return encoded;
+    }
   }
 }

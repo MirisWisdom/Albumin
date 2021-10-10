@@ -26,18 +26,17 @@ This project allows you to transform long YouTube album videos into properly cur
 
 ## Usage
 
-| Parameter          | Description                                                                              |
-| ------------------ | ---------------------------------------------------------------------------------------- |
-| `--lossy`          | use lossy mp3 encoding instead of flac (and also jpeg instead of png for cover art)      |
-| `--tracks=VALUE`   | path to records file with track numbers, timestamps and song titles                      |
-| `--file=VALUE`     | path to an already-downloaded video file containing the compiled songs                   |
-| `--download=VALUE` | download video from given url to use as the source for songs                             |
-| `--batch=VALUE`    | encode (and download) albums specified in the given file                                 |
-| `--album=VALUE`    | album title to assign to the tracks' metadata; also, directory name to move tracks to    |
-| `--artist=VALUE`   | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
-| `--genre=VALUE`    | genre to assign to the tracks' metadata                                                  |
-| `--comment=VALUE`  | comment to assign to the tracks' metadata                                                |
-| `--cover=VALUE`    | optional path to album art image for assigning to songs                                  |
+| Parameter         | Description                                                                              |
+| ----------------- | ---------------------------------------------------------------------------------------- |
+| `--lossy`         | use lossy mp3 encoding instead of flac (and also jpeg instead of png for cover art)      |
+| `--tracks=VALUE`  | path to records file with track numbers, timestamps and song titles                      |
+| `--source=VALUE`  | path to the video containing the compiled songs (can be a youtube video or local file)   |
+| `--batch=VALUE`   | encode (and download) albums specified in the given batch file                           |
+| `--album=VALUE`   | album title to assign to the tracks' metadata; also, directory name to move tracks to    |
+| `--artist=VALUE`  | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
+| `--genre=VALUE`   | genre to assign to the tracks' metadata                                                  |
+| `--comment=VALUE` | comment to assign to the tracks' metadata                                                |
+| `--cover=VALUE`   | optional path to album art image for assigning to songs                                  |
 
 ### Tracks Records
 
@@ -79,40 +78,49 @@ Create the records file as specified above, then invoke the program as necessary
     --comment 'Very Important Music'
 ```
 
-The program will convert the provided records file to a more flexible & spiffy JSON-based format. This format combines the values in the provided text file with the provided parameter values:
+The program will compile the provided records file and metadata into a JSON file:
 
 ```json
-[
-  {
-    "track": "01",
-    "start": "0:00:00",
-    "title": "All You Need Is Love",
-    "album": "90s Nostalgia",
-    "cover": "~/album.jpg",
-    "genre": "OP / ED",
-    "comment": "Very Important Music",
-    "artists": [
-      "Various",
-      "Artists"
-    ]
-  },
-  {
-    "track": "03",
-    "start": "0:09:37",
-    "title": "Still Small Voice",
-    "album": "90s Nostalgia",
-    "cover": "~/album.jpg",
-    "genre": "OP / ED",
-    "comment": "Very Important Music",
-    "artists": [
-      "Various",
-      "Artists"
-    ]
-  },
-]
+{
+  "video": "https://youtu.be/pCsFmYJh9sg",
+  "title": "90s Nostalgia",
+  "tracks": [
+    {
+      "title": "All You Need Is Love",
+      "number": "01",
+      "metadata": {
+        "album": "90s Nostalgia",
+        "cover": "",
+        "genre": "OP / ED / IN / IM",
+        "comment": "https://youtu.be/pCsFmYJh9sg",
+        "artists": [
+          "Various",
+          "Artists"
+        ]
+      },
+      "start": "0:00:00",
+      "end": "0:05:20"
+    },
+    {
+      "title": "Still Small Voice",
+      "number": "03",
+      "metadata": {
+        "album": "90s Nostalgia",
+        "cover": "",
+        "genre": "OP / ED / IN / IM",
+        "comment": "https://youtu.be/pCsFmYJh9sg",
+        "artists": [
+          "Various",
+          "Artists"
+        ]
+      },
+      "start": "0:05:20",
+      "end": "0:09:37"
+    }
+}
 ```
 
-Please review it and ensure that the values are your desired ones. The values in this file are considered final, and will override values from other sources (e.g. parameters, batch file, etc.).
+Please review it and ensure that the values are your desired ones. The values in this file will be used for the encoding process.
 
 ### Batch Albums
 
@@ -141,38 +149,7 @@ Then, invoke the program with the `--batch <batch file>` argument:
     --comment 'Very Important Music'
 ```
 
-Like the records file, the program will create a more flexible JSON version of the batch file, which is recommended for subsequent usage:
-
-```json
-[
-  {
-    "source": "https://youtu.be/pCsFmYJh9sg",
-    "records": "90s-songs.txt",
-    "title": "90's RB-018",
-    "cover": "~/album.jpg",
-    "genre": "OP / ED",
-    "comment": "Very Important Music",
-    "artists": [
-      "Various",
-      "Artists"
-    ]
-  },
-  {
-    "source": "90s-nostalgic-songs.mp4",
-    "records": "tracks-02.txt",
-    "title": "90's RB-019",
-    "cover": "~/album.jpg",
-    "genre": "OP / ED",
-    "comment": "Very Important Music",
-    "artists": [
-      "Various",
-      "Artists"
-    ]
-  }
-]
-```
-
-Note that the metadata in the referenced records files will override the ones in the batch file. The metadata in the batch file is to "fill in the gaps".
+Like the records file, the program will compile a more flexible JSON version of the batch file containing all of the albums.
 
 ## Dependencies
 
