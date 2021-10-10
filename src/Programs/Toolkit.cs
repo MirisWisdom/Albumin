@@ -17,6 +17,7 @@
  */
 
 using Gunloader.Common;
+using Gunloader.Encoders;
 using Gunloader.Persistence;
 
 namespace Gunloader.Programs

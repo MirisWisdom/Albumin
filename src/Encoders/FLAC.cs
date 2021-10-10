@@ -21,7 +21,7 @@ using System.IO;
 using Gunloader.Common;
 using static System.Diagnostics.Process;
 
-namespace Gunloader.Programs
+namespace Gunloader.Encoders
 {
   public class FLAC : Encoder
   {

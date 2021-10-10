@@ -18,8 +18,8 @@
 
 using System;
 using System.IO;
+using Gunloader.Encoders;
 using Gunloader.Persistence;
-using Gunloader.Programs;
 using Mono.Options;
 
 namespace Gunloader
