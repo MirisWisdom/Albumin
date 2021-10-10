@@ -26,7 +26,7 @@ namespace Gunloader.Common
 {
   public abstract class Persistent
   {
-    [JsonIgnore] [XmlIgnore] public FileInfo Storage { get; set; } = new($"{NewGuid()}.ser");
+    [JsonIgnore] [XmlIgnore] public FileInfo Storage { get; set; } = new($"{NewGuid()}.gun");
 
     public abstract void Save(ISerialisation serialisation);
     public abstract void Load(ISerialisation serialisation);
