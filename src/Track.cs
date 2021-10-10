@@ -20,7 +20,6 @@ using System.IO;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using Gunloader.Programs;
 
 namespace Gunloader
 {

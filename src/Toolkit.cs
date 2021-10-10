@@ -19,8 +19,9 @@
 using Gunloader.Common;
 using Gunloader.Encoders;
 using Gunloader.Persistence;
+using Gunloader.Programs;
 
-namespace Gunloader.Programs
+namespace Gunloader
 {
   public class Toolkit
   {

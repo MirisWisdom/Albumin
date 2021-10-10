@@ -19,7 +19,6 @@
 using System.IO;
 using Gunloader.Albums;
 using Gunloader.Batches;
-using Gunloader.Programs;
 using static System.Console;
 using static System.Environment;
 using Compiler = Gunloader.Albums.Compiler;
