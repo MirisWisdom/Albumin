@@ -19,10 +19,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json.Serialization;
 using Gunloader.Albums;
 using Gunloader.Common;
 using Gunloader.Persistence;
+using static System.IO.File;
 
 namespace Gunloader.Batches
 {
@@ -64,6 +66,27 @@ namespace Gunloader.Batches
 
       Hydrate(records, metadata);
       Save(serialisation);
+    }
+
+    public class Record
+    {
+      public string Source { get; set; } = string.Empty;
+      public string Tracks { get; set; } = string.Empty;
+      public string Title  { get; set; } = string.Empty;
+
+      public static IEnumerable<Record> Parse(FileInfo file)
+      {
+        return ReadAllLines(file.FullName)
+          .Select(record => record.Split(' '))
+          .Select(split =>
+            new Record
+            {
+              Source = split[0],
+              Tracks = split[1],
+              Title  = string.Join(' ', split.Skip(2))
+            })
+          .ToList();
+      }
     }
   }
 }

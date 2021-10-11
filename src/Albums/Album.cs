@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
@@ -27,6 +28,7 @@ using Gunloader.Persistence;
 using Gunloader.Programs;
 using static System.Guid;
 using static System.IO.Path;
+using static System.IO.File;
 
 namespace Gunloader.Albums
 {
@@ -133,6 +135,27 @@ namespace Gunloader.Albums
 
       Hydrate(records, metadata);
       Save(serialisation);
+    }
+
+    public class Record
+    {
+      public string Number { get; set; } = string.Empty;
+      public string Start  { get; set; } = string.Empty;
+      public string Title  { get; set; } = string.Empty;
+
+      public static IEnumerable<Record> Parse(FileInfo file)
+      {
+        return ReadAllLines(file.FullName)
+          .Select(record => record.Split(' '))
+          .Select(split =>
+            new Record
+            {
+              Number = split[0],
+              Start  = split[1],
+              Title  = string.Join(' ', split.Skip(2))
+            })
+          .ToList();
+      }
     }
   }
 }
