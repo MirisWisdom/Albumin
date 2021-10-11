@@ -3,7 +3,7 @@
         YouTube Album Extract
     </h1>
     <p align='center'>
-        Extract & curate MP3 / FLAC songs from YouTube album videos.
+        Extract & curate songs from YouTube album videos in your favourite audio format.
         <br>
         <br>
         <img src='https://user-images.githubusercontent.com/10241434/135048812-156d9a9a-0218-42e8-9bcf-1b67ff7acbef.png'>
@@ -14,7 +14,7 @@
 
 ## Introduction
 
-This project allows you to transform long YouTube album videos into properly curated MP3 and FLAC songs.
+This project allows you to transform long YouTube album videos into properly curated songs, with support for popular audio formats.
 
 ## Features
 
@@ -29,7 +29,7 @@ This project allows you to transform long YouTube album videos into properly cur
 
 | Parameter         | Description                                                                              |
 | ----------------- | ---------------------------------------------------------------------------------------- |
-| `--lossy`         | use lossy mp3 encoding instead of flac (and also jpeg instead of png for cover art)      |
+| `--format=VALUE`  | audio encoding format; supported values: `mp3`, `flac`, `vorbis`, `opus`                 |
 | `--tracks=VALUE`  | path to records file with track numbers, timestamps and song titles                      |
 | `--source=VALUE`  | path to the video containing the compiled songs (can be a youtube video or local file)   |
 | `--batch=VALUE`   | encode (and download) albums specified in the given batch file                           |
@@ -90,7 +90,7 @@ Create a text file containing the list of albums. Each line *must* comprise of t
 
 1. Album source (YouTube URL or a local file)
 2. Path to the track records for the album (see above)
-3. Title of the album (used for MP3/FLAC tagging & output directory)
+3. Title of the album (used for song tagging & output directory)
 
 Example of a valid batch file:
 

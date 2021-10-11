@@ -3,7 +3,7 @@
 A song within an [album](./album.md) that is:
 
 1. [extracted](./intermediate.md) from a YouTube or local video; and
-2. [encoded](./encoding.md) into a MP3 or FLAC file; and
+2. [encoded](./encoding.md) into an audio MP3/FLAC/OGG file; and
 3. contains [metadata](./metadata.md) and a [cover art](./cover.md).
 
 On top of the metadata, a track represents its title, track number in the album, and starting + ending times.
