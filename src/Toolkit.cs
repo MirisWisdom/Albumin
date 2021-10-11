@@ -16,10 +16,9 @@
  * along with Gunloader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Gunloader.Common;
 using Gunloader.Encoders;
-using Gunloader.Serialisation;
 using Gunloader.Programs;
+using Gunloader.Serialisation;
 
 namespace Gunloader
 {

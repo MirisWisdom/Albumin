@@ -18,7 +18,7 @@
 
 using System.IO;
 
-namespace Gunloader.Common
+namespace Gunloader.Encoders
 {
   public abstract class Encoder
   {

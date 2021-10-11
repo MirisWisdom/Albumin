@@ -18,7 +18,6 @@
 
 using System.Diagnostics;
 using System.IO;
-using Gunloader.Common;
 using static System.Diagnostics.Process;
 
 namespace Gunloader.Encoders
