@@ -16,17 +16,13 @@
  * along with Gunloader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using Gunloader.Persistence;
+using System.IO;
 
-namespace Gunloader.Common
+namespace Gunloader.Serialisation
 {
-  public abstract class Compiler
+  public interface ISerialisation
   {
-    public Compiler(ISerialisation serialisation)
-    {
-      Serialisation = serialisation;
-    }
-
-    public ISerialisation Serialisation { get; set; }
+    public T    Hydrate<T>(FileInfo source);
+    public void Marshal<T>(FileInfo target, T entity);
   }
 }

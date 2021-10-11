@@ -21,7 +21,7 @@ using System.Text.Json;
 using static System.IO.File;
 using static System.Text.Json.JsonSerializer;
 
-namespace Gunloader.Persistence
+namespace Gunloader.Serialisation
 {
   public class JSON : ISerialisation
   {

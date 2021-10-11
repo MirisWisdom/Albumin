@@ -17,8 +17,6 @@
  */
 
 using System.IO;
-using Gunloader.Albums;
-using Gunloader.Batches;
 using static System.Console;
 using static System.Environment;
 

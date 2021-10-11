@@ -20,7 +20,7 @@ using System.IO;
 using System.Xml.Serialization;
 using static System.IO.File;
 
-namespace Gunloader.Persistence
+namespace Gunloader.Serialisation
 {
   public class XML : ISerialisation
   {

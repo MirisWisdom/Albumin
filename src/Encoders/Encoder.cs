@@ -18,11 +18,10 @@
 
 using System.IO;
 
-namespace Gunloader.Persistence
+namespace Gunloader.Encoders
 {
-  public interface ISerialisation
+  public abstract class Encoder
   {
-    public T    Hydrate<T>(FileInfo source);
-    public void Marshal<T>(FileInfo target, T entity);
+    public abstract FileInfo Encode(Track track, FileInfo source = null, FileInfo cover = null);
   }
 }
