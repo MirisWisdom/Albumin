@@ -30,7 +30,7 @@ using static System.Guid;
 using static System.IO.Path;
 using static System.IO.File;
 
-namespace Gunloader.Albums
+namespace Gunloader
 {
   public class Album : Persistent
   {

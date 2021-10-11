@@ -21,12 +21,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Serialization;
-using Gunloader.Albums;
 using Gunloader.Common;
 using Gunloader.Persistence;
 using static System.IO.File;
 
-namespace Gunloader.Batches
+namespace Gunloader
 {
   public class Batch : Persistent
   {
