@@ -33,15 +33,22 @@ namespace Gunloader
 {
   public class Album
   {
+    /* fallback static id for album directory & .gun file name */
+    private static readonly string ID = NewGuid().ToString();
+
     [JsonPropertyName("video")]  public string      Video  { get; set; } = string.Empty;
     [JsonPropertyName("title")]  public string      Title  { get; set; } = string.Empty;
     [JsonPropertyName("tracks")] public List<Track> Tracks { get; set; } = new();
 
     [JsonIgnore]
     [XmlIgnore]
-    public DirectoryInfo Target => new(string.IsNullOrWhiteSpace(Title) ? NewGuid().ToString() : Title);
+    public DirectoryInfo Target /* album title // guid on empty album */
+      => new(string.IsNullOrWhiteSpace(Title) ? ID : Title);
 
-    [JsonIgnore] [XmlIgnore] public FileInfo Storage { get; set; } = new($"{NewGuid()}.gun");
+    [JsonIgnore]
+    [XmlIgnore]
+    public FileInfo Storage /* target + gun extension for consistency */
+      => new($"{Target}.gun");
 
     public FileInfo Download(YTDL YTDL)
     {

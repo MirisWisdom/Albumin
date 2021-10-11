@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using Gunloader.Serialisation;
+using static System.DateTime;
 using static System.Guid;
 using static System.IO.File;
 
@@ -30,9 +31,15 @@ namespace Gunloader
 {
   public class Batch
   {
+    /* fallback static id for batch .gun file name */
+    private static readonly string ID = NewGuid().ToString();
+
     [JsonPropertyName("albums")] public List<Album> Albums { get; set; } = new();
 
-    [JsonIgnore] [XmlIgnore] public FileInfo Storage => new($"{NewGuid()}.gun");
+    [JsonIgnore]
+    [XmlIgnore]
+    public FileInfo Storage => /* date & album count // guid on empty album */
+      new($"{(Albums.Count == 0 ? ID : $"{Now:yyyy-MM-dd} - {Albums.Count} Albums")}.gun");
 
     public virtual void Save(ISerialisation serialisation)
     {
