@@ -79,50 +79,7 @@ Create the records file as specified above, then invoke the program as necessary
     --comment 'Very Important Music'
 ```
 
-The program will compile the provided records file and metadata into a `.gun` file with the following contents:
-
-```json
-{
-  "video": "https://youtu.be/pCsFmYJh9sg",
-  "title": "90s Nostalgia",
-  "tracks": [
-    {
-      "title": "All You Need Is Love",
-      "number": "01",
-      "metadata": {
-        "album": "90s Nostalgia",
-        "cover": "",
-        "genre": "OP / ED / IN / IM",
-        "comment": "https://youtu.be/pCsFmYJh9sg",
-        "artists": [
-          "Various",
-          "Artists"
-        ]
-      },
-      "start": "0:00:00",
-      "end": "0:05:20"
-    },
-    {
-      "title": "Still Small Voice",
-      "number": "03",
-      "metadata": {
-        "album": "90s Nostalgia",
-        "cover": "",
-        "genre": "OP / ED / IN / IM",
-        "comment": "https://youtu.be/pCsFmYJh9sg",
-        "artists": [
-          "Various",
-          "Artists"
-        ]
-      },
-      "start": "0:05:20",
-      "end": "0:09:37"
-    }
-  ]
-}
-```
-
-Please review it and ensure that the values are your desired ones. The values in this file will be used for the encoding process.
+The program will compile the provided records file and metadata into a [`.gun` file](./doc/compiling.md). Please review it and ensure that the values are your desired ones. The values in this file will be used for the encoding process.
 
 Also, XML can be used instead of JSON by passing `--xml` as a parameter.
 
