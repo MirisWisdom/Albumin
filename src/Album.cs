@@ -23,16 +23,15 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
-using Gunloader.Common;
-using Gunloader.Serialisation;
 using Gunloader.Programs;
+using Gunloader.Serialisation;
 using static System.Guid;
 using static System.IO.Path;
 using static System.IO.File;
 
 namespace Gunloader
 {
-  public class Album : Persistent
+  public class Album
   {
     [JsonPropertyName("video")]  public string      Video  { get; set; } = string.Empty;
     [JsonPropertyName("title")]  public string      Title  { get; set; } = string.Empty;
@@ -41,6 +40,8 @@ namespace Gunloader
     [JsonIgnore]
     [XmlIgnore]
     public DirectoryInfo Target => new(string.IsNullOrWhiteSpace(Title) ? NewGuid().ToString() : Title);
+
+    [JsonIgnore] [XmlIgnore] public FileInfo Storage { get; set; } = new($"{NewGuid()}.gun");
 
     public FileInfo Download(YTDL YTDL)
     {
@@ -66,12 +67,12 @@ namespace Gunloader
       }
     }
 
-    public override void Save(ISerialisation serialisation)
+    public void Save(ISerialisation serialisation)
     {
       serialisation.Marshal(Storage, this);
     }
 
-    public override void Load(ISerialisation serialisation)
+    public void Load(ISerialisation serialisation)
     {
       var album = serialisation.Hydrate<Album>(Storage);
       Video  = album.Video;
