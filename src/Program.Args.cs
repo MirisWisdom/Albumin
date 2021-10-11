@@ -89,17 +89,44 @@ namespace Gunloader
       {
         "tracks=|records=|timestamps=|cue=",
         "path to records file with track numbers, timestamps and song titles",
-        s => Record = new FileInfo(s)
+        s =>
+        {
+          Record = new FileInfo(s);
+
+          if (Record.Exists && Record.Extension.Contains("txt"))
+            return;
+
+          WriteLine("Please provide a valid records file!");
+          Exit(1);
+        }
       },
       {
         "source=|video=|compilation=|file=",
         "path to the video containing the compiled songs (can be a youtube video or local file)",
-        s => Source = s
+        s =>
+        {
+          Source = s;
+
+          if (new FileInfo(Source).Exists || Source.Contains("http"))
+            return;
+
+          WriteLine("Please provide a valid source file or URL!");
+          Exit(1);
+        }
       },
       {
         "batch=",
         "download video from given url to use as the source for songs",
-        s => Batch = new FileInfo(s)
+        s =>
+        {
+          Batch = new FileInfo(s);
+
+          if (Batch.Exists && Batch.Extension.Contains("txt"))
+            return;
+
+          WriteLine("Please provide a valid batch file!");
+          Exit(1);
+        }
       },
       {
         "album=",

@@ -50,7 +50,7 @@ namespace Gunloader
 
     public static void Invoke()
     {
-      if (Record is {Exists: true} && Record.Extension.Contains("txt"))
+      if (Record != null)
       {
         var album = new Album {Video = Source, Title = Metadata.Album};
         album.Compile(Record, Metadata, Toolkit.Serialisation);
@@ -63,7 +63,7 @@ namespace Gunloader
         Exit(0);
       }
 
-      if (Batch is {Exists: true} && Batch.Extension.Contains("txt"))
+      if (Batch != null)
       {
         var batch = new Batch();
         batch.Compile(Batch, Metadata, Toolkit.Serialisation);
