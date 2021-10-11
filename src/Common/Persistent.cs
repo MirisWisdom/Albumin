@@ -19,7 +19,7 @@
 using System.IO;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using Gunloader.Persistence;
+using Gunloader.Serialisation;
 using static System.Guid;
 
 namespace Gunloader.Common

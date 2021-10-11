@@ -18,7 +18,7 @@
 
 using Gunloader.Common;
 using Gunloader.Encoders;
-using Gunloader.Persistence;
+using Gunloader.Serialisation;
 using Gunloader.Programs;
 
 namespace Gunloader

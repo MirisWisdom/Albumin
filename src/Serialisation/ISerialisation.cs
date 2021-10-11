@@ -17,22 +17,12 @@
  */
 
 using System.IO;
-using System.Text.Json;
-using static System.IO.File;
-using static System.Text.Json.JsonSerializer;
 
-namespace Gunloader.Persistence
+namespace Gunloader.Serialisation
 {
-  public class JSON : ISerialisation
+  public interface ISerialisation
   {
-    public T Hydrate<T>(FileInfo source)
-    {
-      return Deserialize<T>(ReadAllText(source.Name));
-    }
-
-    public void Marshal<T>(FileInfo target, T entity)
-    {
-      WriteAllText(target.FullName, Serialize(entity, new JsonSerializerOptions {WriteIndented = true}));
-    }
+    public T    Hydrate<T>(FileInfo source);
+    public void Marshal<T>(FileInfo target, T entity);
   }
 }

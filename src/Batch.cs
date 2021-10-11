@@ -22,7 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Gunloader.Common;
-using Gunloader.Persistence;
+using Gunloader.Serialisation;
 using static System.IO.File;
 
 namespace Gunloader
