@@ -16,7 +16,9 @@
  * along with Gunloader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.Json.Serialization;
 using Gunloader.Albums;
 using Gunloader.Common;
@@ -37,6 +39,31 @@ namespace Gunloader.Batches
     {
       var batch = serialisation.Hydrate<Batch>(Storage);
       Albums = batch.Albums;
+    }
+
+    public void Hydrate(FileInfo records, Metadata metadata)
+    {
+      foreach (var record in Record.Parse(records))
+      {
+        var album = new Album
+        {
+          Video = record.Source,
+          Title = record.Title
+        };
+
+        album.Hydrate(records, metadata);
+
+        Albums.Add(album);
+      }
+    }
+
+    public void Compile(FileInfo records, Metadata metadata, ISerialisation serialisation)
+    {
+      if (!records.Extension.Contains("txt") || !records.Exists)
+        throw new ArgumentException("A valid plaintext records file must exist.");
+
+      Hydrate(records, metadata);
+      Save(serialisation);
     }
   }
 }

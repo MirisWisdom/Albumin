@@ -16,9 +16,11 @@
  * along with Gunloader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using Gunloader.Common;
 using Gunloader.Persistence;
@@ -73,6 +75,64 @@ namespace Gunloader.Albums
       Video  = album.Video;
       Title  = album.Title;
       Tracks = album.Tracks;
+    }
+
+    public void Hydrate(FileInfo records, Metadata metadata)
+    {
+      foreach (var record in Record.Parse(records))
+      {
+        var track = new Track
+        {
+          Number   = record.Number,
+          Title    = record.Title,
+          Start    = record.Start,
+          Metadata = metadata ?? new Metadata()
+        };
+
+        if (string.IsNullOrWhiteSpace(track.Metadata.Album))
+          track.Metadata.Album = Title;
+
+        /**
+         * Assign Source's YouTube URL to blank Comments.
+         *
+         * If the Source file name is heuristically determined to be a YouTube ID, then its value will be used.
+         *
+         * YouTube ID requirements: 11 characters; allowed characters: alphanumeric, dashes and underscores.
+         */
+
+        if (string.IsNullOrWhiteSpace(track.Metadata.Comment))
+        {
+          var id   = GetFileNameWithoutExtension(Video) ?? string.Empty;
+          var rule = new Regex("[a-zA-Z0-9_-]{11}");
+
+          if (rule.IsMatch(id))
+            track.Metadata.Comment = $"https://youtu.be/{id}";
+
+          if (Video != null && Video.Contains("http"))
+            track.Metadata.Comment = Video;
+        }
+
+        Tracks.Add(track);
+      }
+
+      foreach (var track in Tracks)
+      {
+        var next = Tracks.FindIndex(r => r.Number.Equals(track.Number));
+        var end = next + 1 >= Tracks.Count
+          ? string.Empty
+          : Tracks[next + 1].Start;
+
+        track.End = end;
+      }
+    }
+
+    public void Compile(FileInfo records, Metadata metadata, ISerialisation serialisation)
+    {
+      if (!records.Extension.Contains("txt") || !records.Exists)
+        throw new ArgumentException("A valid plaintext records file must exist.");
+
+      Hydrate(records, metadata);
+      Save(serialisation);
     }
   }
 }

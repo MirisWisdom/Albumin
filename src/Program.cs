@@ -21,8 +21,6 @@ using Gunloader.Albums;
 using Gunloader.Batches;
 using static System.Console;
 using static System.Environment;
-using Compiler = Gunloader.Albums.Compiler;
-using Hydration = Gunloader.Albums.Hydration;
 
 namespace Gunloader
 {
@@ -58,7 +56,7 @@ namespace Gunloader
       if (Record is {Exists: true} && Record.Extension.Contains("txt"))
       {
         var album = new Album {Video = Source, Title = Metadata.Album};
-        new Compiler(Toolkit.Serialisation).Compile(new Hydration(Record, Metadata), album);
+        album.Compile(Record, Metadata, Toolkit.Serialisation);
 
         Prompt(album.Storage.Name);
 
@@ -71,7 +69,7 @@ namespace Gunloader
       if (Batch is {Exists: true} && Batch.Extension.Contains("txt"))
       {
         var batch = new Batch();
-        new Batches.Compiler(Toolkit.Serialisation).Compile(new Batches.Hydration(Batch, Metadata), batch);
+        batch.Compile(Batch, Metadata, Toolkit.Serialisation);
 
         Prompt(batch.Storage.Name);
 
