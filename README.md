@@ -18,7 +18,8 @@ This project allows you to transform long YouTube album videos into properly cur
 
 ## Features
 
-- Encodes a long video's audio into separate MP3 and FLAC tracks
+- Encodes a long video's audio into separate audio tracks
+- Support for FLAC, MP3 and Vorbis encoding formats
 - Tagging abilities (title, album, artist(s), comment, genre, etc.)
 - Downloading using YouTube-DL, or using an existing video file
 - Embedded cover art, using thumbnails derived from the provided video using, or an existing image
@@ -115,10 +116,11 @@ Like the records file, the program will compile a more flexible JSON version of 
 ## Dependencies
 
 - NET Core 5 for running this poor man's solution
-- FFmpeg for audio & cover art extraction
-- LAME for MP3 encoding w/ metadata
-- FLAC for FLAC encoding w/ metadata
-- youtube-dl for downloading videos
+- `ffmpeg` for audio & cover art extraction
+- `lame` for MP3 encoding w/ metadata
+- `flac` for FLAC encoding w/ metadata
+- `oggenc` for Vorbis encoding w/ metadata
+- `youtube-dl` for downloading videos
 
 ## FAQ
 
