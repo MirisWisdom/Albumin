@@ -27,7 +27,6 @@ namespace Gunloader
    */
   public static partial class Program
   {
-    public static bool     Lossy    { get; set; } /* use mp3 instead of flac   */
     public static string   Source   { get; set; }
     public static FileInfo Record   { get; set; }
     public static FileInfo Batch    { get; set; }

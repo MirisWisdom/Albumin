@@ -16,11 +16,12 @@
  * along with Gunloader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
 using System.IO;
 using Gunloader.Encoders;
 using Gunloader.Serialisation;
 using Mono.Options;
+using static System.Console;
+using static System.Environment;
 
 namespace Gunloader
 {
@@ -36,30 +37,53 @@ namespace Gunloader
         "show program information, instructions, etc.",
         _ =>
         {
-          Console.WriteLine(@"                            __                __               ");
-          Console.WriteLine(@"         ____ ___  ______  / /___  ____ _____/ /__  _____      ");
-          Console.WriteLine(@"        / __ `/ / / / __ \/ / __ \/ __ `/ __  / _ \/ ___/      ");
-          Console.WriteLine(@"       / /_/ / /_/ / / / / / /_/ / /_/ / /_/ /  __/ /          ");
-          Console.WriteLine(@"       \__, /\__,_/_/ /_/_/\____/\__,_/\__,_/\___/_/           ");
-          Console.WriteLine(@"      /____/                                                   ");
-          Console.WriteLine(@"      ---------------------------------------------------      ");
-          Console.WriteLine(@"      author miris ~ github yumiris/youtube.album.extract      ");
-          Console.WriteLine(@"      ---------------------------------------------------      ");
-          OptionSet.WriteOptionDescriptions(Console.Out);
-          Environment.Exit(0);
+          WriteLine(@"                            __                __               ");
+          WriteLine(@"         ____ ___  ______  / /___  ____ _____/ /__  _____      ");
+          WriteLine(@"        / __ `/ / / / __ \/ / __ \/ __ `/ __  / _ \/ ___/      ");
+          WriteLine(@"       / /_/ / /_/ / / / / / /_/ / /_/ / /_/ /  __/ /          ");
+          WriteLine(@"       \__, /\__,_/_/ /_/_/\____/\__,_/\__,_/\___/_/           ");
+          WriteLine(@"      /____/                                                   ");
+          WriteLine(@"      ---------------------------------------------------      ");
+          WriteLine(@"      author miris ~ github yumiris/youtube.album.extract      ");
+          WriteLine(@"      ---------------------------------------------------      ");
+          OptionSet.WriteOptionDescriptions(Out);
+          Exit(0);
         }
       },
       {
-        "lossy",
-        "use lossy mp3 encoding instead of flac (and also jpeg instead of png for cover art)",
+        "format=|encoding=",
+        "audio encoding format; supported values: mp3, flac, vorbis, opus",
         s =>
         {
           if (s == null)
             return;
 
-          Lossy                = true;
-          Toolkit.Encoder      = new LAME();
-          Toolkit.FFmpeg.Lossy = true;
+          switch (s)
+          {
+            case "mp3":
+            case "lame":
+              Toolkit.Encoder      = new LAME();
+              Toolkit.FFmpeg.Lossy = true;
+              break;
+            case "flac":
+              Toolkit.Encoder      = new FLAC();
+              Toolkit.FFmpeg.Lossy = false;
+              break;
+            case "vorbis":
+            case "oggenc":
+              Toolkit.Encoder      = new Vorbis();
+              Toolkit.FFmpeg.Lossy = true;
+              break;
+            case "opus":
+            case "opusenc":
+              Toolkit.Encoder      = new Opus();
+              Toolkit.FFmpeg.Lossy = false;
+              break;
+            default:
+              WriteLine("Unknown format provided!");
+              Exit(2);
+              break;
+          }
         }
       },
       {
