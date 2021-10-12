@@ -87,8 +87,8 @@ namespace Gunloader
         }
       },
       {
-        "tracks=|records=|timestamps=|cue=",
-        "path to records file with track numbers, timestamps and song titles",
+        "album=|tracks=|records=|timestamps=|cue=",
+        "path to album records file with track numbers, timestamps and song titles",
         s =>
         {
           Record = new FileInfo(s);
@@ -101,22 +101,8 @@ namespace Gunloader
         }
       },
       {
-        "source=|video=|compilation=|file=",
-        "path to the video containing the compiled songs (can be a youtube video or local file)",
-        s =>
-        {
-          Source = s;
-
-          if (new FileInfo(Source).Exists || Source.Contains("http"))
-            return;
-
-          WriteLine("Please provide a valid source file or URL!");
-          Exit(1);
-        }
-      },
-      {
         "batch=",
-        "download video from given url to use as the source for songs",
+        "encode (and download) albums specified in the given batch file",
         s =>
         {
           Batch = new FileInfo(s);
@@ -127,11 +113,6 @@ namespace Gunloader
           WriteLine("Please provide a valid batch file!");
           Exit(1);
         }
-      },
-      {
-        "album=",
-        "album title to assign to the tracks' metadata; also, directory name to move tracks to",
-        s => Metadata.Album = s
       },
       {
         "artist=",

@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using Gunloader.Serialisation;
@@ -54,15 +53,12 @@ namespace Gunloader
 
     public void Hydrate(FileInfo records, Metadata metadata)
     {
-      foreach (var record in Record.Parse(records))
-      {
-        var album = new Album
-        {
-          Video = record.Source,
-          Title = record.Title
-        };
+      var record = Record.Parse(records);
 
-        album.Hydrate(records, metadata);
+      foreach (var entry in record.Records)
+      {
+        var album = new Album();
+        album.Hydrate(new FileInfo(entry), metadata);
 
         Albums.Add(album);
       }
@@ -79,22 +75,16 @@ namespace Gunloader
 
     public class Record
     {
-      public string Source { get; set; } = string.Empty;
-      public string Tracks { get; set; } = string.Empty;
-      public string Title  { get; set; } = string.Empty;
+      public List<string> Records { get; set; } = new();
 
-      public static IEnumerable<Record> Parse(FileInfo file)
+      public static Record Parse(FileInfo file)
       {
-        return ReadAllLines(file.FullName)
-          .Select(record => record.Split(' '))
-          .Select(split =>
-            new Record
-            {
-              Source = split[0],
-              Tracks = split[1],
-              Title  = string.Join(' ', split.Skip(2))
-            })
-          .ToList();
+        var record = new Record();
+
+        foreach (var entry in ReadAllLines(file.FullName))
+          record.Records.Add(entry);
+
+        return record;
       }
     }
   }

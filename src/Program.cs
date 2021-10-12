@@ -27,7 +27,6 @@ namespace Gunloader
    */
   public static partial class Program
   {
-    public static string   Source   { get; set; }
     public static FileInfo Record   { get; set; }
     public static FileInfo Batch    { get; set; }
     public static Metadata Metadata { get; set; } = new();
@@ -52,7 +51,7 @@ namespace Gunloader
     {
       if (Record != null)
       {
-        var album = new Album {Video = Source, Title = Metadata.Album};
+        var album = new Album();
         album.Compile(Record, Metadata, Toolkit.Serialisation);
 
         Prompt(album.Storage.Name);

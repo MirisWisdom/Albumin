@@ -31,9 +31,7 @@ This project allows you to transform long YouTube album videos into properly cur
 | ----------------- | ---------------------------------------------------------------------------------------- |
 | `--format=VALUE`  | audio encoding format; supported values: `mp3`, `flac`, `vorbis`, `opus`                 |
 | `--tracks=VALUE`  | path to records file with track numbers, timestamps and song titles                      |
-| `--source=VALUE`  | path to the video containing the compiled songs (can be a youtube video or local file)   |
 | `--batch=VALUE`   | encode (and download) albums specified in the given batch file                           |
-| `--album=VALUE`   | album title to assign to the tracks' metadata; also, directory name to move tracks to    |
 | `--artist=VALUE`  | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
 | `--genre=VALUE`   | genre to assign to the tracks' metadata                                                  |
 | `--comment=VALUE` | comment to assign to the tracks' metadata                                                |
@@ -44,7 +42,9 @@ This project allows you to transform long YouTube album videos into properly cur
 
 The records file specifies each song's track number, starting time in the video, and the title of the track.
 
-For simplicity, create a text file containing the list of songs. Each line *must* comprise of the following attributes, in the given order:
+For simplicity, create a text file representing the album. The first two lines contain the album title and video source.
+
+Subsequent lines represent the tracks. Each *must* comprise of the following attributes, in the given order:
 
 1. Track number
 2. Starting time in the provided video
@@ -53,6 +53,9 @@ For simplicity, create a text file containing the list of songs. Each line *must
 Each attribute is separated by a space. Example of a valid file:
 
 ```
+90'sアニメ主題歌セレクション RB-XYZ【奇跡の向こう側へ】 Ver.2
+https://youtu.be/divcisums90
+
 01 0:00:00 All You Need Is Love - 田村直美 「レイアース」OVA版主題歌
 02 0:05:20 HEAVEN - HIM 「YAT安心！宇宙旅行」一期OP
 03 0:08:48 僕であるために - FLYING KIDS 「逮捕しちゃうぞ」一期OP2
@@ -65,16 +68,10 @@ Create the records file as specified above, then invoke the program as necessary
 
 ```shell
 ./gunloader \
-    # download from youtube using youtube-dl
-    --download "https://youtube.dl/id_goes_here" \
-    # or use an existing video on your computer
-    --source "~/video.mp4" \
-
     # file with track times & titles (see above)
-    --tracks '~/tracks.txt' \
+    --album '~/album.txt' \
 
     # mass fill with metadata
-    --album "A Nifty Title" \
     --genre "OP/ED/IN/IM" \
     --artist "Various" --artist "Artists" \
     --comment 'Very Important Music'
@@ -86,17 +83,12 @@ Also, XML can be used instead of JSON by passing `--xml` as a parameter.
 
 ### Batch Albums
 
-Create a text file containing the list of albums. Each line *must* comprise of the following attributes, in the given order:
-
-1. Album source (YouTube URL or a local file)
-2. Path to the track records for the album (see above)
-3. Title of the album (used for song tagging & output directory)
-
-Example of a valid batch file:
+Create a text file which lists the album record files:
 
 ```
-https://youtu.be/pCsFmYJh9sg 90s-songs.txt 90'sアニメ主題歌セレクション RB-018【奇跡の向こう側へ】 Ver.2
-90s-nostalgic-songs.mp4 tracks-02.txt 90'sアニメ主題歌セレクション RB-019【傷だらけのツバサ】
+some-album-record.txt
+90'sアニメ主題歌セレクション RB-016【愛がたりないぜ】.txt
+90'sアニメ主題歌セレクション RB-019【傷だらけのツバサ】.txt
 ```
 
 Then, invoke the program with the `--batch <batch file>` argument:

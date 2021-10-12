@@ -89,13 +89,18 @@ namespace Gunloader
 
     public void Hydrate(FileInfo records, Metadata metadata)
     {
-      foreach (var record in Record.Parse(records))
+      var record = Record.Parse(records);
+
+      Video = record.Video;
+      Title = record.Title;
+
+      foreach (var entry in record.Entries)
       {
         var track = new Track
         {
-          Number   = record.Number,
-          Title    = record.Title,
-          Start    = record.Start,
+          Number   = entry.Number,
+          Title    = entry.Title,
+          Start    = entry.Start,
           Metadata = metadata ?? new Metadata()
         };
 
@@ -147,22 +152,45 @@ namespace Gunloader
 
     public class Record
     {
-      public string Number { get; set; } = string.Empty;
-      public string Start  { get; set; } = string.Empty;
-      public string Title  { get; set; } = string.Empty;
+      public string      Title   { get; set; } = string.Empty;
+      public string      Video   { get; set; } = string.Empty;
+      public List<Entry> Entries { get; set; } = new();
 
-      public static IEnumerable<Record> Parse(FileInfo file)
+      public static Record Parse(FileInfo file)
       {
-        return ReadAllLines(file.FullName)
-          .Select(record => record.Split(' '))
-          .Select(split =>
-            new Record
-            {
-              Number = split[0],
-              Start  = split[1],
-              Title  = string.Join(' ', split.Skip(2))
-            })
-          .ToList();
+        var record = new Record();
+        var lines  = ReadAllLines(file.FullName);
+
+        record.Title = lines[0];
+        record.Video = lines[1];
+
+        /* permit arbitrary number of blank lines between title+video & entries list */
+        var index = 2;
+        while (string.IsNullOrWhiteSpace(lines[index]))
+          index++;
+
+        /* entries parsing */
+        for (var i = index; i < lines.Length; i++)
+        {
+          var entry = lines[i];
+          var split = entry.Split(' ');
+
+          record.Entries.Add(new Entry
+          {
+            Number = split[0],
+            Start  = split[1],
+            Title  = string.Join(' ', split.Skip(2))
+          });
+        }
+
+        return record;
+      }
+
+      public class Entry
+      {
+        public string Number { get; set; } = string.Empty;
+        public string Start  { get; set; } = string.Empty;
+        public string Title  { get; set; } = string.Empty;
       }
     }
   }

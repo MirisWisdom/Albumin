@@ -1,15 +1,13 @@
 # Batch Processing
 
-A batch object is a wrapper for multiple [album](./album.md) objects. It allows the encoding of multiple videos into separate albums with their own songs.
+A batch object is a wrapper for multiple [album](./album.md) [records](./record.md). It allows the [encoding](./encoding.md) of multiple videos into separate albums with their own songs.
 
 Its [record](./record.md) file, too, reflects that:
 
 ```
-https://youtu.be/pCsFmYJh9sg 90s-songs.txt 90's RB-018 Ver.2 - album 1
-90s-nostalgic-songs.mp4 tracks-02.txt 90' RB-019             - album 2
-|---------------------| |-----------| |--------|
-                      |             |          |
-                      |             |          +-------------- album title
-                      |             +------------------------- album records file
-                      +--------------------------------------- album source video
+some-album-record.txt  - album 1
+/music/90's RB-016.txt - album 2
+c:\\90's RB-019.txt    - album 3
+|--------------------|
+                     +-- album record file path
 ```
