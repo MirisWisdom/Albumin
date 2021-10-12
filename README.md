@@ -75,13 +75,12 @@ Also, XML can be used instead of JSON by passing `--xml` as a parameter.
 
 ## Dependencies
 
-- NET Core 5 for running this poor man's solution
-- `ffmpeg` for audio & cover art extraction
-- `lame` for MP3 encoding w/ metadata
-- `flac` for FLAC encoding w/ metadata
-- `oggenc` for Vorbis encoding w/ metadata
-- `opus` for Opus encoding w/ metadata
-- `youtube-dl` for downloading videos
+- [`youtube-dl`](https://ytdl-org.github.io/youtube-dl/) for downloading videos
+- [`ffmpeg`](https://www.ffmpeg.org/) for audio & cover art extraction
+- [`lame`](https://lame.sourceforge.net/) for MP3 encoding w/ metadata
+- [`flac`](https://xiph.org/flac/) for FLAC encoding w/ metadata
+- [`oggenc`](https://www.xiph.org/vorbis/) for Vorbis encoding w/ metadata
+- [`opusenc`](https://wiki.xiph.org/Opus-tools) for Opus encoding w/ metadata
 
 ## FAQ
 
