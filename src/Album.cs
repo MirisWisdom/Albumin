@@ -26,8 +26,8 @@ using System.Xml.Serialization;
 using Gunloader.Programs;
 using Gunloader.Serialisation;
 using static System.Guid;
-using static System.IO.Path;
 using static System.IO.File;
+using static System.IO.Path;
 
 namespace Gunloader
 {
@@ -87,20 +87,26 @@ namespace Gunloader
       Tracks = album.Tracks;
     }
 
-    public void Hydrate(FileInfo records, Metadata metadata)
+    public void Hydrate(string[] records, Metadata metadata)
     {
-      var record = Record.Parse(records);
+      Title = records[0];
+      Video = records[1];
 
-      Video = record.Video;
-      Title = record.Title;
+      /* permit arbitrary number of blank lines between title+video & entries list */
+      var index = 2;
+      while (string.IsNullOrWhiteSpace(records[index]))
+        index++;
 
-      foreach (var entry in record.Entries)
+      /* entries parsing */
+      for (var i = index; i < records.Length; i++)
       {
+        var entry = records[i];
+        var split = entry.Split(' ');
         var track = new Track
         {
-          Number   = entry.Number,
-          Title    = entry.Title,
-          Start    = entry.Start,
+          Number   = split[0],
+          Start    = split[1],
+          Title    = string.Join(' ', split.Skip(2)),
           Metadata = metadata ?? new Metadata()
         };
 
@@ -130,6 +136,10 @@ namespace Gunloader
         Tracks.Add(track);
       }
 
+      /**
+       * Infer each Track's ending time. Current Track's ending time = next Track's starting time.
+       */
+
       foreach (var track in Tracks)
       {
         var next = Tracks.FindIndex(r => r.Number.Equals(track.Number));
@@ -146,52 +156,8 @@ namespace Gunloader
       if (!records.Extension.Contains("txt") || !records.Exists)
         throw new ArgumentException("A valid plaintext records file must exist.");
 
-      Hydrate(records, metadata);
+      Hydrate(ReadAllLines(records.FullName), metadata);
       Save(serialisation);
-    }
-
-    public class Record
-    {
-      public string      Title   { get; set; } = string.Empty;
-      public string      Video   { get; set; } = string.Empty;
-      public List<Entry> Entries { get; set; } = new();
-
-      public static Record Parse(FileInfo file)
-      {
-        var record = new Record();
-        var lines  = ReadAllLines(file.FullName);
-
-        record.Title = lines[0];
-        record.Video = lines[1];
-
-        /* permit arbitrary number of blank lines between title+video & entries list */
-        var index = 2;
-        while (string.IsNullOrWhiteSpace(lines[index]))
-          index++;
-
-        /* entries parsing */
-        for (var i = index; i < lines.Length; i++)
-        {
-          var entry = lines[i];
-          var split = entry.Split(' ');
-
-          record.Entries.Add(new Entry
-          {
-            Number = split[0],
-            Start  = split[1],
-            Title  = string.Join(' ', split.Skip(2))
-          });
-        }
-
-        return record;
-      }
-
-      public class Entry
-      {
-        public string Number { get; set; } = string.Empty;
-        public string Start  { get; set; } = string.Empty;
-        public string Title  { get; set; } = string.Empty;
-      }
     }
   }
 }
