@@ -89,7 +89,7 @@ namespace Gunloader
 
     public void Hydrate(string[] records, Metadata metadata)
     {
-      Title = records[0];
+      Title = records[0].Trim();
       Video = records[1];
 
       /* permit arbitrary number of blank lines between title+video & entries list */
@@ -106,7 +106,7 @@ namespace Gunloader
         {
           Number   = split[0],
           Start    = split[1],
-          Title    = string.Join(' ', split.Skip(2)),
+          Title    = string.Join(' ', split.Skip(2)).Trim(),
           Metadata = metadata ?? new Metadata()
         };
 
