@@ -51,6 +51,11 @@ namespace Gunloader
         }
       },
       {
+        "interactive|wizard",
+        "use interactive wizard for setting everything up",
+        s => Interactive = s != null
+      },
+      {
         "format=|encoding=",
         "audio encoding format; supported values: mp3, flac, vorbis, opus",
         s =>

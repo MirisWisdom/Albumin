@@ -27,15 +27,20 @@ namespace Gunloader
    */
   public static partial class Program
   {
-    public static string   Source   { get; set; }
-    public static FileInfo Record   { get; set; }
-    public static FileInfo Batch    { get; set; }
-    public static Metadata Metadata { get; set; } = new();
-    public static Toolkit  Toolkit  { get; set; } = new();
+    public static bool     Interactive { get; set; }
+    public static string   Source      { get; set; }
+    public static FileInfo Record      { get; set; }
+    public static FileInfo Batch       { get; set; }
+    public static Metadata Metadata    { get; set; } = new();
+    public static Toolkit  Toolkit     { get; set; } = new();
 
     public static void Main(string[] args)
     {
       OptionSet.Parse(args);
+
+      if (Interactive)
+        Wizard();
+
       Invoke();
     }
 
