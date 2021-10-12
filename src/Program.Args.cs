@@ -133,6 +133,15 @@ namespace Gunloader
         }
       },
       {
+        "no-prompt",
+        "don't prompt to review the generated .gun file",
+        s =>
+        {
+          if (s != null)
+            Prompt = false;
+        }
+      },
+      {
         "ffmpeg=",
         "optional path to ffmpeg for audio & cover extraction",
         s => Toolkit.FFmpeg.Program = s

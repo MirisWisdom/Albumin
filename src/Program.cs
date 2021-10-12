@@ -28,6 +28,7 @@ namespace Gunloader
    */
   public static partial class Program
   {
+    public static bool           Prompt   { get; set; } = true;
     public static List<FileInfo> Records  { get; set; } = new();
     public static Metadata       Metadata { get; set; } = new();
     public static Toolkit        Toolkit  { get; set; } = new();
@@ -51,9 +52,12 @@ namespace Gunloader
         var album = new Album();
         album.Compile(record, Metadata, Toolkit.Serialisation);
 
-        WriteLine($"Compiled '{album.Storage.Name}'.");
-        WriteLine(@"Feel free to review/edit it, then press any key to continue...");
-        ReadLine();
+        if (Prompt)
+        {
+          WriteLine($"Compiled '{album.Storage.Name}'.");
+          WriteLine(@"Feel free to review/edit it, then press any key to continue...");
+          ReadLine();
+        }
 
         album.Load(Toolkit.Serialisation);
         album.Encode(Toolkit);
