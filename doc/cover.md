@@ -6,4 +6,4 @@ The frame of the cover art will always be **30 seconds** after the **start** of 
 
 ![cover diagram](./cover.png)
 
-If an existing local image is assigned as the [track](./track.md)'s cover art in its [metadata](./metadata.md), then the aforementioned extracting process will be skipped.
+If an existing local image is assigned as the [track](./track.md)'s cover art in its [track metadata](./track.md), then the aforementioned extracting process will be skipped.

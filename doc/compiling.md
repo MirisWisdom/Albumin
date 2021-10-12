@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Before Gunloader [encodes](./encoding.md) the given video to music files, it first compiles the given [record](./record.md) and [metadata](./metadata.md) to a `.gun` file. The values in this file will be used during encoding, so it's recommended to review it! You have granular control over every single [track](./track.md)'s information.
+Before Gunloader [encodes](./encoding.md) the given video to music files, it first compiles the given [album record](./album.md) and [track metadata](./track.md) to a `.gun` file. The values in this file will be used during encoding, so it's recommended to review it! You have granular control over every single [track](./track.md)'s information.
 
 This is what the file tends to look like:
 
@@ -55,4 +55,4 @@ The values in this file will be used for the encoding mechanism. Saving the data
 
 - Ability to review and edit the values with granularity over each [track](./track.md).
 - Re-using the file down the line for repeating the [encoding](./encoding.md) procedure.
-- Centralising the [metadata](./metadata.md) and [record](./record.md) values into one location.
+- Centralising the [track metadata](./track.md) and [album record](./album.md) values into one location.

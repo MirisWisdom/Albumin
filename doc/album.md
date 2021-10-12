@@ -1,8 +1,12 @@
 # Album
 
-An album represents a YouTube (or local) video, along with the [tracks](./track.md) inside it. When [encoding](./encoding.md) an album, each Track will be extracted from the respective video, and then encoded into the desired format.
+An album represents a YouTube (or local) video, along with the [tracks](./track.md) inside it. When [encoding](./encoding.md) an album, each track will be extracted from the respective video, and then encoded into the desired format.
 
-The [records](./record.md) file represents the title, sourcec video and [tracks](./track.md) that belong to the respective album:
+Record files are plain text files for you to create and fill out with the bare minimum information that Gunloader needs:
+
+- album title
+- video source -- either a YouTube video or a local file
+- [tracks](./track.md)' numbers, starting times and titles.
 
 ```
 90's RB-XYZ Ver.2               - title

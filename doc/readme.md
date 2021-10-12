@@ -2,16 +2,8 @@
 
 This directory contains the documentation for the concept and mechanisms of Gunloader:
 
-**Album**
-
 - [Album](./album.md)
-- [Album Records](./record.md)
-
-**Track**
-
 - [Track](./track.md)
-- [Track Metadata](./metadata.md)
-
 
 **Extra Information**
 
