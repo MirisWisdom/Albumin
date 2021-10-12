@@ -49,7 +49,7 @@ This is what the file tends to look like:
 
 ## In-depth Pedantry
 
-Compiling refers to serialising the [album](./album.md) or [batch](./batch.md) object to a `.gun` file. Gunloader first [hydrates](./hydration.md) the album or batch object, then serialises the properties to the aforementioned `.gun` file, either in JSON or XML format.
+Compiling refers to serialising the [album](./album.md) object to a `.gun` file. Gunloader first [hydrates](./hydration.md) the album object, then serialises the properties to the aforementioned `.gun` file, either in JSON or XML format.
 
 The values in this file will be used for the encoding mechanism. Saving the data to a file provides advantages such as:
 

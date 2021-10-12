@@ -1,15 +1,10 @@
-# Record Files
+# Album Records
 
-Record files are plain text files for you to create and fill out with the bare minimum information that Gunloader needs, i.e.
+Record files are plain text files for you to create and fill out with the bare minimum information that Gunloader needs:
 
-- the [tracks](./track.md) in an [album](./album.md)
-- the [albums](./album.md) in a [batch](./batch.md)
-
-They are meant to be simple and straightforward to edit.
-
-## Album Records
-
-Album records list out the [tracks](./track.md)' numbers, starting times, and titles:
+- album title
+- video source
+- [tracks](./track.md)' numbers, starting times and titles.
 
 ```
 90's RB-XYZ Ver.2               - title
@@ -24,16 +19,4 @@ https://youtu.be/divcisums90    - source
  |       |             +--------- track title
  |       +----------------------- starting time
  +------------------------------- track number
-```
-
-## Batch Records
-
-Batch records list out the [albums](./album.md)' records files:
-
-```
-some-album-record.txt  - album 1
-/music/90's RB-016.txt - album 2
-c:\\90's RB-019.txt    - album 3
-|-----------------|
-                  +----- album record file path
 ```

@@ -16,6 +16,7 @@
  * along with Gunloader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Collections.Generic;
 using System.IO;
 using static System.Console;
 using static System.Environment;
@@ -27,10 +28,9 @@ namespace Gunloader
    */
   public static partial class Program
   {
-    public static FileInfo Record   { get; set; }
-    public static FileInfo Batch    { get; set; }
-    public static Metadata Metadata { get; set; } = new();
-    public static Toolkit  Toolkit  { get; set; } = new();
+    public static List<FileInfo> Records  { get; set; } = new();
+    public static Metadata       Metadata { get; set; } = new();
+    public static Toolkit        Toolkit  { get; set; } = new();
 
     public static void Main(string[] args)
     {
@@ -38,47 +38,28 @@ namespace Gunloader
       Invoke();
     }
 
-    public static void Prompt(string entity)
-    {
-      WriteLine(new string('-', 80));
-      WriteLine($"Compiled '{entity}'.");
-      WriteLine(@"Feel free to review/edit it, then press any key to continue...");
-      WriteLine(new string('-', 80));
-      ReadLine();
-    }
-
     public static void Invoke()
     {
-      if (Record != null)
+      if (Records.Count == 0)
+      {
+        WriteLine("Please provide at least one valid album records file.");
+        Exit(1);
+      }
+
+      foreach (var record in Records)
       {
         var album = new Album();
-        album.Compile(Record, Metadata, Toolkit.Serialisation);
+        album.Compile(record, Metadata, Toolkit.Serialisation);
 
-        Prompt(album.Storage.Name);
+        WriteLine($"Compiled '{album.Storage.Name}'.");
+        WriteLine(@"Feel free to review/edit it, then press any key to continue...");
+        ReadLine();
 
         album.Load(Toolkit.Serialisation);
         album.Encode(Toolkit);
-
-        Exit(0);
       }
 
-      if (Batch != null)
-      {
-        var batch = new Batch();
-        batch.Compile(Batch, Metadata, Toolkit.Serialisation);
-
-        Prompt(batch.Storage.Name);
-
-        batch.Load(Toolkit.Serialisation);
-
-        foreach (var album in batch.Albums)
-          album.Encode(Toolkit);
-
-        Exit(0);
-      }
-
-      WriteLine("Please provide a valid records or batch file.");
-      Exit(1);
+      Exit(0);
     }
   }
 }

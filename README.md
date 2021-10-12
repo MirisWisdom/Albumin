@@ -25,32 +25,15 @@ This project allows you to transform long YouTube album videos into properly cur
 - Embedded cover art, using thumbnails derived from the provided video using, or an existing image
 - Batch processing of multiple album videos from YouTube or local videos
 
-## Usage
+## Album Records
 
-| Parameter         | Description                                                                              |
-| ----------------- | ---------------------------------------------------------------------------------------- |
-| `--format=VALUE`  | audio encoding format; supported values: `mp3`, `flac`, `vorbis`, `opus`                 |
-| `--tracks=VALUE`  | path to records file with track numbers, timestamps and song titles                      |
-| `--batch=VALUE`   | encode (and download) albums specified in the given batch file                           |
-| `--artist=VALUE`  | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
-| `--genre=VALUE`   | genre to assign to the tracks' metadata                                                  |
-| `--comment=VALUE` | comment to assign to the tracks' metadata                                                |
-| `--cover=VALUE`   | optional path to album art image for assigning to songs                                  |
-| `--xml`           | use xml format instead of json                                                           |
+The [records](./doc/album.md) file contains the main album information:
 
-### Tracks Records
-
-The records file specifies each song's track number, starting time in the video, and the title of the track.
-
-For simplicity, create a text file representing the album. The first two lines contain the album title and video source.
-
-Subsequent lines represent the tracks. Each *must* comprise of the following attributes, in the given order:
-
-1. Track number
-2. Starting time in the provided video
-3. Title of the track
-
-Each attribute is separated by a space. Example of a valid file:
+- The first two lines specify the album title and video source. The video source can be either a YouTube URL or a local video file.
+- Subsequent lines represent the tracks. Each *must* comprise of the following attributes, in the given order and separated by spaces:
+  1. Track number
+  2. Starting time in the provided video
+  3. Title of the track
 
 ```
 90'sアニメ主題歌セレクション RB-XYZ【奇跡の向こう側へ】 Ver.2
@@ -62,16 +45,25 @@ https://youtu.be/divcisums90
 04 0:12:23 LOVE SOMEBODY - 福井麻利子 「逮捕しちゃうぞ」一期OP3
 ```
 
-### Single Album
+## Usage
 
-Create the records file as specified above, then invoke the program as necessary:
+| Parameter         | Description                                                                              |
+| ----------------- | ---------------------------------------------------------------------------------------- |
+| `--format=VALUE`  | audio encoding format; supported values: `mp3`, `flac`, `vorbis`, `opus`                 |
+| `--album=VALUE`   | path to album record file(s) (see above); multiple `--album 'abc.txt' --album 'xyz.txt'` |
+| `--artist=VALUE`  | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
+| `--genre=VALUE`   | genre to assign to the tracks' metadata                                                  |
+| `--comment=VALUE` | comment to assign to the tracks' metadata                                                |
+| `--cover=VALUE`   | optional path to album art image for assigning to songs                                  |
+| `--xml`           | use xml format instead of json                                                           |
+
+Create the records file as described above, then invoke the program:
 
 ```shell
 ./gunloader \
-    # file with track times & titles (see above)
     --album '~/album.txt' \
 
-    # mass fill with metadata
+    # mass fill with optional metadata
     --genre "OP/ED/IN/IM" \
     --artist "Various" --artist "Artists" \
     --comment 'Very Important Music'
@@ -80,30 +72,6 @@ Create the records file as specified above, then invoke the program as necessary
 The program will compile the provided records file and metadata into a [`.gun` file](./doc/compiling.md). Please review it and ensure that the values are your desired ones. The values in this file will be used for the encoding process.
 
 Also, XML can be used instead of JSON by passing `--xml` as a parameter.
-
-### Batch Albums
-
-Create a text file which lists the album record files:
-
-```
-some-album-record.txt
-90'sアニメ主題歌セレクション RB-016【愛がたりないぜ】.txt
-90'sアニメ主題歌セレクション RB-019【傷だらけのツバサ】.txt
-```
-
-Then, invoke the program with the `--batch <batch file>` argument:
-
-```shell
-./gunloader \
-    --batch "90s-albums.txt" \
-
-    # mass fill with metadata
-    --genre "OP/ED/IN/IM" \
-    --artist "Various"  --artist "Artists" \
-    --comment 'Very Important Music'
-```
-
-Like the records file, the program will compile a more flexible JSON version of the batch file containing all of the albums.
 
 ## Dependencies
 

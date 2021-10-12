@@ -88,29 +88,18 @@ namespace Gunloader
       },
       {
         "album=|tracks=|records=|timestamps=|cue=",
-        "path to album records file with track numbers, timestamps and song titles",
+        "path to album records file(s); multiple: --album 'abc.txt' --album 'xyz.txt'",
         s =>
         {
-          Record = new FileInfo(s);
+          var record = new FileInfo(s);
 
-          if (Record.Exists && Record.Extension.Contains("txt"))
+          if (record.Exists && record.Extension.Contains("txt"))
+          {
+            Records.Add(record);
             return;
+          }
 
-          WriteLine("Please provide a valid records file!");
-          Exit(1);
-        }
-      },
-      {
-        "batch=",
-        "encode (and download) albums specified in the given batch file",
-        s =>
-        {
-          Batch = new FileInfo(s);
-
-          if (Batch.Exists && Batch.Extension.Contains("txt"))
-            return;
-
-          WriteLine("Please provide a valid batch file!");
+          WriteLine("Please provide a valid records file that exists on your system!");
           Exit(1);
         }
       },
