@@ -77,7 +77,7 @@ namespace Gunloader
             case "opus":
             case "opusenc":
               Toolkit.Encoder      = new Opus();
-              Toolkit.FFmpeg.Lossy = false;
+              Toolkit.FFmpeg.Lossy = true;
               break;
             default:
               WriteLine("Unknown format provided!");
