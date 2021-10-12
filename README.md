@@ -22,7 +22,7 @@ This project allows you to transform long YouTube album videos into properly cur
 - Support for FLAC, MP3, Vorbis and Opus encoding formats
 - Tagging abilities (title, album, artist(s), comment, genre, etc.)
 - Downloading using YouTube-DL, or using an existing video file
-- Embedded cover art, using thumbnails derived from the provided video using, or an existing image
+- Embedded cover art, using thumbnails derived from the provided video, or using an existing image
 - Batch processing of multiple album videos from YouTube or local videos
 
 ## Album Records
