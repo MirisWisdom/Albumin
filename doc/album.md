@@ -22,3 +22,11 @@ https://youtu.be/divcisums90    - source
  |       +----------------------- starting time
  +------------------------------- track number
 ```
+
+## YouTube Chapters
+
+A special mode has been introduced in v0.6.0, where Gunloader can attempt to retrieve chapter metadata from YouTube for each Track's Title, Starting Time and Ending Time.
+
+To activate this mode, the records file must have a **YouTube Video URL** in its **first line**. Of course, the YouTube video in question must have chapters set for it.
+
+If Gunloader cannot infer any chapters, it will resort to parsing the tracks specified in the records file if any are available.

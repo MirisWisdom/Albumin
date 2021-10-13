@@ -28,6 +28,7 @@ using Gunloader.Serialisation;
 using static System.Guid;
 using static System.IO.File;
 using static System.IO.Path;
+using static System.TimeSpan;
 
 namespace Gunloader
 {
@@ -101,14 +102,60 @@ namespace Gunloader
       Tracks = album.Tracks;
     }
 
-    public void Hydrate(FileInfo record, Metadata metadata)
+    public void Hydrate(FileInfo record, Metadata metadata, YTDL ytdl = null)
     {
       var records = ReadAllLines(record.FullName)
         .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#') && !line.StartsWith(';'))
         .ToArray();
 
-      Title  = records[0].Trim();
-      Source = records[1].Trim();
+      /**
+       * Attempt to infer tracks from given YouTube video based on chapters metadata.
+       *
+       * This is only done when the first line in the Records file represents a YouTube URL Source! 
+       */
+
+      if (records[0].Contains("http") && records[0].Contains("youtu"))
+      {
+        Source = records[0].Trim();
+
+        var video = new Video();
+        video.Load(Source, ytdl);
+
+        Title = video.Title;
+
+        for (var i = 0; i < video.Chapters.Count; i++)
+        {
+          var chapter = video.Chapters[i];
+          var start   = FromSeconds(chapter.Start);
+          var end     = FromSeconds(chapter.End);
+          var track = new Track
+          {
+            Title    = chapter.Title,
+            Number   = $"{i + 1}",
+            Start    = $"{start.Hours:00}:{start.Minutes:00}:{start.Seconds:00}",
+            End      = $"{end.Hours:00}:{end.Minutes:00}:{end.Seconds:00}",
+            Metadata = metadata
+          };
+
+          if (string.IsNullOrWhiteSpace(track.Metadata.Comment))
+            track.Metadata.Comment = Source;
+
+          Tracks.Add(track);
+        }
+
+        if (Tracks.Any())
+          return;
+      }
+      else
+      {
+        Title  = records[0].Trim();
+        Source = records[1].Trim();
+      }
+
+      /**
+       * Parse the Records file when the first line is NOT a YouTube video, or when no Tracks have been successfully
+       * inferred from YouTube chapters.
+       */
 
       foreach (var entry in records.Skip(2))
       {
@@ -146,7 +193,6 @@ namespace Gunloader
 
         Tracks.Add(track);
       }
-
       /**
        * Infer each Track's ending time. Current Track's ending time = next Track's starting time.
        */
@@ -162,12 +208,12 @@ namespace Gunloader
       }
     }
 
-    public void Compile(FileInfo records, Metadata metadata, ISerialisation serialisation)
+    public void Compile(FileInfo records, Metadata metadata, ISerialisation serialisation, YTDL ytdl = null)
     {
       if (!records.Extension.Contains("txt") || !records.Exists)
         throw new ArgumentException("A valid plaintext records file must exist.");
 
-      Hydrate(records, metadata);
+      Hydrate(records, metadata, ytdl);
       Save(serialisation);
     }
   }
