@@ -140,6 +140,9 @@ namespace Gunloader
           if (string.IsNullOrWhiteSpace(track.Metadata.Comment))
             track.Metadata.Comment = Source;
 
+          if (string.IsNullOrWhiteSpace(track.Metadata.Album))
+            track.Metadata.Album = Title;
+
           Tracks.Add(track);
         }
 
