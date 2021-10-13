@@ -36,7 +36,7 @@ namespace Gunloader
     /* fallback static id for album directory & .gun file name */
     private static readonly string ID = NewGuid().ToString();
 
-    [JsonPropertyName("video")]  public string      Video  { get; set; } = string.Empty;
+    [JsonPropertyName("video")]  public string      Source { get; set; } = string.Empty;
     [JsonPropertyName("title")]  public string      Title  { get; set; } = string.Empty;
     [JsonPropertyName("tracks")] public List<Track> Tracks { get; set; } = new();
 
@@ -52,19 +52,19 @@ namespace Gunloader
 
     public FileInfo Download(YTDL YTDL)
     {
-      return YTDL.Download(Video, new FileInfo(NewGuid().ToString()));
+      return YTDL.Download(Source, new FileInfo(NewGuid().ToString()));
     }
 
     public void Encode(Toolkit toolkit)
     {
-      var video = Video.Contains("https://youtu") ? Download(toolkit.YTDL) : new FileInfo(Video);
+      var video = Source.Contains("https://youtu") ? Download(toolkit.YTDL) : new FileInfo(Source);
 
       if (!Target.Exists)
         Target.Create();
 
       foreach (var track in Tracks)
       {
-        var encoded = track.Encode(toolkit, new FileInfo(Video));
+        var encoded = track.Encode(toolkit, new FileInfo(Source));
         var final   = Combine(Target.FullName, $"{track.Number}. {track.Normalised}{encoded.Extension}");
 
         encoded.MoveTo(final);
@@ -82,7 +82,7 @@ namespace Gunloader
     public void Load(ISerialisation serialisation)
     {
       var album = serialisation.Hydrate<Album>(Storage);
-      Video  = album.Video;
+      Source = album.Source;
       Title  = album.Title;
       Tracks = album.Tracks;
     }
@@ -93,8 +93,8 @@ namespace Gunloader
         .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#') && !line.StartsWith(';'))
         .ToArray();
 
-      Title = records[0].Trim();
-      Video = records[1];
+      Title  = records[0].Trim();
+      Source = records[1].Trim();
 
       foreach (var entry in records.Skip(2))
       {
@@ -120,14 +120,14 @@ namespace Gunloader
 
         if (string.IsNullOrWhiteSpace(track.Metadata.Comment))
         {
-          var id   = GetFileNameWithoutExtension(Video) ?? string.Empty;
+          var id   = GetFileNameWithoutExtension(Source) ?? string.Empty;
           var rule = new Regex("[a-zA-Z0-9_-]{11}");
 
           if (rule.IsMatch(id))
             track.Metadata.Comment = $"https://youtu.be/{id}";
 
-          if (Video != null && Video.Contains("http"))
-            track.Metadata.Comment = Video;
+          if (Source != null && Source.Contains("http"))
+            track.Metadata.Comment = Source;
         }
 
         Tracks.Add(track);
