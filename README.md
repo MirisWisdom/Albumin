@@ -9,12 +9,14 @@
         <img src='https://user-images.githubusercontent.com/10241434/135048812-156d9a9a-0218-42e8-9bcf-1b67ff7acbef.png'>
         <br>
         <img src='https://user-images.githubusercontent.com/10241434/135047939-dc7c2d36-a10c-4be2-ae0c-4961c3cb1a20.png'>
+        <br>
+        <a href='https://github.com/yumiris/Gunloader/releases/latest'>Download Latest Release</a>
     </p>
 </html>
 
 ## Introduction
 
-This project allows you to transform long YouTube album videos into properly curated songs, with support for popular audio formats.
+This project allows you to transform long YouTube album videos into properly curated songs, with support for popular audio formats. It's not just for YouTube, but any website that YouTube-DL supports, and any video/audio that FFmpeg supports.
 
 ## Features
 
@@ -29,8 +31,8 @@ This project allows you to transform long YouTube album videos into properly cur
 
 The [records](./doc/album.md) file contains the main album information:
 
-- The first two lines specify the album title and video source. The video source can be either a YouTube URL or a local video file.
-- Subsequent lines represent the tracks. Each *must* comprise of the following attributes, in the given order and separated by spaces:
+- The **first two lines** specify the **album title** and **video source**. The video source can be either a YouTube URL or a local video file.
+- **Subsequent lines represent the tracks**. Each line *must* comprise of the following attributes, in the given order and separated by spaces:
   1. Track number
   2. Starting time in the provided video
   3. Title of the track
@@ -47,6 +49,29 @@ https://youtu.be/divcisums90
 
 ## Usage
 
+First, create the records file as described above. Once you're done, invoke the program:
+
+```shell
+./gunloader \
+    # records file
+    --album '~/album.txt' \
+    --album '~/another-album.txt'
+
+    # encoding of choice (default is flac)
+    --format flac \
+
+    # mass fill with optional metadata
+    --genre "OP/ED/IN/IM" \
+    --artist "Various" --artist "Artists" \
+    --comment 'Very Important Music'
+```
+
+The program will first generate a [`.gun` file](./doc/compiling.md) describing the tracks. Feel free to review and edit each track's metadata and whatnot as necessary.
+
+Once you're ready, continue with the program and it will start curating the video into separate songs.
+
+### Parameters
+
 | Parameter         | Description                                                                              |
 | ----------------- | ---------------------------------------------------------------------------------------- |
 | `--format=VALUE`  | audio encoding format; supported values: `mp3`, `flac`, `vorbis`, `opus`                 |
@@ -55,23 +80,12 @@ https://youtu.be/divcisums90
 | `--genre=VALUE`   | genre to assign to the tracks' metadata                                                  |
 | `--comment=VALUE` | comment to assign to the tracks' metadata                                                |
 | `--cover=VALUE`   | optional path to album art image for assigning to songs                                  |
-| `--xml`           | use xml format instead of json                                                           |
 
-Create the records file as described above, then invoke the program:
+Additional parameters can be found using `--help`.
 
-```shell
-./gunloader \
-    --album '~/album.txt' \
+## Installation
 
-    # mass fill with optional metadata
-    --genre "OP/ED/IN/IM" \
-    --artist "Various" --artist "Artists" \
-    --comment 'Very Important Music'
-```
-
-The program will compile the provided records file and metadata into a [`.gun` file](./doc/compiling.md). Please review it and ensure that the values are your desired ones. The values in this file will be used for the encoding process.
-
-Also, XML can be used instead of JSON by passing `--xml` as a parameter.
+Download [the latest release from here](https://github.com/yumiris/Gunloader/releases/latest), and also make sure you have the dependencies you need installed. See below for further information!
 
 ## Dependencies
 
@@ -81,6 +95,24 @@ Also, XML can be used instead of JSON by passing `--xml` as a parameter.
 - [`flac`](https://xiph.org/flac/) for FLAC encoding w/ metadata
 - [`oggenc`](https://www.xiph.org/vorbis/) for Vorbis encoding w/ metadata
 - [`opusenc`](https://wiki.xiph.org/Opus-tools) for Opus encoding w/ metadata
+
+If you need to specify a dependency's executable to the program, do it like so:
+
+```shell
+./gunloader \
+    # records file
+    --album '~/album.txt' \
+
+    # paths to dependencies
+    --ffmpeg "c:\\ffmpeg.exe" \
+    --flac '/bin/flac'
+    --youtube-dl ~/ytdl
+
+    # mass fill with optional metadata
+    --genre "OP/ED/IN/IM" \
+    --artist "Various" --artist "Artists" \
+    --comment 'Very Important Music'
+```
 
 ## FAQ
 
