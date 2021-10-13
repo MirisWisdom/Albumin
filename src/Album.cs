@@ -42,8 +42,22 @@ namespace Gunloader
 
     [JsonIgnore]
     [XmlIgnore]
-    public DirectoryInfo Target /* album title // guid on empty album */
-      => new(string.IsNullOrWhiteSpace(Title) ? ID : Title);
+    public DirectoryInfo Target /* normalised album title // guid on empty album */
+      => new(string.IsNullOrWhiteSpace(Title)
+        ? ID
+        : new[]
+        {
+          "<",  /* win */
+          ">",  /* win */
+          ":",  /* win */
+          "\"", /* win */
+          "/",  /* lin */
+          "\\", /* win */
+          "|",  /* win */
+          "?",  /* win */
+          "*"   /* win */
+        }.Aggregate(Title, (current, character) =>
+          current.Replace(character, "")));
 
     [JsonIgnore]
     [XmlIgnore]
