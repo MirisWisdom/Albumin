@@ -87,20 +87,17 @@ namespace Gunloader
       Tracks = album.Tracks;
     }
 
-    public void Hydrate(string[] records, Metadata metadata)
+    public void Hydrate(FileInfo record, Metadata metadata)
     {
+      var records = ReadAllLines(record.FullName)
+        .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#') && !line.StartsWith(';'))
+        .ToArray();
+
       Title = records[0].Trim();
       Video = records[1];
 
-      /* permit arbitrary number of blank lines between title+video & entries list */
-      var index = 2;
-      while (string.IsNullOrWhiteSpace(records[index]))
-        index++;
-
-      /* entries parsing */
-      for (var i = index; i < records.Length; i++)
+      foreach (var entry in records.Skip(2))
       {
-        var entry = records[i];
         var split = entry.Split(' ');
         var track = new Track
         {
@@ -156,7 +153,7 @@ namespace Gunloader
       if (!records.Extension.Contains("txt") || !records.Exists)
         throw new ArgumentException("A valid plaintext records file must exist.");
 
-      Hydrate(ReadAllLines(records.FullName), metadata);
+      Hydrate(records, metadata);
       Save(serialisation);
     }
   }
