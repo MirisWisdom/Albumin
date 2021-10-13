@@ -26,6 +26,7 @@ This project allows you to transform long YouTube album videos into properly cur
 - Downloading using YouTube-DL, or using an existing video file
 - Embedded cover art, using thumbnails derived from the provided video, or using an existing image
 - Batch processing of multiple album videos from YouTube or local videos
+- Song information can be read from a file, or from a YouTube video's chapters/timeline
 
 ## Album Records
 
@@ -46,6 +47,13 @@ https://youtu.be/divcisums90
 03 0:08:48 僕であるために - FLYING KIDS 「逮捕しちゃうぞ」一期OP2
 04 0:12:23 LOVE SOMEBODY - 福井麻利子 「逮捕しちゃうぞ」一期OP3
 ```
+
+## YouTube Chapters
+
+If you want Gunloader to attempt to use a YouTube video's chapter information for the songs, please:
+
+1. Ensure the YouTube video in question has **chapters in its timeline**; and
+2. Create a [records](./doc/album.md) file containing a **YouTube video URL** in the **first line**!
 
 ## Usage
 

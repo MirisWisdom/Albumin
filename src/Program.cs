@@ -50,7 +50,7 @@ namespace Gunloader
       foreach (var record in Records)
       {
         var album = new Album();
-        album.Compile(record, Metadata, Toolkit.Serialisation);
+        album.Compile(record, Metadata, Toolkit.Serialisation, Toolkit.YTDL);
 
         if (Prompt)
         {

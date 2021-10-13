@@ -18,7 +18,9 @@
 
 using System.Diagnostics;
 using System.IO;
+using static System.Diagnostics.Process;
 using static System.Environment;
+using static System.IO.Directory;
 
 namespace Gunloader.Programs
 {
@@ -28,7 +30,7 @@ namespace Gunloader.Programs
 
     public FileInfo Download(string download, FileInfo output)
     {
-      Process.Start(new ProcessStartInfo
+      Start(new ProcessStartInfo
       {
         FileName = Program,
         Arguments = $"{download} " +
@@ -39,7 +41,24 @@ namespace Gunloader.Programs
        * Infer file extension of the downloaded file.
        */
 
-      return new FileInfo(Directory.GetFiles(CurrentDirectory, $"{output.Name}*")[0]);
+      return new FileInfo(GetFiles(CurrentDirectory, $"{output.Name}*")[0]);
+    }
+
+    public FileInfo Metadata(string download, FileInfo output)
+    {
+      Start(new ProcessStartInfo
+      {
+        FileName = Program,
+        Arguments = $"{download} "                        +
+                    @"--skip-download --write-info-json " +
+                    $"--output {output.Name}"
+      })?.WaitForExit();
+
+      /**
+       * Infer file extension of the downloaded file.
+       */
+
+      return new FileInfo(GetFiles(CurrentDirectory, $"{output.Name}*.json")[0]);
     }
   }
 }
