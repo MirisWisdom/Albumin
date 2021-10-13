@@ -72,7 +72,9 @@ namespace Gunloader
 
     public void Encode(Toolkit toolkit)
     {
-      var video = Source.Contains("https://youtu") ? Download(toolkit.YTDL) : new FileInfo(Source);
+      var video = Source.Contains("http")
+        ? Download(toolkit.YTDL) 
+        : new FileInfo(Source);
 
       if (!Target.Exists)
         Target.Create();
