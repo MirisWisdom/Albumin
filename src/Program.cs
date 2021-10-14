@@ -18,8 +18,11 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Gunloader.Albums;
 using static System.Console;
 using static System.Environment;
+using static System.IO.File;
 
 namespace Gunloader
 {
@@ -49,8 +52,13 @@ namespace Gunloader
 
       foreach (var record in Records)
       {
-        var album = new Album();
-        album.Compile(record, Metadata, Toolkit.Serialisation, Toolkit.YTDL);
+        var first = ReadLines(record.FullName).First();
+
+        Album album = first.Contains("https") && first.Contains("youtu")
+          ? new YouTube(first, Toolkit.YTDL)
+          : new Albums.Gunloader(record);
+
+        album.Compile(Metadata, Toolkit.Serialisation);
 
         if (Prompt)
         {
