@@ -124,11 +124,6 @@ namespace Gunloader
         s => Metadata.Comment = s
       },
       {
-        "query|chapters|timeline|online",
-        "attempt ot query tracks from youtube video",
-        s => Query = s != null
-      },
-      {
         "xml",
         "use xml format instead of json",
         s =>

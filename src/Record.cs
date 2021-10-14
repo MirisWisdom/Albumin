@@ -25,22 +25,18 @@ namespace Gunloader
 {
   public class Record
   {
-    public Record(FileInfo file, bool load = false)
-    {
-      File = file;
+    public string            Title   { get; set; } = string.Empty;
+    public string            Source  { get; set; } = string.Empty;
+    public List<RecordEntry> Entries { get; set; } = new();
 
-      if (load)
-        Load();
+    public void Hydrate(FileInfo file)
+    {
+      Hydrate(ReadAllLines(file.FullName));
     }
 
-    private FileInfo          File    { get; }
-    public  string            Title   { get; set; } = string.Empty;
-    public  string            Source  { get; set; } = string.Empty;
-    public  List<RecordEntry> Entries { get; set; } = new();
-
-    public void Load()
+    public void Hydrate(string[] data)
     {
-      var lines = ReadAllLines(File.FullName)
+      var lines = data
         .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#') && !line.StartsWith(';'))
         .ToArray();
 

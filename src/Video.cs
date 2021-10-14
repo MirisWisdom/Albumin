@@ -19,7 +19,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json.Serialization;
-using System.Xml.Serialization;
 using Gunloader.Programs;
 using static System.Guid;
 using static System.IO.File;
@@ -29,31 +28,31 @@ namespace Gunloader
 {
   public class Video
   {
-    public Video(string source, YTDL ytdl, bool load = false)
-    {
-      Source = source;
-      YTDL   = ytdl;
+    [JsonPropertyName("id")]       public string        ID       { get; set; } = string.Empty;
+    [JsonPropertyName("url")]      public string        URL      { get; set; } = string.Empty;
+    [JsonPropertyName("title")]    public string        Title    { get; set; } = string.Empty;
+    [JsonPropertyName("chapters")] public List<Chapter> Chapters { get; set; } = new();
 
-      if (load)
-        Load();
+    public void Hydrate(FileInfo file)
+    {
+      Hydrate(ReadAllText(file.FullName));
     }
 
-    [JsonIgnore] [XmlIgnore]       private YTDL          YTDL     { get; set; }
-    [JsonPropertyName("url")]      public  string        Source   { get; set; }
-    [JsonPropertyName("id")]       public  string        ID       { get; set; } = string.Empty;
-    [JsonPropertyName("title")]    public  string        Title    { get; set; } = string.Empty;
-    [JsonPropertyName("chapters")] public  List<Chapter> Chapters { get; set; } = new();
-
-    public void Load()
+    public void Hydrate(YTDL ytdl, string source)
     {
-      var metadata = YTDL.Metadata(Source, new FileInfo(NewGuid().ToString()));
-      var video    = Deserialize<Video>(ReadAllText(metadata.FullName));
+      var metadata = ytdl.Metadata(source, new FileInfo(NewGuid().ToString()));
+      Hydrate(metadata);
+      metadata.Delete();
+    }
+
+    public void Hydrate(string json)
+    {
+      var video = Deserialize<Video>(json);
 
       ID       = video?.ID;
       Title    = video?.Title;
       Chapters = video?.Chapters;
-
-      metadata.Delete();
+      URL      = $"https://youtu.be/{video?.ID}";
     }
 
     public class Chapter
