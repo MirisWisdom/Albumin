@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 using Gunloader.Programs;
 using static System.Guid;
 using static System.IO.File;
@@ -28,13 +29,24 @@ namespace Gunloader
 {
   public class Video
   {
-    [JsonPropertyName("id")]       public string        ID       { get; set; } = string.Empty;
-    [JsonPropertyName("title")]    public string        Title    { get; set; } = string.Empty;
-    [JsonPropertyName("chapters")] public List<Chapter> Chapters { get; set; } = new();
-
-    public void Load(string source, YTDL ytdl)
+    public Video(string source, YTDL ytdl, bool load = false)
     {
-      var metadata = ytdl.Metadata(source, new FileInfo(NewGuid().ToString()));
+      Source = source;
+      YTDL   = ytdl;
+
+      if (load)
+        Load();
+    }
+
+    [JsonIgnore] [XmlIgnore]       private YTDL          YTDL     { get; set; }
+    [JsonPropertyName("url")]      public  string        Source   { get; set; }
+    [JsonPropertyName("id")]       public  string        ID       { get; set; } = string.Empty;
+    [JsonPropertyName("title")]    public  string        Title    { get; set; } = string.Empty;
+    [JsonPropertyName("chapters")] public  List<Chapter> Chapters { get; set; } = new();
+
+    public void Load()
+    {
+      var metadata = YTDL.Metadata(Source, new FileInfo(NewGuid().ToString()));
       var video    = Deserialize<Video>(ReadAllText(metadata.FullName));
 
       ID       = video?.ID;
