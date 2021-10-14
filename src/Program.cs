@@ -28,6 +28,7 @@ namespace Gunloader
    */
   public static partial class Program
   {
+    public static bool           Query    { get; set; } = false;
     public static bool           Prompt   { get; set; } = true;
     public static List<FileInfo> Records  { get; set; } = new();
     public static Metadata       Metadata { get; set; } = new();
@@ -51,7 +52,7 @@ namespace Gunloader
       
       foreach (var file in Records)
       {
-        var album = compiler.Compile(file, Metadata);
+        var album = compiler.Compile(file, Metadata, true);
 
         if (Prompt)
         {
