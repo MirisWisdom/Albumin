@@ -65,7 +65,7 @@ First, create the records file as described above. Once you're done, invoke the 
     --album '~/album.txt' \
     --album '~/another-album.txt'
 
-    # encoding of choice (default is flac)
+    # encoding of choice (default is mp3)
     --format flac \
 
     # mass fill with optional metadata

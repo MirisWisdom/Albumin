@@ -26,7 +26,7 @@ namespace Gunloader
   {
     public FFmpeg         FFmpeg        { get; set; } = new();
     public YTDL           YTDL          { get; set; } = new();
-    public Encoder        Encoder       { get; set; } = new FLAC();
+    public Encoder        Encoder       { get; set; } = new LAME();
     public ISerialisation Serialisation { get; set; } = new JSON();
   }
 }
