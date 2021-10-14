@@ -2,6 +2,8 @@
 
 An album represents a YouTube (or local) video, along with the [tracks](./track.md) inside it. When [encoding](./encoding.md) an album, each track will be extracted from the respective video, and then encoded into the desired format.
 
+## Gunloader Records
+
 Record files are plain text files for you to create and fill out with the bare minimum information that Gunloader needs:
 
 - album title
@@ -27,6 +29,6 @@ https://youtu.be/divcisums90    - source
 
 A special mode has been introduced in v0.6.0, where Gunloader can attempt to retrieve chapter metadata from YouTube for each Track's Title, Starting Time and Ending Time.
 
-To activate this mode, the records file must have a **YouTube Video URL** in its **first line**. Of course, the YouTube video in question must have chapters set for it.
+To activate this mode, the given records file must have a **YouTube Video URL** in its **first line**. Of course, the YouTube video in question must have chapters set for it.
 
 If Gunloader cannot infer any chapters, it will resort to parsing the tracks specified in the records file if any are available.
