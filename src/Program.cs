@@ -47,10 +47,11 @@ namespace Gunloader
         Exit(1);
       }
 
-      foreach (var record in Records)
+      var compiler = new Compiler(Toolkit);
+      
+      foreach (var file in Records)
       {
-        var album = new Album();
-        album.Compile(record, Metadata, Toolkit.Serialisation, Toolkit.YTDL);
+        var album = compiler.Compile(file, Metadata);
 
         if (Prompt)
         {
