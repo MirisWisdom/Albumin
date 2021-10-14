@@ -27,6 +27,7 @@ This project allows you to transform long YouTube album videos into properly cur
 - Embedded cover art, using thumbnails derived from the provided video, or using an existing image
 - Batch processing of multiple album videos from YouTube or local videos
 - Song information can be read from a file, or from a YouTube video's chapters/timeline
+- Optional lossless splitting of the video's original audio, without any re-encoding whatsoever
 
 ## Album Records
 
@@ -68,6 +69,10 @@ First, create the records file as described above. Once you're done, invoke the 
     # encoding of choice (default is mp3)
     --format flac \
 
+    # losslessly split the original audio
+    # no metadata or re-encoding is applied
+    --format raw \
+
     # mass fill with optional metadata
     --genre "OP/ED/IN/IM" \
     --artist "Various" --artist "Artists" \
@@ -82,7 +87,7 @@ Once you're ready, continue with the program and it will start curating the vide
 
 | Parameter         | Description                                                                              |
 | ----------------- | ---------------------------------------------------------------------------------------- |
-| `--format=VALUE`  | audio encoding format; supported values: `mp3`, `flac`, `vorbis`, `opus`                 |
+| `--format=VALUE`  | audio encoding format; supported values: `mp3`, `flac`, `vorbis`, `opus`, `raw`          |
 | `--album=VALUE`   | path to album record file(s) (see above); multiple `--album 'abc.txt' --album 'xyz.txt'` |
 | `--artist=VALUE`  | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
 | `--genre=VALUE`   | genre to assign to the tracks' metadata                                                  |

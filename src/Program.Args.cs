@@ -79,6 +79,12 @@ namespace Gunloader
               Toolkit.Encoder      = new Opus();
               Toolkit.FFmpeg.Lossy = true;
               break;
+            case "raw":
+            case "original":
+            case "no-encode":
+              Toolkit.Encoder      = new RAW();
+              Toolkit.FFmpeg.Lossy = false;
+              break;
             default:
               WriteLine("Unknown format provided!");
               Exit(2);

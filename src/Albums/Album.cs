@@ -21,7 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using Gunloader.Programs;
+using Gunloader.Encoders;
 using Gunloader.Serialisation;
 using static System.Guid;
 using static System.IO.Path;
@@ -63,8 +63,10 @@ namespace Gunloader.Albums
 
     public void Encode(Toolkit toolkit)
     {
+      var output  = new FileInfo(NewGuid().ToString());
+      var extract = toolkit.Encoder is RAW;
       var video = Source.Contains("http")
-        ? toolkit.YTDL.Download(Source, new FileInfo(NewGuid().ToString()))
+        ? toolkit.YTDL.Download(Source, output, extract)
         : new FileInfo(Source);
 
       if (!Target.Exists)
@@ -72,7 +74,7 @@ namespace Gunloader.Albums
 
       foreach (var track in Tracks)
       {
-        var encoded = track.Encode(toolkit, new FileInfo(Source));
+        var encoded = track.Encode(toolkit, video);
         var final   = Combine(Target.FullName, $"{track.Number}. {track.Normalised}{encoded.Extension}");
 
         encoded.MoveTo(final);

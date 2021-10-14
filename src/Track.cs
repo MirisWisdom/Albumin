@@ -20,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
+using Gunloader.Encoders;
 
 namespace Gunloader
 {
@@ -53,15 +54,24 @@ namespace Gunloader
 
     public FileInfo Encode(Toolkit toolkit, FileInfo video)
     {
-      var cover   = toolkit.FFmpeg.ExtractCover(video, this);
-      var audio   = toolkit.FFmpeg.ExtractAudio(video, this);
-      var encoded = toolkit.Encoder.Encode(this, audio, cover);
+      var      cover = toolkit.FFmpeg.ExtractCover(video, this);
+      FileInfo encoded;
+
+      if (toolkit.Encoder is RAW)
+      {
+        encoded = toolkit.Encoder.Encode(this, video, cover);
+      }
+      else
+      {
+        var audio = toolkit.FFmpeg.ExtractAudio(video, this);
+        encoded = toolkit.Encoder.Encode(this, audio, cover);
+
+        if (audio.Exists)
+          audio.Delete();
+      }
 
       if (cover.Exists)
         cover.Delete();
-
-      if (audio.Exists)
-        audio.Delete();
 
       return encoded;
     }

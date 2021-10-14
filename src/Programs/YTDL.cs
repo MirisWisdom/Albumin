@@ -28,13 +28,14 @@ namespace Gunloader.Programs
   {
     public string Program { get; set; } = "youtube-dl";
 
-    public FileInfo Download(string download, FileInfo output)
+    public FileInfo Download(string download, FileInfo output, bool extract = false)
     {
       Start(new ProcessStartInfo
       {
         FileName = Program,
-        Arguments = $"{download} " +
-                    $"--output {output.Name}"
+        Arguments = $"{download} "                                 +
+                    $"{(extract ? "-x --format bestaudio" : "")} " +
+                    $"--output {output.Name}.%(ext)s"
       })?.WaitForExit();
 
       /**
