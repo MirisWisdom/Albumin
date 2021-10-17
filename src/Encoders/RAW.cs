@@ -32,6 +32,9 @@ namespace Gunloader.Encoders
       audio ??= new FileInfo(track.Number + ".wav");
       var output = $"{GetFileNameWithoutExtension(track.Number)}{audio.Extension}";
 
+      if (!audio.Exists)
+        throw new FileNotFoundException("Could not extract the track from the audio. Source file not found.");
+
       /**
        * Split input audio into separate files of the same type, without any form of re-encoding.
        */

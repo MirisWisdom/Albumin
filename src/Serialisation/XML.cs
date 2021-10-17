@@ -26,6 +26,9 @@ namespace Gunloader.Serialisation
   {
     public T Hydrate<T>(FileInfo source)
     {
+      if (!source.Exists)
+        throw new FileNotFoundException("Could not deserialise XML. Source file not found.");
+      
       var       xmlSerializer = new XmlSerializer(typeof(T));
       using var textReader    = new StringReader(ReadAllText(source.FullName));
       return (T) xmlSerializer.Deserialize(textReader);

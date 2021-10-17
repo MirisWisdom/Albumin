@@ -27,6 +27,9 @@ namespace Gunloader.Serialisation
   {
     public T Hydrate<T>(FileInfo source)
     {
+      if (!source.Exists)
+        throw new FileNotFoundException("Could not deserialise JSON. Source file not found.");
+      
       return Deserialize<T>(ReadAllText(source.Name));
     }
 

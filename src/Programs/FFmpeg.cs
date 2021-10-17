@@ -35,6 +35,9 @@ namespace Gunloader.Programs
       if (Exists(track.Metadata.Cover))
         return new FileInfo(track.Metadata.Cover);
 
+      if (!source.Exists)
+        throw new FileNotFoundException("Could not extract cover from the video. Source file not found.");
+
       var output = new FileInfo($"{track.Number}.{(Lossy ? "jpg" : "png")}");
 
       var frame = ParseExact(track.Start, "H:mm:ss", InvariantCulture)
@@ -55,6 +58,9 @@ namespace Gunloader.Programs
     public FileInfo ExtractAudio(FileInfo source, Track track)
     {
       var output = new FileInfo($"{track.Number}.wav");
+
+      if (!source.Exists)
+        throw new FileNotFoundException("Could not extract audio from the video. Source file not found.");
 
       Start(new ProcessStartInfo
       {

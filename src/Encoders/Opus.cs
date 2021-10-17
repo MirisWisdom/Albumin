@@ -33,6 +33,9 @@ namespace Gunloader.Encoders
       cover  ??= new FileInfo(track.Number + ".png");
       var output = new FileInfo(GetFileNameWithoutExtension(source.FullName) + ".opus");
 
+      if (!source.Exists)
+        throw new FileNotFoundException("Could not encode given track to Opus. Source file not found.");
+
       /**
        * Encode the input audio into an Opus with embedded art & metadata.
        */

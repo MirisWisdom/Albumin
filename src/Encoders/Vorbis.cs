@@ -31,6 +31,9 @@ namespace Gunloader.Encoders
       source ??= new FileInfo(track.Number + ".wav");
       cover  ??= new FileInfo(track.Number + ".png");
 
+      if (!source.Exists)
+        throw new FileNotFoundException("Could not encode given track to Vorbis. Source file not found.");
+
       /**
        * Encode the input audio into a Vorbis with embedded art & metadata.
        */
