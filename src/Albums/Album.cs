@@ -24,6 +24,7 @@ using System.Xml.Serialization;
 using Gunloader.Encoders;
 using Gunloader.Serialisation;
 using static System.Guid;
+using static System.IO.File;
 using static System.IO.Path;
 
 namespace Gunloader.Albums
@@ -64,7 +65,7 @@ namespace Gunloader.Albums
     public void Encode(Toolkit toolkit)
     {
       var output  = new FileInfo(NewGuid().ToString());
-      var extract = toolkit.Encoder is RAW;
+      var extract = toolkit.Encoder is RAW || Tracks.All(track => Exists(track.Metadata.Cover));
       var video = Source.Contains("http")
         ? toolkit.YTDL.Download(Source, output, extract)
         : new FileInfo(Source);
