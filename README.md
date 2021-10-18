@@ -1,9 +1,9 @@
 <html>
     <h1 align='center'>
-        YouTube Album Extract
+        Gunloader
     </h1>
     <p align='center'>
-        Extract & curate songs from YouTube album videos in your favourite audio format.
+        Download, extract & curate songs from YouTube album videos in your favourite audio format.
         <br>
         <br>
         <img src='https://user-images.githubusercontent.com/10241434/135048812-156d9a9a-0218-42e8-9bcf-1b67ff7acbef.png'>
