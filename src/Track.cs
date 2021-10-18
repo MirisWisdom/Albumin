@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using Gunloader.Encoders;
+using static System.IO.File;
 
 namespace Gunloader
 {
@@ -54,7 +55,20 @@ namespace Gunloader
 
     public FileInfo Encode(Toolkit toolkit, FileInfo video)
     {
-      var      cover = toolkit.FFmpeg.ExtractCover(video, this);
+      FileInfo cover;
+      bool     extracted;
+
+      if (!Exists(Metadata.Cover))
+      {
+        cover     = toolkit.FFmpeg.ExtractCover(video, this);
+        extracted = true;
+      }
+      else
+      {
+        cover     = new FileInfo(Metadata.Cover);
+        extracted = false;
+      }
+
       FileInfo encoded;
 
       if (toolkit.Encoder is RAW)
@@ -70,7 +84,7 @@ namespace Gunloader
           audio.Delete();
       }
 
-      if (cover.Exists)
+      if (extracted && cover.Exists)
         cover.Delete();
 
       return encoded;
