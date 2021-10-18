@@ -21,7 +21,6 @@ using System.IO;
 using static System.DateTime;
 using static System.Diagnostics.Process;
 using static System.Globalization.CultureInfo;
-using static System.IO.File;
 
 namespace Gunloader.Programs
 {
@@ -32,9 +31,6 @@ namespace Gunloader.Programs
 
     public FileInfo ExtractCover(FileInfo source, Track track)
     {
-      if (Exists(track.Metadata.Cover))
-        return new FileInfo(track.Metadata.Cover);
-
       if (!source.Exists)
         throw new FileNotFoundException("Could not extract cover from the video. Source file not found.");
 
