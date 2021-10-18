@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 using Gunloader.Programs;
 using Gunloader.Serialisation;
 using static System.Guid;
@@ -49,7 +50,8 @@ namespace Gunloader.Albums
       var video = new Video();
       video.Load(_url, _ytdl);
 
-      Title = video.Title;
+      Title  = video.Title;
+      Source = video.URL;
 
       for (var i = 0; i < video.Chapters.Count; i++)
       {
@@ -93,6 +95,7 @@ namespace Gunloader.Albums
       [JsonPropertyName("id")]       public string        ID       { get; set; } = string.Empty;
       [JsonPropertyName("title")]    public string        Title    { get; set; } = string.Empty;
       [JsonPropertyName("chapters")] public List<Chapter> Chapters { get; set; } = new();
+      [JsonIgnore] [XmlIgnore]       public string        URL      => $"https://youtu.be/{ID}";
 
       public void Load(string source, YTDL ytdl)
       {
