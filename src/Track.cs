@@ -55,6 +55,9 @@ namespace Gunloader
 
     public FileInfo Encode(Toolkit toolkit, FileInfo video)
     {
+      if (toolkit.Encoder is RAW)
+        return toolkit.Encoder.Encode(this, video);
+
       FileInfo cover;
       bool     extracted;
 
@@ -69,22 +72,13 @@ namespace Gunloader
         extracted = false;
       }
 
-      FileInfo encoded;
+      var audio   = toolkit.FFmpeg.ExtractAudio(video, this);
+      var encoded = toolkit.Encoder.Encode(this, audio, cover);
 
-      if (toolkit.Encoder is RAW)
-      {
-        encoded = toolkit.Encoder.Encode(this, video, cover);
-      }
-      else
-      {
-        var audio = toolkit.FFmpeg.ExtractAudio(video, this);
-        encoded = toolkit.Encoder.Encode(this, audio, cover);
+      if (audio.Exists)
+        audio.Delete();
 
-        if (audio.Exists)
-          audio.Delete();
-      }
-
-      if (extracted && cover.Exists)
+      if (cover.Exists && extracted)
         cover.Delete();
 
       return encoded;
