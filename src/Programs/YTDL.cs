@@ -28,13 +28,12 @@ namespace Gunloader.Programs
   {
     public string Program { get; set; } = "youtube-dl";
 
-    public FileInfo Download(string download, FileInfo output, bool extract = false)
+    public FileInfo GetVideo(string url, FileInfo output)
     {
       Start(new ProcessStartInfo
       {
         FileName = Program,
-        Arguments = $"{download} "                                 +
-                    $"{(extract ? "-x --format bestaudio" : "")} " +
+        Arguments = $"{url} " +
                     $"--output {output.Name}.%(ext)s"
       })?.WaitForExit();
 
@@ -45,12 +44,29 @@ namespace Gunloader.Programs
       return new FileInfo(GetFiles(CurrentDirectory, $"{output.Name}*")[0]);
     }
 
-    public FileInfo Metadata(string download, FileInfo output)
+    public FileInfo GetAudio(string url, FileInfo output)
     {
       Start(new ProcessStartInfo
       {
         FileName = Program,
-        Arguments = $"{download} "                        +
+        Arguments = $"{url} "                 +
+                    @"-x --format bestaudio " +
+                    $"--output {output.Name}.%(ext)s"
+      })?.WaitForExit();
+
+      /**
+       * Infer file extension of the downloaded file.
+       */
+
+      return new FileInfo(GetFiles(CurrentDirectory, $"{output.Name}*")[0]);
+    }
+
+    public FileInfo Metadata(string url, FileInfo output)
+    {
+      Start(new ProcessStartInfo
+      {
+        FileName = Program,
+        Arguments = $"{url} "                             +
                     @"--skip-download --write-info-json " +
                     $"--output {output.Name}"
       })?.WaitForExit();

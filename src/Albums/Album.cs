@@ -16,6 +16,7 @@
  * along with Gunloader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -64,24 +65,27 @@ namespace Gunloader.Albums
 
     public void Encode(Toolkit toolkit)
     {
-      var output  = new FileInfo(NewGuid().ToString());
-      var extract = toolkit.Encoder is RAW || Tracks.All(track => Exists(track.Metadata.Cover));
-      var video = Source.Contains("http")
-        ? toolkit.YTDL.Download(Source, output, extract)
-        : new FileInfo(Source);
+      FileInfo source;
+
+      if (Source.Contains("http"))
+        source = toolkit.Encoder is RAW || Tracks.All(track => Exists(track.Metadata.Cover))
+          ? toolkit.YTDL.GetAudio(Source, new FileInfo($"AUDIO~{NewGuid().ToString()}"))
+          : toolkit.YTDL.GetVideo(Source, new FileInfo($"VIDEO~{NewGuid().ToString()}"));
+      else
+        source = new FileInfo(Source);
 
       if (!Target.Exists)
         Target.Create();
 
       foreach (var track in Tracks)
       {
-        var encoded = track.Encode(toolkit, video);
+        var encoded = track.Encode(toolkit, source);
         var final   = Combine(Target.FullName, $"{track.Number}. {track.Normalised}{encoded.Extension}");
 
         encoded.MoveTo(final);
-        encoded.CreationTimeUtc   = video.CreationTimeUtc;
-        encoded.LastAccessTimeUtc = video.LastAccessTimeUtc;
-        encoded.LastWriteTimeUtc  = video.LastWriteTimeUtc;
+        encoded.CreationTimeUtc   = source.CreationTimeUtc;
+        encoded.LastAccessTimeUtc = source.LastAccessTimeUtc;
+        encoded.LastWriteTimeUtc  = source.LastWriteTimeUtc;
       }
     }
 
