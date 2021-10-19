@@ -87,6 +87,10 @@ namespace Gunloader.Albums
         encoded.LastAccessTimeUtc = source.LastAccessTimeUtc;
         encoded.LastWriteTimeUtc  = source.LastWriteTimeUtc;
       }
+
+      Target.CreationTimeUtc   = source.CreationTimeUtc;
+      Target.LastAccessTimeUtc = source.LastAccessTimeUtc;
+      Target.LastWriteTimeUtc  = source.LastWriteTimeUtc;
     }
 
     public abstract void Save(ISerialisation serialisation);
