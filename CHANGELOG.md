@@ -1,5 +1,28 @@
 # Gunloader Changelog
 
+## [v0.7.2] - 2021-10-25
+
+### Conditional Audio Download
+
+TLDR: Download *only* the audio when all tracks have local existing covers
+
+Gunloader usually downloads both the video & audio from a YouTube URL, for the sake of using frames within the video as covers for each track.
+
+When all tracks have local images assigned as covers to them, it's not necessary to download the video from YouTube; instead, we could just retrieve only the audio.
+
+This release teaches Gunloader to download *only* the audio stream from YouTube when all of the Album Tracks have local images assigned to them.
+
+### Logic Tweaks & Improvements
+
+- Ensure no form of cover extraction is conducted during lossless cutting
+- When the encoding is finished, the target directory's modification time will be set to the source file's modification time
+- Use assigned cover if it exists locally & delete only the temporarily extracted covers
+
+## [v0.7.1] - 2021-10-18
+
+- Fixes a quirk where the YouTube Video URL wasn't assigned when using the chapters mode.
+- More descriptive exceptions are thrown when sources are not found, for improved debugging.
+
 ## [v0.7.0] - 2021-10-14
 
 ### Lossless Audio Split w/o Re-Encoding
