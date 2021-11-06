@@ -4,6 +4,6 @@ Before creating the encoded file, Gunloader will instruct FFmpeg to extract an i
 
 The frame of the cover art will always be **30 seconds** after the **start** of the song in the video:
 
-![cover diagram](./cover.png)
+![cover diagram](./cover.svg)
 
 If an existing local image is assigned as the [track](./track.md)'s cover art in its [track metadata](./track.md), then the aforementioned extracting process will be skipped.

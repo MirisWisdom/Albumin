@@ -18,6 +18,8 @@
 
 This project allows you to transform long YouTube album videos into properly curated songs, with support for popular audio formats. It's not just for YouTube, but any website that YouTube-DL supports, and any video/audio that FFmpeg supports.
 
+![gunloader diagram](./doc/gunloader.svg)
+
 ## Features
 
 - Encodes a long video's audio into separate audio tracks
@@ -64,7 +66,7 @@ First, create the records file as described above. Once you're done, invoke the 
 ./gunloader \
     # records file
     --album '~/album.txt' \
-    --album '~/another-album.txt'
+    --album '~/another-album.txt' \
 
     # encoding of choice (default is mp3)
     --format flac \
@@ -118,8 +120,8 @@ If you need to specify a dependency's executable to the program, do it like so:
 
     # paths to dependencies
     --ffmpeg "c:\\ffmpeg.exe" \
-    --flac '/bin/flac'
-    --youtube-dl ~/ytdl
+    --flac '/bin/flac' \
+    --youtube-dl ~/ytdl \
 
     # mass fill with optional metadata
     --genre "OP/ED/IN/IM" \
