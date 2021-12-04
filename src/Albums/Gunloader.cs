@@ -41,21 +41,20 @@ namespace Gunloader.Albums
 
     public override void Hydrate(Metadata metadata)
     {
-      var records = ReadAllLines(_file.FullName)
+      var lines = ReadAllLines(_file.FullName)
         .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#') && !line.StartsWith(';'))
         .ToArray();
 
-      Title  = records[0].Trim();
-      Source = records[1].Trim();
+      var title   = lines[0].Trim();        /* first line      */
+      var source  = lines[1].Trim();        /* second line     */
+      var records = lines.Skip(2).ToList(); /* remaining lines */
 
-      /**
-       * Parse the Records file when the first line is NOT a YouTube video, or when no Tracks have been successfully
-       * inferred from YouTube chapters.
-       */
+      Title  = title;
+      Source = source;
 
-      for (var i = 2; i < records.Skip(2).Count(); i++)
+      foreach (var song in records)
       {
-        var split = records[i].Split(' ');
+        var split = song.Split(' ');
         var track = new Track
         {
           Number   = split[0],
