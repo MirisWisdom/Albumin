@@ -38,7 +38,11 @@ namespace Gunloader
 
     public static void Main(string[] args)
     {
-      OptionSet.Parse(args);
+      if (args.Length > 0)
+        OptionSet.Parse(args);
+      else
+        Help(true);
+
       Invoke();
     }
 
