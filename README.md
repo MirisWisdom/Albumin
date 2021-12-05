@@ -31,36 +31,9 @@ This project allows you to transform long YouTube album videos into properly cur
 - Song information can be read from a file, or from a YouTube video's chapters/timeline
 - Optional lossless splitting of the video's original audio, without any re-encoding whatsoever
 
-## Album Records
-
-The [records](./doc/album.md) file contains the main album information:
-
-- The **first two lines** specify the **album title** and **video source**. The video source can be either a YouTube URL or a local video file.
-- **Subsequent lines represent the tracks**. Each line *must* comprise of the following attributes, in the given order and separated by spaces:
-  1. Track number
-  2. Starting time in the provided video
-  3. Title of the track
-
-```
-90'sアニメ主題歌セレクション RB-XYZ【奇跡の向こう側へ】 Ver.2
-https://youtu.be/divcisums90
-
-01 0:00:00 All You Need Is Love - 田村直美 「レイアース」OVA版主題歌
-02 0:05:20 HEAVEN - HIM 「YAT安心！宇宙旅行」一期OP
-03 0:08:48 僕であるために - FLYING KIDS 「逮捕しちゃうぞ」一期OP2
-04 0:12:23 LOVE SOMEBODY - 福井麻利子 「逮捕しちゃうぞ」一期OP3
-```
-
-## YouTube Chapters
-
-If you want Gunloader to attempt to use a YouTube video's chapter information for the songs, please:
-
-1. Ensure the YouTube video in question has **chapters in its timeline**; and
-2. Create a [records](./doc/album.md) file containing a **YouTube video URL** in the **first line**!
-
 ## Usage
 
-First, create the records file as described above. Once you're done, invoke the program:
+First, create the records file as described [#album-records](here). Once you're done, invoke the program:
 
 ```shell
 ./gunloader \
@@ -87,16 +60,43 @@ Once you're ready, continue with the program and it will start curating the vide
 
 ### Parameters
 
-| Parameter         | Description                                                                              |
-| ----------------- | ---------------------------------------------------------------------------------------- |
-| `--format=VALUE`  | audio encoding format; supported values: `mp3`, `flac`, `vorbis`, `opus`, `raw`          |
-| `--album=VALUE`   | path to album record file(s) (see above); multiple `--album 'abc.txt' --album 'xyz.txt'` |
-| `--artist=VALUE`  | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'` |
-| `--genre=VALUE`   | genre to assign to the tracks' metadata                                                  |
-| `--comment=VALUE` | comment to assign to the tracks' metadata                                                |
-| `--cover=VALUE`   | optional path to album art image for assigning to songs                                  |
+| Parameter         | Description                                                                                                 |
+| ----------------- | ----------------------------------------------------------------------------------------------------------- |
+| `--format=VALUE`  | audio encoding format; supported values: `mp3`, `flac`, `vorbis`, `opus`, `raw`                             |
+| `--album=VALUE`   | path to [#album-records](album records) file(s) (see below); multiple `--album 'abc.txt' --album 'xyz.txt'` |
+| `--artist=VALUE`  | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'`                    |
+| `--genre=VALUE`   | genre to assign to the tracks' metadata                                                                     |
+| `--comment=VALUE` | comment to assign to the tracks' metadata                                                                   |
+| `--cover=VALUE`   | optional path to album art image for assigning to songs                                                     |
 
 Additional parameters can be found using `--help`.
+
+## Album Records
+
+The [records](./doc/album.md) file contains the main album information:
+
+- The **first two lines** specify the **album title** and **video source**. The video source can be either a YouTube URL or a local video file.
+- **Subsequent lines represent the tracks**. Each line *must* comprise of the following attributes, in the given order and separated by spaces:
+  1. Track number
+  2. Starting time in the provided video
+  3. Title of the track
+
+```
+90'sアニメ主題歌セレクション RB-XYZ【奇跡の向こう側へ】 Ver.2
+https://youtu.be/divcisums90
+
+01 0:00:00 All You Need Is Love - 田村直美 「レイアース」OVA版主題歌
+02 0:05:20 HEAVEN - HIM 「YAT安心！宇宙旅行」一期OP
+03 0:08:48 僕であるために - FLYING KIDS 「逮捕しちゃうぞ」一期OP2
+04 0:12:23 LOVE SOMEBODY - 福井麻利子 「逮捕しちゃうぞ」一期OP3
+```
+
+## YouTube Chapters
+
+If you want Gunloader to attempt to use a YouTube video's chapter information for the songs, please:
+
+1. Ensure the YouTube video in question has **chapters in its timeline**; and
+2. Create a [records](./doc/album.md) file containing a **YouTube video URL** in the **first line**!
 
 ## Installation
 
