@@ -16,11 +16,13 @@
  * along with Gunloader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Gunloader.Albums;
 using static System.Console;
+using static System.ConsoleColor;
 using static System.Environment;
 using static System.IO.File;
 
@@ -43,7 +45,16 @@ namespace Gunloader
       else
         Help(true);
 
-      Invoke();
+      try
+      {
+        Invoke();
+      }
+      catch (Exception e)
+      {
+        ForegroundColor = Red;
+        WriteLine(e);
+        Exit(255);
+      }
     }
 
     public static void Invoke()
