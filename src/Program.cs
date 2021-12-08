@@ -25,6 +25,7 @@ using static System.Console;
 using static System.ConsoleColor;
 using static System.Environment;
 using static System.IO.File;
+using static System.IO.SearchOption;
 
 namespace Gunloader
 {
@@ -43,8 +44,8 @@ namespace Gunloader
       if (args.Length > 0)
         OptionSet.Parse(args);
       else
-        Help(true);
-
+        Wizard();
+      
       try
       {
         Invoke();
