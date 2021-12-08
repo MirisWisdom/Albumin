@@ -9,18 +9,10 @@ namespace Gunloader
 {
   public static partial class Program
   {
-    public static void Help(bool verbose)
+    public static void Help(bool verbose, bool exit = true)
     {
-      WriteLine(@"                            __                __               ");
-      WriteLine(@"         ____ ___  ______  / /___  ____ _____/ /__  _____      ");
-      WriteLine(@"        / __ `/ / / / __ \/ / __ \/ __ `/ __  / _ \/ ___/      ");
-      WriteLine(@"       / /_/ / /_/ / / / / / /_/ / /_/ / /_/ /  __/ /          ");
-      WriteLine(@"       \__, /\__,_/_/ /_/_/\____/\__,_/\__,_/\___/_/           ");
-      WriteLine(@"      /____/                                                   ");
-      WriteLine(@"      ---------------------------------------------------      ");
-      WriteLine(@"      author miris ~ github yumiris/youtube.album.extract      ");
-      WriteLine(@"      ---------------------------------------------------      ");
-
+      Banner();
+      
       if (verbose)
       {
         void Step(string step, string instruction)
@@ -68,8 +60,9 @@ namespace Gunloader
       }
 
       OptionSet.WriteOptionDescriptions(Out);
-
-      Exit(0);
+        
+      if (exit)
+        Exit(0);
     }
   }
 }
