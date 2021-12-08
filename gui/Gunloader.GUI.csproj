@@ -2,8 +2,14 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net5.0-windows</TargetFramework>
+        <TargetFramework>net6.0-windows</TargetFramework>
         <UseWPF>true</UseWPF>
+        <BaseOutputPath>..\bin</BaseOutputPath>
+        <AssemblyName>gunloader-gui</AssemblyName>
     </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\src\Gunloader.csproj"/>
+    </ItemGroup>
 
 </Project>

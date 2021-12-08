@@ -3,11 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gui="clr-namespace:Gunloader.GUI"
         mc:Ignorable="d"
-        Title="Gunloader"
-        Width="640"
-        Height="480">
-    
+        Title="gunloader"
+        Width="480"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
+
+    <Window.DataContext>
+        <gui:Main />
+    </Window.DataContext>
+
     <!-- Universal styles -->
     <Window.Resources>
         <Style TargetType="Button">
@@ -24,97 +31,162 @@
         </Style>
     </Window.Resources>
 
-    <!-- Main Grid -->
-    <Grid Margin="10">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Background="White">
+            <MenuItem Header="About" Click="About" />
+            <MenuItem Header="Update" Click="Update"/>
+        </Menu>
+        
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
-        <!-- Source -->
-        <GroupBox Grid.Row="0"
-                  Header="Video">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                
-                <!-- Title -->
-                <DockPanel Grid.Column="0"
-                           Margin="0,0,5,0">
-                    <Label Content="Album Title:"
-                           DockPanel.Dock="Top" />
-                    <TextBox Margin="0,0,1,0" />
-                </DockPanel>
+        <!-- Main Grid -->
+        <Grid Grid.Row="0"
+              Margin="10">
+            <Grid.RowDefinitions>
 
-                <!-- Video -->
-                <DockPanel Grid.Column="1"
-                           Margin="5,0,0,0">
-                    <Label Content="YouTube URL or Local Video:"
-                           DockPanel.Dock="Top" />
-                    <Button Content="Browse"
-                            DockPanel.Dock="Right" />
-                    <TextBox Margin="0,0,10,0"
-                             VerticalContentAlignment="Center" />
-                </DockPanel>
-            </Grid>
-        </GroupBox>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <!-- Songs -->
-        <GroupBox Grid.Row="1" 
-                  Header="Songs">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+            <!-- Header -->
+            <Label Grid.Row="0"
+                   FontFamily="Segoe UI Light"
+                   FontSize="36"
+                   Foreground="LightSlateGray"
+                   HorizontalAlignment="Center"
+                   Margin="10,0,10,10">
+                gunloader
+            </Label>
 
-                <!-- New Track -->
-                <Grid Grid.Row="0" Margin="0,0,0,5">
+            <!-- Source -->
+            <GroupBox Grid.Row="1"
+                      Header="Video">
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
+                    <!-- Title -->
                     <StackPanel Grid.Column="0"
-                                Margin="0,0,5,0">
-                        <Label Content="Title:" />
-                        <TextBox />
+                                Margin="0,0,2.5,0">
+                        <Label Content="Album Title:" />
+                        <TextBox x:Name="Album"
+                                 Text="{Binding Title}" />
                     </StackPanel>
 
+                    <!-- Video -->
                     <StackPanel Grid.Column="1"
-                                Margin="5,0,5,0">
-                        <Label Content="Start Time:" />
-                        <TextBox />
+                                Margin="2.5,0,2.5,0">
+                        <Label Content="YouTube URL or Local Video:" />
+                        <TextBox x:Name="Video"
+                                 Text="{Binding Source}" />
                     </StackPanel>
 
                     <StackPanel Grid.Column="2"
-                                Margin="5,0,5,0">
-                        <Label Content="End Time:" />
-                        <TextBox />
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="3"
-                                Margin="5,0,0,0">
+                                Margin="2.5,0,0,0">
                         <Label Content="" />
-                        <Button Content="Add" />
+                        <Button Content="Browse"
+                                Click="Browse" />
                     </StackPanel>
                 </Grid>
+            </GroupBox>
 
-                <!-- Current Tracks -->
-                <DataGrid Grid.Row="1"
-                          Margin="0,5,0,0" />
-            </Grid>
-        </GroupBox>
+            <!-- Songs -->
+            <GroupBox Grid.Row="2"
+                      Header="Songs">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
 
-        <!-- Process -->
-        <Button Grid.Row="2"
-                Width="Auto"
-                Content="Process"
-                Margin="0,5,0,0" />
+                    <!-- New Track -->
+                    <Grid Grid.Row="0" Margin="0,0,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0"
+                                    Margin="0,0,2.5,0">
+                            <Label Content="Title:" />
+                            <TextBox x:Name="Title" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1"
+                                    Margin="2.5,0,2.5,0">
+                            <Label Content="Start Time:" />
+                            <TextBox x:Name="Start" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2"
+                                    Margin="2.5,0,0,0">
+                            <Label Content="" />
+                            <Button Content="Add"
+                                    Click="Add" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Current Tracks -->
+                    <DataGrid Grid.Row="1"
+                              Margin="0,2.5,0,0"
+                              ColumnWidth="*"
+                              ItemsSource="{Binding Tracks}"
+                              Height="240"
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#"
+                                                Binding="{Binding Number}"
+                                                Width="50"/>
+                            <DataGridTextColumn Header="Title" 
+                                                Binding="{Binding Title}"/>
+                            <DataGridTextColumn Header="Start" 
+                                                Binding="{Binding Start}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </GroupBox>
+            
+            <GroupBox Grid.Row="3"
+                      Header="Format">
+                <ComboBox x:Name="Format">
+                    <ComboBoxItem Content="FLAC (requires flac.exe)"/>
+                    <ComboBoxItem Content="MP3 (requires lame.exe)"/>
+                    <ComboBoxItem Content="OPUS (requires opusenc.exe)"/>
+                    <ComboBoxItem Content="Vorbis (requires oggenc.exe)"/>
+                    <ComboBoxItem Content="Original (requires ffmpeg.exe)"/>
+                </ComboBox>
+            </GroupBox>
+
+            <!-- Process -->
+            <Button Grid.Row="4"
+                    Width="Auto"
+                    Content="Process"
+                    Margin="0,5,0,0"
+                    Click="Process" />
+        </Grid>
+
+        <!-- Console Grid -->
+        <Grid Grid.Row="1">
+            <TextBox x:Name="Console"
+                     Background="#2E3440"
+                     Foreground="DarkGray"
+                     VerticalContentAlignment="Top"
+                     FontFamily="Consolas"
+                     Height="240"
+                     Padding="10"
+                     IsReadOnly="True" />
+        </Grid>
     </Grid>
+    </DockPanel>
 </Window>

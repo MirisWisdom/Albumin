@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gunloader.GUI", "Gunloader.GUI.csproj", "{B73962B6-2821-4440-A6D8-EE09D18FA3B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gunloader", "..\src\Gunloader.csproj", "{57A66D63-689C-491B-80CD-4C863F55C8DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{B73962B6-2821-4440-A6D8-EE09D18FA3B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B73962B6-2821-4440-A6D8-EE09D18FA3B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B73962B6-2821-4440-A6D8-EE09D18FA3B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57A66D63-689C-491B-80CD-4C863F55C8DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57A66D63-689C-491B-80CD-4C863F55C8DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57A66D63-689C-491B-80CD-4C863F55C8DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57A66D63-689C-491B-80CD-4C863F55C8DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
