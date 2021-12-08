@@ -142,12 +142,12 @@ namespace Gunloader
       {
         "lame=",
         "optional path to lame for mp3 encoding & tagging",
-        s => Toolkit.Encoder = new LAME {Program = s}
+        s => Toolkit.Encoder = new LAME { Program = s }
       },
       {
         "flac=",
         "optional path to flac for flac encoding & tagging",
-        s => Toolkit.Encoder = new FLAC {Program = s}
+        s => Toolkit.Encoder = new FLAC { Program = s }
       },
       {
         "youtube-dl=|ytdl=",

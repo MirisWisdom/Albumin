@@ -28,10 +28,10 @@ namespace Gunloader.Serialisation
     {
       if (!source.Exists)
         throw new FileNotFoundException("Could not deserialise XML. Source file not found.");
-      
+
       var       xmlSerializer = new XmlSerializer(typeof(T));
       using var textReader    = new StringReader(ReadAllText(source.FullName));
-      return (T) xmlSerializer.Deserialize(textReader);
+      return (T)xmlSerializer.Deserialize(textReader);
     }
 
     public void Marshal<T>(FileInfo target, T entity)

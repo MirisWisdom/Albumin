@@ -29,13 +29,13 @@ namespace Gunloader.Serialisation
     {
       if (!source.Exists)
         throw new FileNotFoundException("Could not deserialise JSON. Source file not found.");
-      
+
       return Deserialize<T>(ReadAllText(source.Name));
     }
 
     public void Marshal<T>(FileInfo target, T entity)
     {
-      WriteAllText(target.FullName, Serialize(entity, new JsonSerializerOptions {WriteIndented = true}));
+      WriteAllText(target.FullName, Serialize(entity, new JsonSerializerOptions { WriteIndented = true }));
     }
   }
 }
