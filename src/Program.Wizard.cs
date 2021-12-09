@@ -1,9 +1,11 @@
+using System;
 using System.IO;
 using Gunloader.Encoders;
 using static System.Console;
 using static System.ConsoleColor;
 using static System.IO.File;
 using static System.IO.SearchOption;
+using static System.Security.Cryptography.MD5;
 
 namespace Gunloader
 {
@@ -24,6 +26,14 @@ namespace Gunloader
         WriteLine(new string('-', 80));
         ForegroundColor = White;
         WriteLine(message);
+      }
+
+      string Hash(string path)
+      {
+        using var md5    = Create();
+        using var stream = OpenRead(path);
+        
+        return BitConverter.ToString(md5.ComputeHash(stream));
       }
 
       Banner();
@@ -50,9 +60,21 @@ namespace Gunloader
 
       WriteAllText(file.FullName, sample);
 
+      var oldHash = Hash(file.FullName);
+
       Info("I've created a new sample records.txt file for you to edit.");
       WriteLine("Edit it using a text editor with the relevant information, then press any key!");
       ReadLine();
+
+      var newHash = Hash(file.FullName);
+
+      while (oldHash.Equals(newHash))
+      {
+        Info("Please edit the records.txt file before proceeding!");
+        WriteLine("Edit it using a text editor with the relevant information, then press any key!");
+        ReadLine();
+        newHash = Hash(file.FullName);
+      }
 
       Records.Add(file);
 
