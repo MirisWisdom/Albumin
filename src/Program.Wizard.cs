@@ -18,6 +18,14 @@ namespace Gunloader
         ForegroundColor = White;
       }
 
+      void Info(string message)
+      {
+        ForegroundColor = DarkGray;
+        WriteLine(new string('-', 80));
+        ForegroundColor = White;
+        WriteLine(message);
+      }
+
       Banner();
 
       var file = new FileInfo("records.txt");
@@ -37,7 +45,8 @@ namespace Gunloader
                               + "04 0:12:23 LOVE SOMEBODY - 福井麻利子 「逮捕しちゃうぞ」一期OP3");
 
       WriteAllText(file.FullName, sample);
-      WriteLine("I've created a sample records.txt file for you. Edit it, and once you're done, press any key!");
+
+      Info("I've created a sample records.txt file for you.\nEdit it, and once you're done, press any key!");
       ReadLine();
 
       Records.Add(file);
@@ -46,7 +55,7 @@ namespace Gunloader
 
       while (format != "flac" && format != "lame" && format != "opus" && format != "vorbis" && format != "original")
       {
-        WriteLine("Please specify a format. Available formats: flac | lame | opus | vorbis | original");
+        Info("Please specify a format.\nAvailable formats: flac | lame | opus | vorbis | original");
         Prompt("Format");
 
         format = ReadLine();
@@ -80,35 +89,35 @@ namespace Gunloader
           break;
       }
 
-      WriteLine("If you want, feel free to specify the album artist.");
+      Info("If you want, feel free to specify the album artist.");
       Prompt("Artist");
       var artist = ReadLine();
 
       if (artist != null)
         Metadata.Artists.Add(artist);
 
-      WriteLine("If you want, feel free to specify the album genre.");
+      Info("If you want, feel free to specify the album genre.");
       Prompt("Genre");
       var genre = ReadLine();
 
       if (genre != null)
         Metadata.Genre = genre;
 
-      WriteLine("If you want, feel free to specify the album comment.");
+      Info("If you want, feel free to specify the album comment.");
       Prompt("Comment");
       var comment = ReadLine();
 
       if (comment != null)
         Metadata.Comment = comment;
 
-      WriteLine("I'll try to process all of this stuff for you now.");
-      WriteLine("Before continuing, make sure that you have the necessary dependencies installed!");
+      Info("I'll try to process all of this stuff for you now.\n");
+      WriteLine("Before continuing, make sure that you have the necessary dependencies installed!\n");
       WriteLine("-   youtube-dl and ffmpeg");
       WriteLine("-   lame if you are using MP3");
       WriteLine("-   flac if you are using FLAC");
       WriteLine("-   opusenc if you are using Opus");
       WriteLine("-   oggenc if you are using Vorbis");
-      WriteLine("If you are ready, press any key to continue...");
+      Info("If you are ready, press any key to continue...");
       ReadLine();
 
       Invoke();
