@@ -89,12 +89,14 @@ namespace Gunloader
           break;
       }
 
-      Info("If you want, feel free to specify the album artist.");
-      Prompt("Artist");
-      var artist = ReadLine();
+      Info("If you want, feel free to specify the album artist(s).");
+      WriteLine("Use ; to specify multiple artists, e.g. Yoko Takahashi; Shinichi Ishihara");
+      Prompt("Artist(s)");
+      var artists = ReadLine();
 
-      if (artist != null)
-        Metadata.Artists.Add(artist);
+      if (artists != null)
+        foreach (var artist in artists.Split(';'))
+          Metadata.Artists.Add(artist.Trim());
 
       Info("If you want, feel free to specify the album genre.");
       Prompt("Genre");
