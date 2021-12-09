@@ -58,7 +58,7 @@ namespace Gunloader
         Info("Please specify a format.\nAvailable formats: flac | lame | opus | vorbis | original");
         Prompt("Format");
 
-        format = ReadLine();
+        format = ReadLine()?.ToLower();
       }
 
       switch (format)
