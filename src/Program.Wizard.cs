@@ -1,9 +1,11 @@
+using System;
 using System.IO;
 using Gunloader.Encoders;
 using static System.Console;
 using static System.ConsoleColor;
 using static System.IO.File;
 using static System.IO.SearchOption;
+using static System.Security.Cryptography.MD5;
 
 namespace Gunloader
 {
@@ -18,14 +20,34 @@ namespace Gunloader
         ForegroundColor = White;
       }
 
+      void Info(string message)
+      {
+        ForegroundColor = DarkGray;
+        WriteLine(new string('-', 80));
+        ForegroundColor = White;
+        WriteLine(message);
+      }
+
+      string Hash(string path)
+      {
+        using var md5    = Create();
+        using var stream = OpenRead(path);
+        
+        return BitConverter.ToString(md5.ComputeHash(stream));
+      }
+
       Banner();
 
       var file = new FileInfo("records.txt");
 
       if (file.Exists && file.Directory != null)
       {
-        var id = file.Directory.GetFiles("records.txt*", TopDirectoryOnly).Length + 1;
-        Move(file.FullName, $"{file.FullName}.backup ~ {id}");
+        var id     = file.Directory.GetFiles("records.txt.*", TopDirectoryOnly).Length + 1;
+        var backup = new FileInfo($"{file.FullName}.{id:0000}");
+
+        Move(file.FullName, backup.FullName);
+
+        Info($"I've backed up your existing records file!\n{file.Name} => {backup.Name}");
       }
 
       var sample = new string("90'sアニメ主題歌セレクション RB-XYZ【奇跡の向こう側へ】 Ver.2\n"
@@ -37,8 +59,22 @@ namespace Gunloader
                               + "04 0:12:23 LOVE SOMEBODY - 福井麻利子 「逮捕しちゃうぞ」一期OP3");
 
       WriteAllText(file.FullName, sample);
-      WriteLine("I've created a sample records.txt file for you. Edit it, and once you're done, press any key!");
+
+      var oldHash = Hash(file.FullName);
+
+      Info("I've created a new sample records.txt file for you to edit.");
+      WriteLine("Edit it using a text editor with the relevant information, then press any key!");
       ReadLine();
+
+      var newHash = Hash(file.FullName);
+
+      while (oldHash.Equals(newHash))
+      {
+        Info("Please edit the records.txt file before proceeding!");
+        WriteLine("Edit it using a text editor with the relevant information, then press any key!");
+        ReadLine();
+        newHash = Hash(file.FullName);
+      }
 
       Records.Add(file);
 
@@ -46,10 +82,10 @@ namespace Gunloader
 
       while (format != "flac" && format != "lame" && format != "opus" && format != "vorbis" && format != "original")
       {
-        WriteLine("Please specify a format. Available formats: flac | lame | opus | vorbis | original");
+        Info("Please specify a format.\nAvailable formats: flac | lame | opus | vorbis | original");
         Prompt("Format");
 
-        format = ReadLine();
+        format = ReadLine()?.ToLower();
       }
 
       switch (format)
@@ -80,35 +116,37 @@ namespace Gunloader
           break;
       }
 
-      WriteLine("If you want, feel free to specify the album artist.");
-      Prompt("Artist");
-      var artist = ReadLine();
+      Info("If you want, feel free to specify the album artist(s).");
+      WriteLine("Use ; to specify multiple artists, e.g. Yoko Takahashi; Shinichi Ishihara");
+      Prompt("Artist(s)");
+      var artists = ReadLine();
 
-      if (artist != null)
-        Metadata.Artists.Add(artist);
+      if (artists != null)
+        foreach (var artist in artists.Split(';'))
+          Metadata.Artists.Add(artist.Trim());
 
-      WriteLine("If you want, feel free to specify the album genre.");
+      Info("If you want, feel free to specify the album genre.");
       Prompt("Genre");
       var genre = ReadLine();
 
       if (genre != null)
         Metadata.Genre = genre;
 
-      WriteLine("If you want, feel free to specify the album comment.");
+      Info("If you want, feel free to specify the album comment.");
       Prompt("Comment");
       var comment = ReadLine();
 
       if (comment != null)
         Metadata.Comment = comment;
 
-      WriteLine("I'll try to process all of this stuff for you now.");
-      WriteLine("Before continuing, make sure that you have the necessary dependencies installed!");
+      Info("I'll try to process all of this stuff for you now.\n");
+      WriteLine("Before continuing, make sure that you have the necessary dependencies installed!\n");
       WriteLine("-   youtube-dl and ffmpeg");
       WriteLine("-   lame if you are using MP3");
       WriteLine("-   flac if you are using FLAC");
       WriteLine("-   opusenc if you are using Opus");
       WriteLine("-   oggenc if you are using Vorbis");
-      WriteLine("If you are ready, press any key to continue...");
+      Info("If you are ready, press any key to continue...");
       ReadLine();
 
       Invoke();
