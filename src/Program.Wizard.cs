@@ -50,7 +50,8 @@ namespace Gunloader
 
       WriteAllText(file.FullName, sample);
 
-      Info("I've created a sample records.txt file for you.\nEdit it, and once you're done, press any key!");
+      Info("I've created a new sample records.txt file for you to edit.");
+      WriteLine("Edit it using a text editor with the relevant information, then press any key!");
       ReadLine();
 
       Records.Add(file);
