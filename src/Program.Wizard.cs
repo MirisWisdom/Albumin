@@ -32,8 +32,12 @@ namespace Gunloader
 
       if (file.Exists && file.Directory != null)
       {
-        var id = file.Directory.GetFiles("records.txt*", TopDirectoryOnly).Length + 1;
-        Move(file.FullName, $"{file.FullName}.backup ~ {id}");
+        var id     = file.Directory.GetFiles("records.txt.*", TopDirectoryOnly).Length + 1;
+        var backup = new FileInfo($"{file.FullName}.{id:0000}");
+
+        Move(file.FullName, backup.FullName);
+
+        Info($"I've backed up your existing records file!\n{file.Name} => {backup.Name}");
       }
 
       var sample = new string("90'sアニメ主題歌セレクション RB-XYZ【奇跡の向こう側へ】 Ver.2\n"
