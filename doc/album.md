@@ -31,6 +31,4 @@ A special mode has been introduced in v0.6.0, where Gunloader can attempt to ret
 
 ![chapters](./chapters.svg)
 
-To activate this mode, the given records file must have a **YouTube Video URL** in its **first line**. Of course, the YouTube video in question must have chapters set for it.
-
-If Gunloader cannot infer any chapters, it will resort to parsing the tracks specified in the records file if any are available.
+To activate this mode, the given records file should simply contain the **YouTube Video URL**. Of course, the YouTube video in question must contain chapters.
