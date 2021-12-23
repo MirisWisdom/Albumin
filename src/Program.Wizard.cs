@@ -80,9 +80,14 @@ namespace Gunloader
 
       var format = string.Empty;
 
-      while (format != "flac" && format != "lame" && format != "opus" && format != "vorbis" && format != "original")
+      while (format != "flac"   &&
+             format != "lame"   &&
+             format != "opus"   &&
+             format != "vorbis" &&
+             format != "aac"    &&
+             format != "original")
       {
-        Info("Please specify a format.\nAvailable formats: flac | lame | opus | vorbis | original");
+        Info("Please specify a format.\nAvailable formats: flac | lame | opus | vorbis | aac | original");
         Prompt("Format");
 
         format = ReadLine()?.ToLower();
@@ -104,6 +109,10 @@ namespace Gunloader
           break;
         case "opus":
           Toolkit.Encoder      = new Opus();
+          Toolkit.FFmpeg.Lossy = true;
+          break;
+        case "aac":
+          Toolkit.Encoder      = new AAC();
           Toolkit.FFmpeg.Lossy = true;
           break;
         case "original":

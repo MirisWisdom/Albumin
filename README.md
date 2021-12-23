@@ -23,7 +23,7 @@ This project allows you to transform long YouTube album videos into properly cur
 ## Features
 
 - Encodes a long video's audio into separate audio tracks
-- Support for FLAC, MP3, Vorbis and Opus encoding formats
+- Support for FLAC, MP3, Vorbis, Opus and AAC encoding formats
 - Tagging abilities (title, album, artist(s), comment, genre, etc.)
 - Downloading using YouTube-DL, or using an existing video file
 - Embedded cover art, using thumbnails derived from the provided video, or using an existing image
@@ -51,6 +51,7 @@ Download [the latest release from here](https://github.com/yumiris/Gunloader/rel
 - [`flac`](https://xiph.org/flac/) for FLAC encoding w/ metadata
 - [`oggenc`](https://www.xiph.org/vorbis/) for Vorbis encoding w/ metadata
 - [`opusenc`](https://wiki.xiph.org/Opus-tools) for Opus encoding w/ metadata
+- [`ffmpeg`](https://www.ffmpeg.org/) for AAC encoding w/ metadata
 
 If you need to specify a dependency's executable to the program, do it like so:
 

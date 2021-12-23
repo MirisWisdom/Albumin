@@ -66,7 +66,7 @@ Once you're ready, continue with the program and it will start curating the vide
 
 | Parameter         | Description                                                                                                 |
 | ----------------- | ----------------------------------------------------------------------------------------------------------- |
-| `--format=VALUE`  | audio encoding format; supported values: `mp3`, `flac`, `vorbis`, `opus`, `raw`                             |
+| `--format=VALUE`  | audio encoding format; supported values: `mp3`, `flac`, `vorbis`, `opus`, `aac`, `raw`                      |
 | `--album=VALUE`   | path to [album records](#album-records) file(s) (see below); multiple `--album 'abc.txt' --album 'xyz.txt'` |
 | `--artist=VALUE`  | album artist(s) to assign to the tracks' metadata; multiple: `--artist 'a' --artist 'b'`                    |
 | `--genre=VALUE`   | genre to assign to the tracks' metadata                                                                     |

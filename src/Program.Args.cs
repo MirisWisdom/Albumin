@@ -66,6 +66,11 @@ namespace Gunloader
               Toolkit.Encoder      = new Opus();
               Toolkit.FFmpeg.Lossy = true;
               break;
+            case "aac":
+            case "m4a":
+              Toolkit.Encoder      = new AAC();
+              Toolkit.FFmpeg.Lossy = true;
+              break;
             case "raw":
             case "original":
             case "no-encode":
