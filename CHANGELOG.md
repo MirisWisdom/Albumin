@@ -1,5 +1,35 @@
 # Gunloader Changelog
 
+## [v0.7.5] - 2021-12-22
+
+### AAC encoding support
+
+This update introduces support for encoding audio to AAC (.m4a) files. Invoke `gunloader` with `--format aac` or `--format m4a` - or specify `aac` in the wizard -- to use this format.
+
+#### Notes
+
+- FFmpeg is used for this encoding procedure, with the native AAC encoder. This is to mitigate scenarios where `libfdk_aac` is not found.
+- Coverart is not embedded into the AAC files because FFmpeg doesn't seem to do it properly at the time of this commit. The alternative would be to use an additional dependency for the cover art.
+
+## [v0.7.4] - 2021-12-08
+
+### Interactive Wizard
+
+This update introduces an interactive wizard for Gunloader. When you run the program without specifying arguments, it will interactively walk you through setting everything up.
+
+![image](https://user-images.githubusercontent.com/10241434/145281119-2c05acaf-c988-443c-a149-46a89550ae24.png)
+
+## [v0.7.3] - 2021-12-04
+
+### Publication Changes
+
+- Official releases are now remarkably smaller
+- 6.0 is now used instead of 5.0 for .NET Core
+
+### Logic Tweaks & Improvements
+
+- Fixed erroneous inference of songs from a given records file
+
 ## [v0.7.2] - 2021-10-25
 
 ### Conditional Audio Download
