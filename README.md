@@ -5,20 +5,15 @@
     <p align='center'>
         Download, extract & curate songs from YouTube album videos in your favourite audio format.
         <br>
-        <br>
-        <img src='https://user-images.githubusercontent.com/10241434/135048812-156d9a9a-0218-42e8-9bcf-1b67ff7acbef.png'>
-        <br>
-        <img src='https://user-images.githubusercontent.com/10241434/135047939-dc7c2d36-a10c-4be2-ae0c-4961c3cb1a20.png'>
-        <br>
         <a href='https://github.com/yumiris/Gunloader/releases/latest'>Download Latest Release</a>
     </p>
 </html>
 
 ## Introduction
 
-This project allows you to transform long YouTube album videos into properly curated songs, with support for popular audio formats. It's not just for YouTube, but any website that YouTube-DL supports, and any video/audio that FFmpeg supports.
+This project allows you to transform long YouTube album videos into properly curated songs:
 
-![gunloader diagram](./doc/gunloader.svg)
+![screenshot of curated songs](https://user-images.githubusercontent.com/10241434/135047939-dc7c2d36-a10c-4be2-ae0c-4961c3cb1a20.png)
 
 ## Features
 
@@ -34,8 +29,6 @@ This project allows you to transform long YouTube album videos into properly cur
 ## Usage
 
 Simply double click on Gunloader, and the wizard will walk you through the whole process. It will generate a sample records file for you to edit, then ask you some additional quests regarding the encoding and metadata.
-
-![wizard](https://user-images.githubusercontent.com/10241434/145333289-27e462f6-eb21-4793-853b-1b18b684994e.png)
 
 For further instructions, please refer to the [USAGE](./USAGE.md) document. Linux users may have to run `./gunloader` through the terminal to see the wizard.
 
