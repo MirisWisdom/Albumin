@@ -68,4 +68,4 @@ If you need to specify a dependency's executable to the program, do it like so:
 
 It's called `gunloader` because it was originally meant to be used to download compilations by Gundober.
 
-This repository's numbskull of an author realised only afterwards that this solution works for any YouTube album video.
+This repository's numskull of an author realised only afterwards that this solution works for any YouTube album video.
