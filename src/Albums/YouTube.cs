@@ -79,12 +79,22 @@ namespace Gunloader.Albums
 
     public override void Save(ISerialisation serialisation)
     {
-      serialisation.Marshal(Storage, this);
+      Save(serialisation, Storage);
+    }
+
+    public override void Save(ISerialisation serialisation, FileInfo instructions)
+    {
+      serialisation.Marshal(instructions, this);
     }
 
     public override void Load(ISerialisation serialisation)
     {
-      var album = serialisation.Hydrate<YouTube>(Storage);
+      Load(serialisation, Storage);
+    }
+
+    public override void Load(ISerialisation serialisation, FileInfo instructions)
+    {
+      var album = serialisation.Hydrate<YouTube>(instructions);
       Source = album.Source;
       Title  = album.Title;
       Tracks = album.Tracks;

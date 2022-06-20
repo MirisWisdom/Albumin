@@ -93,8 +93,10 @@ namespace Gunloader.Albums
     }
 
     public abstract void Save(ISerialisation serialisation);
+    public abstract void Save(ISerialisation serialisation, FileInfo instructions);
 
     public abstract void Load(ISerialisation serialisation);
+    public abstract void Load(ISerialisation serialisation, FileInfo instructions);
 
     public abstract void Hydrate(Metadata metadata);
 
