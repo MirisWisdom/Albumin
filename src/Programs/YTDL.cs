@@ -26,7 +26,7 @@ namespace Gunloader.Programs
 {
   public class YTDL
   {
-    public string Program { get; set; } = "youtube-dl";
+    public string Program { get; set; } = "yt-dlp";
 
     public FileInfo GetVideo(string url, FileInfo output)
     {

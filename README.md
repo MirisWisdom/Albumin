@@ -38,7 +38,7 @@ Download [the latest release from here](https://github.com/yumiris/Gunloader/rel
 
 ## Dependencies
 
-- [`youtube-dl`](https://ytdl-org.github.io/youtube-dl/) for downloading videos
+- [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) for downloading videos (`youtube-dl` can also be used)
 - [`ffmpeg`](https://www.ffmpeg.org/) for audio & cover art extraction
 - [`lame`](https://lame.sourceforge.net/) for MP3 encoding w/ metadata
 - [`flac`](https://xiph.org/flac/) for FLAC encoding w/ metadata
@@ -56,7 +56,7 @@ If you need to specify a dependency's executable to the program, do it like so:
     # paths to dependencies
     --ffmpeg "c:\\ffmpeg.exe" \
     --flac '/bin/flac' \
-    --youtube-dl ~/ytdl \
+    --youtube-dl ~/yt-dlp \
 
     # mass fill with optional metadata
     --genre "OP/ED/IN/IM" \
