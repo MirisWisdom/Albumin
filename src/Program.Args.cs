@@ -131,6 +131,23 @@ namespace Gunloader
         }
       },
       {
+        "instructions=",
+        "use compiled .gun file at existing path instead of records.txt",
+        s =>
+        {
+          var instructions = new FileInfo(s);
+
+          if (instructions.Exists && instructions.Extension.Contains("gun"))
+          {
+            Instructions = instructions;
+            return;
+          }
+
+          WriteLine("Please provide a valid .gun file that exists on your system!");
+          Exit(1);
+        }
+      },
+      {
         "no-prompt",
         "don't prompt to review the generated .gun file",
         s =>
