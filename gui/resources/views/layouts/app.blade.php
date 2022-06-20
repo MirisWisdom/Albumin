@@ -7,6 +7,25 @@
     <meta http-equiv="X-UA-Compatible"
           content="ie=edge">
     <title>{{ config('app.name') }} ~ {{ config('app.author') }}</title>
+
+    <meta property="og:title"
+          content="{{config('app.name') }} ~ {{ config('app.author') }}">
+    <meta property="og:type"
+          content="website"/>
+    <meta property="og:image"
+          content="{{ asset('apple-touch-icon.png') }}">
+    <meta property="og:url"
+          content="{{ route('welcome') }}">
+    <meta name="twitter:card"
+          content="Split YouTube videos into audio tracks.">
+
+    <meta property="og:description"
+          content="Split YouTube videos into audio tracks.">
+    <meta property="og:site_name"
+          content="{{ config('app.name') }} ~ {{ config('app.author') }}">
+    <meta name="twitter:image:alt"
+          content="Screenshot of Gunloader Website">
+
     <link rel="stylesheet"
           href="{{ asset('css/app.css') }}">
     <link rel="apple-touch-icon"
