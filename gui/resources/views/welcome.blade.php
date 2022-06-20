@@ -21,7 +21,8 @@
                                        type="text"
                                        placeholder="https://youtu.be/rTmyZdWqt9Y"
                                        id="source-text"
-                                       name="source">
+                                       name="source"
+                                       required>
                             </div>
                             <div class="control">
                                 <button class="button is-link is-large">
