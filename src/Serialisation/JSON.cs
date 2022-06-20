@@ -30,7 +30,7 @@ namespace Gunloader.Serialisation
       if (!source.Exists)
         throw new FileNotFoundException("Could not deserialise JSON. Source file not found.");
 
-      return Deserialize<T>(ReadAllText(source.Name));
+      return Deserialize<T>(ReadAllText(source.FullName));
     }
 
     public void Marshal<T>(FileInfo target, T entity)
