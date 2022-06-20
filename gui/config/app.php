@@ -19,6 +19,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Author Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the name of the silly author. This value is used when the
+    | framework needs to place the creator's name for reasons of vanity, or
+    | for the sake of potentially getting a lot of sweet acknowledgement!
+    |
+    */
+    'author' => env('APP_AUTHOR', 'Miris Wisdom'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
