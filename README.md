@@ -5,6 +5,8 @@
     <p align='center'>
         Download, extract & curate songs from YouTube album videos in your favourite audio format.
         <br>
+        <a href='https://gunloader.miris.design'>Gunloader Web GUI</a>
+        <br>
         <a href='https://github.com/yumiris/Gunloader/releases/latest'>Download Latest Release</a>
     </p>
 </html>
@@ -28,9 +30,9 @@ This project allows you to transform long YouTube album videos into properly cur
 
 ## Usage
 
-Simply double click on Gunloader, and the wizard will walk you through the whole process. It will generate a sample records file for you to edit, then ask you some additional quests regarding the encoding and metadata.
+To make things simpler, give the [Web GUI](https://gunloader.miris.design/) a try here! It will let you organise your tracks (or use other people's existing records). Simply double click on Gunloader, and specify the ID that the Web GUI will give you.
 
-For further instructions, please refer to the [USAGE](./USAGE.md) document. Linux users may have to run `./gunloader` through the terminal to see the wizard.
+For advanced instructions, please refer to the [USAGE](./USAGE.md) document. Linux users may have to run `./gunloader` through the terminal to see the wizard.
 
 ## Installation
 
