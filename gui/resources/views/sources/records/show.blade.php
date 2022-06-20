@@ -27,6 +27,13 @@
                         Inspect
                     </a>
                 </div>
+                <div class="control">
+                    <a href="https://github.com/yumiris/Gunloader/releases/"
+                       class="button is-link is-large"
+                       target="_blank">
+                        Download Gunloader
+                    </a>
+                </div>
             </div>
         </div>
     @endif
