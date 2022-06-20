@@ -4,13 +4,6 @@
     <div class="columns">
         <div class="column">
             <div class="card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/{{ $source->id }}"></iframe>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="card">
                 <div class="card-content">
                     <h2 class="subtitle">
                         Available Instructions
@@ -71,6 +64,13 @@
                                class="button is-link is-fullwidth"
                                value="Create New Instructions">
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/{{ $source->id }}"></iframe>
                 </div>
             </div>
         </div>
