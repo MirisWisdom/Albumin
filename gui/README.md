@@ -4,14 +4,15 @@
     </h1>
     <p align='center'>
         Create and find instructions for Gunloader to download YouTube album videos into separate songs.
-        <br>
+    </p>
+    <p align='center'>
         <a href='https://gunloader.miris.design'>Gunloader Web GUI</a>
-        <br>
-        <a href='https://github.com/yumiris/Gunloader/releases/latest'>Download Latest Release</a>
+        •
+        <a href='https://github.com/yumiris/Gunloader/releases/latest'>Download Gunloader CLI</a>
     </p>
 </html>
 
-![gunloader web gui screenshot](https://user-images.githubusercontent.com/10241434/174512058-674d4edf-7e99-4743-a74c-919893cb16ff.png)
+![gunloader web gui screenshot](https://user-images.githubusercontent.com/10241434/174526432-c1910964-238a-4618-98da-4c1ae6331a76.png)
 
 This project lets you generate instructions for the Gunloader CLI to download and split up videos into separate audio track files. It is a simple companion to the main CLI app, with the intent of being accessible from any device.
 

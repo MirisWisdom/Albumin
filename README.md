@@ -4,9 +4,10 @@
     </h1>
     <p align='center'>
         Download, extract & curate songs from YouTube album videos in your favourite audio format.
-        <br>
+    </p>
+    <p align='center'>
         <a href='https://gunloader.miris.design'>Gunloader Web GUI</a>
-        <br>
+        •
         <a href='https://github.com/yumiris/Gunloader/releases/latest'>Download Latest Release</a>
     </p>
 </html>
