@@ -56,7 +56,7 @@
     <div class="card">
         <div class="card-content">
             <h2 class="subtitle">
-                Available Tracks
+                Songs List
             </h2>
             @if($entries->count() > 0)
                 <table class="table is-fullwidth">
