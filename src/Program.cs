@@ -34,10 +34,11 @@ namespace Gunloader
    */
   public static partial class Program
   {
-    public static bool           Prompt   { get; set; } = true;
-    public static List<FileInfo> Records  { get; set; } = new();
-    public static Metadata       Metadata { get; set; } = new();
-    public static Toolkit        Toolkit  { get; set; } = new();
+    public static bool           Prompt       { get; set; } = true;
+    public static List<FileInfo> Records      { get; set; } = new();
+    public static Metadata       Metadata     { get; set; } = new();
+    public static Toolkit        Toolkit      { get; set; } = new();
+    public static FileInfo       Instructions { get; set; }
 
     public static void Main(string[] args)
     {
@@ -60,6 +61,14 @@ namespace Gunloader
 
     public static void Invoke()
     {
+      if (Instructions != null)
+      {
+        var album = new Albums.Gunloader();
+        album.Load(Toolkit.Serialisation, Instructions);
+        album.Encode(Toolkit);
+        Exit(0);
+      }
+      
       if (Records.Count == 0)
       {
         WriteLine("Please provide at least one valid album records file.");
