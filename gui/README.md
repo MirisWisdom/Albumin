@@ -12,7 +12,7 @@
     </p>
 </html>
 
-![gunloader web gui screenshot](https://user-images.githubusercontent.com/10241434/174526432-c1910964-238a-4618-98da-4c1ae6331a76.png)
+![gunloader web gui screenshot](https://user-images.githubusercontent.com/10241434/174534383-2a144ef9-5a00-4348-8328-b7d05b8461f5.png)
 
 This project lets you generate instructions for the Gunloader CLI to download and split up videos into separate audio track files. It is a simple companion to the main CLI app, with the intent of being accessible from any device.
 

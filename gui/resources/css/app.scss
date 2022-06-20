@@ -1,5 +1,3 @@
-@import "~bulma/css/bulma.css";
-
 .video-container {
     position: relative;
     padding-bottom: 56.25%;
@@ -15,3 +13,7 @@
     width: 100%;
     height: 100%;
 }
+
+$link: #e14858;
+
+@import "~bulma/bulma.sass";
