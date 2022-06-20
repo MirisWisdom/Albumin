@@ -1,11 +1,11 @@
 using System;
 using System.IO;
+using System.Net.Http;
 using Gunloader.Encoders;
 using static System.Console;
 using static System.ConsoleColor;
 using static System.IO.File;
-using static System.IO.SearchOption;
-using static System.Security.Cryptography.MD5;
+using static System.IO.Path;
 
 namespace Gunloader
 {
@@ -13,6 +13,9 @@ namespace Gunloader
   {
     public static void Wizard()
     {
+      const string URL = "https://gunloader.miris.design";
+      const string API = "https://gunloader.miris.design/api/instructions";
+
       void Prompt(string prompt)
       {
         ForegroundColor = Red;
@@ -28,55 +31,16 @@ namespace Gunloader
         WriteLine(message);
       }
 
-      string Hash(string path)
-      {
-        using var md5    = Create();
-        using var stream = OpenRead(path);
-        
-        return BitConverter.ToString(md5.ComputeHash(stream));
-      }
-
       Banner();
 
-      var file = new FileInfo("records.txt");
+      Info($"Please go to {URL} and follow the instructions there, then type the ID in here!");
+      Prompt("Gunloader ID");
 
-      if (file.Exists && file.Directory != null)
-      {
-        var id     = file.Directory.GetFiles("records.txt.*", TopDirectoryOnly).Length + 1;
-        var backup = new FileInfo($"{file.FullName}.{id:0000}");
+      var path = new FileInfo(GetTempFileName());
 
-        Move(file.FullName, backup.FullName);
+      Download($"{API}/{ReadLine()}", path.FullName);
 
-        Info($"I've backed up your existing records file!\n{file.Name} => {backup.Name}");
-      }
-
-      var sample = new string("90'sアニメ主題歌セレクション RB-XYZ【奇跡の向こう側へ】 Ver.2\n"
-                              + "https://youtu.be/divcisums90"
-                              + "\n\n"
-                              + "01 0:00:00 All You Need Is Love - 田村直美 「レイアース」OVA版主題歌\n"
-                              + "02 0:05:20 HEAVEN - HIM 「YAT安心！宇宙旅行」一期OP\n"
-                              + "03 0:08:48 僕であるために - FLYING KIDS 「逮捕しちゃうぞ」一期OP2\n"
-                              + "04 0:12:23 LOVE SOMEBODY - 福井麻利子 「逮捕しちゃうぞ」一期OP3");
-
-      WriteAllText(file.FullName, sample);
-
-      var oldHash = Hash(file.FullName);
-
-      Info("I've created a new sample records.txt file for you to edit.");
-      WriteLine("Edit it using a text editor with the relevant information, then press any key!");
-      ReadLine();
-
-      var newHash = Hash(file.FullName);
-
-      while (oldHash.Equals(newHash))
-      {
-        Info("Please edit the records.txt file before proceeding!");
-        WriteLine("Edit it using a text editor with the relevant information, then press any key!");
-        ReadLine();
-        newHash = Hash(file.FullName);
-      }
-
-      Records.Add(file);
+      Instructions = path;
 
       var format = string.Empty;
 
@@ -125,40 +89,20 @@ namespace Gunloader
           break;
       }
 
-      Info("If you want, feel free to specify the album artist(s).");
-      WriteLine("Use ; to specify multiple artists, e.g. Yoko Takahashi; Shinichi Ishihara");
-      Prompt("Artist(s)");
-      var artists = ReadLine();
-
-      if (artists != null)
-        foreach (var artist in artists.Split(';'))
-          Metadata.Artists.Add(artist.Trim());
-
-      Info("If you want, feel free to specify the album genre.");
-      Prompt("Genre");
-      var genre = ReadLine();
-
-      if (genre != null)
-        Metadata.Genre = genre;
-
-      Info("If you want, feel free to specify the album comment.");
-      Prompt("Comment");
-      var comment = ReadLine();
-
-      if (comment != null)
-        Metadata.Comment = comment;
-
-      Info("I'll try to process all of this stuff for you now.\n");
-      WriteLine("Before continuing, make sure that you have the necessary dependencies installed!\n");
-      WriteLine("-   youtube-dl and ffmpeg");
-      WriteLine("-   lame if you are using MP3");
-      WriteLine("-   flac if you are using FLAC");
-      WriteLine("-   opusenc if you are using Opus");
-      WriteLine("-   oggenc if you are using Vorbis");
-      Info("If you are ready, press any key to continue...");
-      ReadLine();
-
       Invoke();
+    }
+
+    private static async void Download(string uri, string destination)
+    {
+      if (!Uri.TryCreate(uri, UriKind.Absolute, out _))
+        throw new InvalidOperationException("URI is invalid.");
+
+      if (!Exists(destination))
+        throw new FileNotFoundException("File not found."
+          , nameof(destination));
+
+      var fileBytes = await new HttpClient().GetByteArrayAsync(uri);
+      await WriteAllBytesAsync(destination, fileBytes);
     }
   }
 }
