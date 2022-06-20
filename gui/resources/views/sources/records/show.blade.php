@@ -2,36 +2,52 @@
 
 @section('content')
     @if($entries->count() > 0)
-        <div class="content">
-            <label class="label"
-                   for="url-text">
-                Run the
-                <a href="https://github.com/yumiris/Gunloader/releases/"
-                   target="_blank">
-                    Gunloader CLI
-                </a>
-                and enter the following ID:
-            </label>
-            <div class="field has-addons">
-                <div class="control is-expanded">
-                    <input class="input is-large is-family-monospace has-text-centered"
-                           type="text"
-                           id="url-text"
-                           readonly
-                           value="{{ $record->alias }}">
+        <label class="label"
+               for="url-text">
+            Run the
+            <a href="https://github.com/yumiris/Gunloader/releases/"
+               target="_blank">
+                Gunloader CLI
+            </a>
+            and enter the following ID:
+        </label>
+
+        <div class="columns">
+            <div class="column is-one-third">
+                <div class="field has-addons">
+                    <div class="control is-expanded">
+                        <input class="input is-large is-family-monospace has-text-centered"
+                               type="text"
+                               id="url-text"
+                               readonly
+                               value="{{ $record->alias }}">
+                    </div>
                 </div>
-                <div class="control">
-                    <a href="{{ route('instructions.show', $record->alias) }}"
-                       class="button is-outlined is-link is-large"
-                       target="_blank">
-                        Inspect
-                    </a>
-                </div>
+            </div>
+            <div class="column is-one-third">
                 <div class="control">
                     <a href="https://github.com/yumiris/Gunloader/releases/"
-                       class="button is-link is-large"
+                       class="button is-link is-large is-fullwidth"
                        target="_blank">
                         Download Gunloader
+                    </a>
+                </div>
+            </div>
+            <div class="column">
+                <div class="control">
+                    <a href="{{ 'https://youtu.be/' . $record->source_id }}"
+                       class="button is-outlined is-link is-large is-fullwidth"
+                       target="_blank">
+                        View Video
+                    </a>
+                </div>
+            </div>
+            <div class="column">
+                <div class="control">
+                    <a href="{{ route('instructions.show', $record->alias) }}"
+                       class="button is-outlined is-link is-large is-fullwidth"
+                       target="_blank">
+                        Inspect JSON
                     </a>
                 </div>
             </div>
