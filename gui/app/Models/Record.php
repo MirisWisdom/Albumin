@@ -54,6 +54,8 @@ class Record extends Model
         $record->source_id  = $source->id;
         $record->save();
 
+        Entry::storeFromChapters($record);
+
         info('Registered new Record to the database.', [
             'record' => $record->id,
             'alias'  => $record->alias,

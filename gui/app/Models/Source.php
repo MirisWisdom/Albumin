@@ -19,11 +19,13 @@ use InvalidArgumentException;
  * App\Models\Source
  *
  * @property string $id
- * @property string $title
- * @property string $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property string|null $title
+ * @property string|null $description
+ * @property-read Collection|Chapter[] $chapters
+ * @property-read int|null $chapters_count
  * @property-read Collection|Record[] $records
  * @property-read int|null $records_count
  * @method static Builder|Source newModelQuery()
@@ -32,9 +34,9 @@ use InvalidArgumentException;
  * @method static Builder|Source query()
  * @method static Builder|Source whereCreatedAt($value)
  * @method static Builder|Source whereDeletedAt($value)
+ * @method static Builder|Source whereDescription($value)
  * @method static Builder|Source whereId($value)
  * @method static Builder|Source whereTitle($value)
- * @method static Builder|Source whereDescription($value)
  * @method static Builder|Source whereUpdatedAt($value)
  * @method static Builder|Source withTrashed()
  * @method static Builder|Source withoutTrashed()
@@ -78,6 +80,8 @@ class Source extends Model
                 'source' => $source->id
             ]);
 
+            Chapter::cache($source);
+
             return $source;
         }
 
@@ -96,5 +100,10 @@ class Source extends Model
     public function records(): HasMany
     {
         return $this->hasMany(Record::class);
+    }
+
+    public function chapters(): HasMany
+    {
+        return $this->hasMany(Chapter::class);
     }
 }

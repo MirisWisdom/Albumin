@@ -93,6 +93,32 @@ class Entry extends Model
         return !empty($input) ? trim($input) : $input;
     }
 
+    public static function storeFromChapters(Record $record)
+    {
+        $number = 1;
+        if ($record->source->chapters()->count() > 0) {
+            foreach ($record->source->chapters()->get() as $chapter) {
+                $entry             = new Entry();
+                $entry->number     = $number;
+                $entry->title      = $chapter->title;
+                $entry->start      = $chapter->start;
+                $entry->end        = $chapter->end;
+                $entry->identifier = Identifier::infer();
+                $entry->record_id  = $record->id;
+                $entry->save();
+
+                $number++;
+
+                info('Registered new Entry from Source Chapter to the database.', [
+                    'entry'   => $entry->id,
+                    'record'  => $record->id,
+                    'source'  => $record->source_id,
+                    'chapter' => $chapter->id
+                ]);
+            }
+        }
+    }
+
     public static function batch(Source $source, Record $record, Request $request)
     {
         $separator = "\r\n";
