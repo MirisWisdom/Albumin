@@ -14,6 +14,21 @@ use Illuminate\Http\Request;
 class SourceController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return Application|Factory|View
+     */
+    public function index(): View|Factory|Application
+    {
+        return view('sources.index', [
+            'sources' => Source
+                ::query()
+                ->has('records.entries')
+                ->get()
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
@@ -43,7 +58,7 @@ class SourceController extends Controller
      */
     public function show(Source $source): View|Factory|Application
     {
-        return view('sources', [
+        return view('sources.show', [
             'source'  => $source,
             'records' => Record::query()
                                ->where('source_id', $source->id)

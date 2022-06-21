@@ -54,6 +54,10 @@
             <p class="subtitle">
                 Split YouTube videos into audio tracks.
             </p>
+            <a href="{{ route('sources.index') }}"
+               class="button is-small is-outlined is-link">
+                All Videos
+            </a>
         </div>
     </section>
     @if(session('success'))

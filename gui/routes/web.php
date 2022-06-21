@@ -20,6 +20,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::resource('sources', SourceController::class)->only(['store', 'show']);
+Route::resource('sources', SourceController::class)->only(['store', 'show', 'index']);
 Route::resource('sources.records', RecordController::class)->only(['store', 'show']);
 Route::resource('sources.records.entries', EntryController::class)->only(['store', 'destroy']);
