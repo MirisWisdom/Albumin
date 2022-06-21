@@ -61,7 +61,7 @@ class RecordController extends Controller
         $start_time  = Entry::query()->where('record_id', $record->id)->latest()->first()->end ?? null;
         $embed_time = $start_time != null ? Time::toSeconds($start_time) : 0;
 
-        return view('sources.records.show', [
+        return view('sources.records', [
             'source'     => $source,
             'record'     => $record,
             'entries'    => $record->entries()->get(),

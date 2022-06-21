@@ -65,7 +65,7 @@ class SourceController extends Controller
      */
     public function show(Source $source)
     {
-        return view('sources.show', [
+        return view('sources', [
             'source'  => $source,
             'records' => Record::query()
                                ->where('source_id', $source->id)
