@@ -11,24 +11,26 @@
         <div class="message-body">
             <div class="content">
                 <p>
-                    You can manually import songs from text, such as the video's description.
+                    You can manually import songs from text, such as by copying and pasting the video's description!
+                </p>
+            </div>
+            <div class="box is-family-monospace">
+                <p>
+                    <b>FORMAT</b>
                 </p>
                 <p>
-                    Please make sure to <b>use the following format</b>:
+                    # | title | start time (hh:mm:ss) | end time (hh:mm:ss) | album | genre | artists (use ; to separate)
                 </p>
             </div>
-            <div class="box">
-                # | title | start time (hh:mm:ss) | end time (hh:mm:ss) | album | genre | artists (use ; to separate)
-            </div>
-            <div class="content">
+            <div class="box is-family-monospace">
                 <p>
                     <b>EXAMPLE</b>
                 </p>
-                <div class="is-family-monospace">
+                <p>
                     1 | Rock Over Japan | 00:02:18 | 00:04:28 | HHH | J-Pop | Himari; Hibari; Hikari
                     <br>
-                    1 | Rock Over Japan | 00:02:18 | 00:04:28 \------------- optional -------------/
-                </div>
+                    2 | A Cruel Angel's | 00:04:28 | 00:08:28 \------------- optional -------------/
+                </p>
             </div>
         </div>
     </article>
@@ -40,13 +42,14 @@
             </label>
             <textarea class="textarea is-family-monospace"
                       id="import-textarea"
-                      name="import">{{ $export }}</textarea>
+                      name="import"
+                      placeholder="# | title | start time | end time | ...">{{ $export }}</textarea>
         </div>
     </div>
 
     <div class="field is-expanded">
         <input type="submit"
                class="button is-link is-large is-fullwidth"
-               value="Import Tracks">
+               value="Import Songs">
     </div>
 </form>

@@ -1,50 +1,3 @@
-<h2 class="subtitle">
-    Songs List
-</h2>
-@if($entries->count() > 0)
-    <table class="table is-fullwidth">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Album</th>
-            <th>Genre</th>
-            <th>Artist(s)</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($entries as $entry)
-            <tr>
-                <td>{{ $entry->number }}</td>
-                <td>{{ $entry->title }}</td>
-                <td>{{ $entry->start }}</td>
-                <td>{{ $entry->end }}</td>
-                <td>{{ $entry->album ?? 'N/A' }}</td>
-                <td>{{ $entry->genre ?? 'N/A' }}</td>
-                <td>{{ is_array($entry->artists) ? implode(', ', $entry->artists) : 'N/A' }}</td>
-                <td>
-                    <form action="{{ route('sources.records.entries.destroy', [$source, $record, $entry]) }}"
-                          method="post">
-                        @method('delete')
-                        @csrf
-                        <input type="submit"
-                               class="button is-small is-danger"
-                               value="Delete">
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-@else
-    <div class="content">
-        No track entries found for this record, yet!
-    </div>
-@endif
-<hr>
 <form action="{{ route('sources.records.entries.store', [$source, $record]) }}"
       method="post">
     @csrf
@@ -141,3 +94,50 @@
                value="Add Track">
     </div>
 </form>
+<hr>
+<h2 class="subtitle">
+    Songs List
+</h2>
+@if($entries->count() > 0)
+    <table class="table is-fullwidth">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Album</th>
+            <th>Genre</th>
+            <th>Artist(s)</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($entries as $entry)
+            <tr>
+                <td>{{ $entry->number }}</td>
+                <td>{{ $entry->title }}</td>
+                <td>{{ $entry->start }}</td>
+                <td>{{ $entry->end }}</td>
+                <td>{{ $entry->album ?? 'N/A' }}</td>
+                <td>{{ $entry->genre ?? 'N/A' }}</td>
+                <td>{{ is_array($entry->artists) ? implode(', ', $entry->artists) : 'N/A' }}</td>
+                <td>
+                    <form action="{{ route('sources.records.entries.destroy', [$source, $record, $entry]) }}"
+                          method="post">
+                        @method('delete')
+                        @csrf
+                        <input type="submit"
+                               class="button is-small is-danger"
+                               value="Delete">
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+@else
+    <div class="content">
+        No track entries found for this record, yet!
+    </div>
+@endif

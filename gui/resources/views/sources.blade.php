@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="box has-text-centered">
+        <h1 class="title">
+            {{ $source->title }}
+        </h1>
+    </div>
     <div class="columns">
         <div class="column">
             <div class="card">

@@ -53,27 +53,32 @@
             </div>
         </div>
     @endif
-    <div class="card">
-        <div class="card-content">
-            <div class="tabs">
-                <ul>
-                    <li {!! $advanced_mode ? '' : "class='is-active'" !!}>
-                        <a href="{{ route('sources.records.show', [$source, $record]) }}">
-                            Simple
-                        </a>
-                    </li>
-                    <li {!! $advanced_mode ? "class='is-active'" : '' !!}>
-                        <a href="{{ route('sources.records.show', [$source, $record, 'mode' => 'advanced']) }}">
-                            Advanced
-                        </a>
-                    </li>
-                </ul>
+    <div class="box has-text-centered">
+        <h1 class="title">{{ $source->title }}</h1>
+    </div>
+    <div class="block">
+        <div class="card">
+            <div class="card-content">
+                <div class="tabs">
+                    <ul>
+                        <li {!! $advanced_mode ? '' : "class='is-active'" !!}>
+                            <a href="{{ route('sources.records.show', [$source, $record]) }}">
+                                Simple
+                            </a>
+                        </li>
+                        <li {!! $advanced_mode ? "class='is-active'" : '' !!}>
+                            <a href="{{ route('sources.records.show', [$source, $record, 'mode' => 'advanced']) }}">
+                                Advanced
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                @if($advanced_mode)
+                    @include('sources.forms.advanced')
+                @else
+                    @include('sources.forms.simple')
+                @endif
             </div>
-            @if($advanced_mode)
-                @include('sources.forms.advanced')
-            @else
-                @include('sources.forms.simple')
-            @endif
         </div>
     </div>
     <div class="block">
