@@ -68,12 +68,12 @@ class Entry extends Model
     public static function store(Source $source, Record $record, Request $request): Entry
     {
         $entry             = new Entry();
-        $entry->number     = trim($request->input('number'));
-        $entry->title      = trim($request->input('title'));
-        $entry->start      = trim($request->input('start'));
-        $entry->end        = trim($request->input('end'));
-        $entry->album      = trim($request->input('album'));
-        $entry->genre      = trim($request->input('genre'));
+        $entry->number     = self::normalise($request->input('number'));
+        $entry->title      = self::normalise($request->input('title'));
+        $entry->start      = self::normalise($request->input('start'));
+        $entry->end        = self::normalise($request->input('end'));
+        $entry->album      = self::normalise($request->input('album'));
+        $entry->genre      = self::normalise($request->input('genre'));
         $entry->artists    = explode(';', trim($request->input('artists')));
         $entry->identifier = Identifier::infer();
         $entry->record_id  = $record->id;
@@ -86,6 +86,11 @@ class Entry extends Model
         ]);
 
         return $entry;
+    }
+
+    private static function normalise(string $input): string
+    {
+        return !empty($input) ? trim($input) : $input;
     }
 
     public function record(): BelongsTo
