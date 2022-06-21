@@ -16,6 +16,7 @@ use InvalidArgumentException;
  * App\Models\Source
  *
  * @property string $id
+ * @property string $title
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -28,6 +29,7 @@ use InvalidArgumentException;
  * @method static Builder|Source whereCreatedAt($value)
  * @method static Builder|Source whereDeletedAt($value)
  * @method static Builder|Source whereId($value)
+ * @method static Builder|Source whereTitle($value)
  * @method static Builder|Source whereUpdatedAt($value)
  * @method static Builder|Source withTrashed()
  * @method static Builder|Source withoutTrashed()
@@ -51,8 +53,17 @@ class Source extends Model
         $source = Source::find($id);
 
         if ($source == null) {
-            $source     = new Source();
-            $source->id = $id;
+            $source        = new Source();
+            $source->id    = $id;
+            $source->title = (function () use ($id) {
+                $url = "https://www.youtube.com/oembed?url=https://youtu.be/{$id}&format=json";
+                $req = curl_init($url);
+                curl_setopt($req, CURLOPT_RETURNTRANSFER, 1);
+                $return = curl_exec($req);
+                curl_close($req);
+                return json_decode($return, true)['title'];
+            })();
+
             $source->save();
 
             info('Registered new Source to the database.', [
