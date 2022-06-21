@@ -68,13 +68,13 @@ class Entry extends Model
     public static function store(Source $source, Record $record, Request $request): Entry
     {
         $entry             = new Entry();
-        $entry->number     = $request->input('number');
-        $entry->title      = $request->input('title');
-        $entry->start      = $request->input('start');
-        $entry->end        = $request->input('end');
-        $entry->album      = $request->input('album');
-        $entry->genre      = $request->input('genre');
-        $entry->artists    = explode(';', $request->input('artists'));
+        $entry->number     = trim($request->input('number'));
+        $entry->title      = trim($request->input('title'));
+        $entry->start      = trim($request->input('start'));
+        $entry->end        = trim($request->input('end'));
+        $entry->album      = trim($request->input('album'));
+        $entry->genre      = trim($request->input('genre'));
+        $entry->artists    = explode(';', trim($request->input('artists')));
         $entry->identifier = Identifier::infer();
         $entry->record_id  = $record->id;
         $entry->save();

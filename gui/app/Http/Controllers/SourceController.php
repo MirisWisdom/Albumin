@@ -44,7 +44,7 @@ class SourceController extends Controller
     public function store(Request $request): RedirectResponse
     {
         try {
-            $source = Source::store($request->input('source'));
+            $source = Source::store(trim($request->input('source')));
 
             if ($source->records()->has('entries')->count() == 0) {
                 $record = Record::store($source);
