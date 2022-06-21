@@ -3,20 +3,25 @@
         Gunloader
     </h1>
     <p align='center'>
-        Download, extract & curate songs from YouTube album videos in your favourite audio format.
+        Split YouTube videos into songs, all tagged and in your favourite audio format.
     </p>
     <p align='center'>
         <a href='https://gunloader.miris.design'>Gunloader Web GUI</a>
         •
-        <a href='https://github.com/yumiris/Gunloader/releases/latest'>Download Latest Release</a>
+        <a href='https://github.com/yumiris/Gunloader/releases/latest'>Download Latest CLI</a>
     </p>
 </html>
 
 ## Introduction
 
-This project allows you to transform long YouTube album videos into properly curated songs:
+This project allows you to split long YouTube videos into separate songs! You can tag them with metadata and encode them in your preferred audio format.
 
 ![screenshot of curated songs](https://user-images.githubusercontent.com/10241434/135047939-dc7c2d36-a10c-4be2-ae0c-4961c3cb1a20.png)
+
+At the moment, the project consists of two components:
+
+- The offline CLI (Command Line Interface) program that downloads and splits up the YouTub video for you; and
+- The online Web UI which lets you specify the song information and start/end times within a YouTube video.
 
 ## Features
 
@@ -31,7 +36,8 @@ This project allows you to transform long YouTube album videos into properly cur
 
 ## Usage
 
-To make things simpler, give the [Web GUI](https://gunloader.miris.design/) a try here! It will let you organise your tracks (or use other people's existing records). Simply double click on Gunloader, and specify the ID that the Web GUI will give you.
+To make things simpler, give the [Web GUI a try here](https://gunloader.miris.design/)! It will let you organise your tracks (or use other people's existing records).
+Simply double click on Gunloader, and specify the ID that the Web GUI will give you.
 
 For advanced instructions, please refer to the [USAGE](./USAGE.md) document. Linux users may have to run `./gunloader` through the terminal to see the wizard.
 
@@ -40,6 +46,8 @@ For advanced instructions, please refer to the [USAGE](./USAGE.md) document. Lin
 Download [the latest release from here](https://github.com/yumiris/Gunloader/releases/latest), and also make sure you have the dependencies you need installed. See below for further information!
 
 ## Dependencies
+
+Download whichever dependency you need for your use-case:
 
 - [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) for downloading videos (`youtube-dl` can also be used)
 - [`ffmpeg`](https://www.ffmpeg.org/) for audio & cover art extraction
