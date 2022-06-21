@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Alaouy\Youtube\Facades\Youtube;
 use Barryvdh\LaravelIdeHelper\Eloquent;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 
 /**
@@ -53,16 +56,18 @@ class Source extends Model
         $source = Source::find($id);
 
         if ($source == null) {
-            $source        = new Source();
-            $source->id    = $id;
-            $source->title = (function () use ($id) {
-                $url = "https://www.youtube.com/oembed?url=https://youtu.be/{$id}&format=json";
-                $req = curl_init($url);
-                curl_setopt($req, CURLOPT_RETURNTRANSFER, 1);
-                $return = curl_exec($req);
-                curl_close($req);
-                return json_decode($return, true)['title'];
-            })();
+            $source     = new Source();
+            $source->id = $id;
+
+            try {
+                $video               = Youtube::getVideoInfo($id);
+                $source->title       = $video->snippet->title;
+            } catch (Exception $exception) {
+                Log::error('Could not retrieve video information from YouTube API.', [
+                    'source'    => $id,
+                    'exception' => $exception->getTraceAsString()
+                ]);
+            }
 
             $source->save();
 
