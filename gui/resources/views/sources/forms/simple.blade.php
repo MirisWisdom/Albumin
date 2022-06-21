@@ -123,14 +123,16 @@
                 <td>{{ $entry->genre ?? 'N/A' }}</td>
                 <td>{{ is_array($entry->artists) ? implode(', ', $entry->artists) : 'N/A' }}</td>
                 <td>
-                    <form action="{{ route('sources.records.entries.destroy', [$source, $record, $entry]) }}"
-                          method="post">
-                        @method('delete')
-                        @csrf
-                        <input type="submit"
-                               class="button is-small is-danger"
-                               value="Delete">
-                    </form>
+                    @if($identifier == $entry->identifier)
+                        <form action="{{ route('sources.records.entries.destroy', [$source, $record, $entry]) }}"
+                              method="post">
+                            @method('delete')
+                            @csrf
+                            <input type="submit"
+                                   class="button is-small is-danger"
+                                   value="Delete">
+                        </form>
+                    @endif
                 </td>
             </tr>
         @endforeach
