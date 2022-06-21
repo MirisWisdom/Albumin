@@ -81,7 +81,7 @@
                             <td>{{ $entry->end }}</td>
                             <td>{{ $entry->album ?? 'N/A' }}</td>
                             <td>{{ $entry->genre ?? 'N/A' }}</td>
-                            <td>{{ implode(', ', $entry->artists) }}</td>
+                            <td>{{ is_array($entry->artists) ? implode(', ', $entry->artists) : 'N/A' }}</td>
                             <td>
                                 <form action="{{ route('sources.records.entries.destroy', [$source, $record, $entry]) }}"
                                       method="post">
