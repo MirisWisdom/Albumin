@@ -200,9 +200,35 @@
             </form>
         </div>
     </div>
-    <div class="card">
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/{{ $source->id }}?start={{ $embed_time }}"></iframe>
+    <div class="block">
+        <div class="card">
+            <div class="card-content">
+                <div class="columns">
+                    <div class="column">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/{{ $source->id }}?start={{ $embed_time }}"></iframe>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <article class="message is-info">
+                            <div class="message-header">
+                                <p>Video Description</p>
+                            </div>
+                            <div class="message-body">
+                                <label class="label"
+                                       for="reference-textarea">
+                                    The video's description <i>might</i> contain the titles and timings!
+                                </label>
+                                <textarea class="textarea is-family-monospace"
+                                          id="reference-textarea"
+                                          rows="10"
+                                          readonly>{{ $source->description }}</textarea>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 @endsection
