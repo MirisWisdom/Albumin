@@ -58,4 +58,43 @@ class TimeTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests that 60 seconds == 1 minute (00:01:00).
+     *
+     * @return void
+     */
+    public function test_seconds_in_minutes_is_correct()
+    {
+        $expected = '00:01:00';
+        $actual   = Time::fromSeconds(60);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests that 60 seconds == 1 minute (00:01:00).
+     *
+     * @return void
+     */
+    public function test_seconds_in_hours_is_correct()
+    {
+        $expected = '08:18:28';
+        $actual   = Time::fromSeconds(29908);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests that passing data through both Time::fromSeconds() and Time::toSeconds() works reliably.
+     *
+     * @return void
+     */
+    public function test_time_integration_consistency()
+    {
+        $expected = '08:18:28';
+        $actual   = Time::fromSeconds(Time::toSeconds($expected));
+
+        $this->assertEquals($expected, $actual);
+    }
 }
