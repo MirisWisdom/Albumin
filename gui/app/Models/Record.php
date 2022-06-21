@@ -63,6 +63,38 @@ class Record extends Model
         return $record;
     }
 
+    public function export(): string
+    {
+        $result = '';
+
+        foreach ($this->entries()->get() as $entry) {
+            $result .= sprintf("%s | %s | %s | %s | %s | %s | %s\n",
+                               $entry->number,
+                               str_pad($entry->title, $this->pad('title')),
+                               $entry->start,
+                               $entry->end,
+                               str_pad($entry->album, $this->pad('album')),
+                               str_pad($entry->genre, $this->pad('genre')),
+                               is_array($entry->artists)
+                                   ? str_pad(implode(';', $entry->artists), $this->pad('artist'))
+                                   : null
+
+            );
+        }
+
+        return $result;
+    }
+
+    public function entries(): HasMany
+    {
+        return $this->hasMany(Entry::class);
+    }
+
+    private function pad($attribute)
+    {
+        return max(array_map('strlen', $this->entries->pluck($attribute)->toArray()));
+    }
+
     public function getAliasAttribute($value): string
     {
         return sprintf("%s-%s", $this->attributes['alias'], $this->attributes['id']);
@@ -71,11 +103,6 @@ class Record extends Model
     public function source(): BelongsTo
     {
         return $this->belongsTo(Source::class);
-    }
-
-    public function entries(): HasMany
-    {
-        return $this->hasMany(Entry::class);
     }
 
     public function votes(): HasMany

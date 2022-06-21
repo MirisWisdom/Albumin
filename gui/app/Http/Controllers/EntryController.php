@@ -6,6 +6,7 @@ use App\Models\Entry;
 use App\Models\Identifier;
 use App\Models\Record;
 use App\Models\Source;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -21,9 +22,17 @@ class EntryController extends Controller
      */
     public function store(Source $source, Record $record, Request $request): RedirectResponse
     {
-        Entry::store($source, $record, $request);
+        try {
+            if ($request->input('mode') == 'import') {
+                Entry::batch($source, $record, $request);
+            } else {
+                Entry::store($source, $record, $request);
+            }
 
-        return back();
+            return back()->with(['success' => 'Operation has been successful!']);
+        } catch (Exception $exception) {
+            return back()->with(['error' => $exception->getMessage()]);
+        }
     }
 
     /**

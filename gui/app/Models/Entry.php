@@ -93,6 +93,36 @@ class Entry extends Model
         return !empty($input) ? trim($input) : $input;
     }
 
+    public static function batch(Source $source, Record $record, Request $request)
+    {
+        $separator = "\r\n";
+        $line      = strtok($request->input('import'), $separator);
+
+        while ($line !== false) {
+            $arr = explode('|', $line);
+
+            $entry             = new Entry();
+            $entry->number     = self::normalise($arr[0]);
+            $entry->title      = self::normalise($arr[1]);
+            $entry->start      = self::normalise($arr[2]);
+            $entry->end        = self::normalise($arr[3]);
+            $entry->album      = isset($arr[4]) ? self::normalise($arr[4]) : null;
+            $entry->genre      = isset($arr[5]) ? self::normalise($arr[5]) : null;
+            $entry->artists    = isset($arr[6]) ? explode(';', trim($arr[6])) : null;
+            $entry->identifier = Identifier::infer();
+            $entry->record_id  = $record->id;
+            $entry->save();
+
+            info('Registered new Entry from batch request to the database.', [
+                'entry'  => $entry->id,
+                'record' => $record->id,
+                'source' => $source->id
+            ]);
+
+            $line = strtok($separator);
+        }
+    }
+
     public function record(): BelongsTo
     {
         return $this->belongsTo(Record::class);

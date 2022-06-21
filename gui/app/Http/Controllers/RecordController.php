@@ -34,21 +34,24 @@ class RecordController extends Controller
      *
      * @param Source $source
      * @param Record $record
+     * @param Request $request
      * @return Application|Factory|View
      */
-    public function show(Source $source, Record $record): View|Factory|Application
+    public function show(Source $source, Record $record, Request $request): View|Factory|Application
     {
         $start_time = Entry::query()->where('record_id', $record->id)->latest()->first()->end ?? null;
         $embed_time = $start_time != null ? Time::toSeconds($start_time) : 0;
 
         return view('sources.records', [
-            'source'     => $source,
-            'record'     => $record,
-            'entries'    => $record->entries()->get(),
-            'identifier' => Identifier::infer(),
-            'can_vote'   => Identifier::infer() != $record->identifier,
-            'start_time' => $start_time,
-            'embed_time' => $embed_time
+            'source'        => $source,
+            'record'        => $record,
+            'entries'       => $record->entries()->get(),
+            'identifier'    => Identifier::infer(),
+            'can_vote'      => Identifier::infer() != $record->identifier,
+            'start_time'    => $start_time,
+            'embed_time'    => $embed_time,
+            'advanced_mode' => $request->input('mode') == 'advanced',
+            'export'        => $record->export()
         ]);
     }
 }
