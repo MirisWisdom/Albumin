@@ -16,33 +16,13 @@ use Illuminate\Http\Request;
 class RecordController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return void
-     */
-    public function index(Source $source)
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return void
-     */
-    public function create(Source $source)
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param Source $source
      * @param Request $request
      * @return RedirectResponse
      */
-    public function store(Source $source, Request $request)
+    public function store(Source $source, Request $request): RedirectResponse
     {
         $record = Record::store($source);
 
@@ -56,9 +36,9 @@ class RecordController extends Controller
      * @param Record $record
      * @return Application|Factory|View
      */
-    public function show(Source $source, Record $record)
+    public function show(Source $source, Record $record): View|Factory|Application
     {
-        $start_time  = Entry::query()->where('record_id', $record->id)->latest()->first()->end ?? null;
+        $start_time = Entry::query()->where('record_id', $record->id)->latest()->first()->end ?? null;
         $embed_time = $start_time != null ? Time::toSeconds($start_time) : 0;
 
         return view('sources.records', [
