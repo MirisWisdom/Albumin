@@ -20,6 +20,7 @@ use InvalidArgumentException;
  *
  * @property string $id
  * @property string $title
+ * @property string $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -33,6 +34,7 @@ use InvalidArgumentException;
  * @method static Builder|Source whereDeletedAt($value)
  * @method static Builder|Source whereId($value)
  * @method static Builder|Source whereTitle($value)
+ * @method static Builder|Source whereDescription($value)
  * @method static Builder|Source whereUpdatedAt($value)
  * @method static Builder|Source withTrashed()
  * @method static Builder|Source withoutTrashed()
@@ -62,6 +64,7 @@ class Source extends Model
             try {
                 $video               = Youtube::getVideoInfo($id);
                 $source->title       = $video->snippet->title;
+                $source->description = $video->snippet->description;
             } catch (Exception $exception) {
                 Log::error('Could not retrieve video information from YouTube API.', [
                     'source'    => $id,
