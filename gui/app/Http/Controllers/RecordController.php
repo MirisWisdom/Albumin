@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Entry;
 use App\Models\Identifier;
 use App\Models\Record;
 use App\Models\Source;
+use App\Models\Time;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -56,12 +58,17 @@ class RecordController extends Controller
      */
     public function show(Source $source, Record $record)
     {
+        $start_time  = Entry::query()->where('record_id', $record->id)->latest()->first()->end ?? null;
+        $embed_time = $start_time != null ? Time::toSeconds($start_time) : 0;
+
         return view('sources.records.show', [
             'source'     => $source,
             'record'     => $record,
             'entries'    => $record->entries()->get(),
             'identifier' => Identifier::infer(),
-            'can_vote'   => Identifier::infer() != $record->identifier
+            'can_vote'   => Identifier::infer() != $record->identifier,
+            'start_time' => $start_time,
+            'embed_time' => $embed_time
         ]);
     }
 }

@@ -141,7 +141,8 @@
                                pattern="^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$"
                                id="start-text"
                                name="start"
-                               required>
+                               required
+                               value="{{ $start_time }}">
                     </div>
                     <div class="control"
                          style="max-width: 250px;">
@@ -201,7 +202,7 @@
     </div>
     <div class="card">
         <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/{{ $source->id }}"></iframe>
+            <iframe src="https://www.youtube.com/embed/{{ $source->id }}?start={{ $embed_time }}"></iframe>
         </div>
     </div>
 @endsection
