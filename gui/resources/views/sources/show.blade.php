@@ -11,13 +11,13 @@
             <div class="card">
                 <div class="card-content">
                     <h2 class="subtitle">
-                        Available Instructions
+                        Available Records
                     </h2>
                     @if($records->count() > 0)
                         <div class="block">
                             <p>
-                                The following existing instructions have been found for this video! Feel free to use
-                                them or create your own! =)
+                                The following existing records have been found for this video! Feel free to use them or
+                                create your own! =)
                                 <br><br>
                                 To use them, paste their ID into Gunloader:
                             </p>
@@ -57,7 +57,7 @@
                         </table>
                     @else
                         <div class="content">
-                            No instructions found for this video! Would you like to create one?
+                            No records found for this video! Would you like to create one?
                         </div>
                     @endif
                     <form action="{{ route('sources.records.store', [$source]) }}"
@@ -67,7 +67,7 @@
                                name="source">
                         <input type="submit"
                                class="button is-link is-fullwidth"
-                               value="Create New Instructions">
+                               value="Create New Records">
                     </form>
                 </div>
             </div>
