@@ -41,14 +41,16 @@ namespace Gunloader.Encoders
       Start(new ProcessStartInfo
       {
         FileName = Program,
-        Arguments = "--best "                                                       +
-                    $"--picture=\"{cover.Name}\" "                                  +
-                    $"--tag=TITLE=\"{track.Title}\" "                               +
-                    $"--tag=TRACKNUMBER=\"{track.Number}\" "                        +
-                    $"--tag=ALBUM=\"{track.Metadata.Album}\" "                      +
-                    $"--tag=GENRE=\"{track.Metadata.Genre}\" "                      +
-                    $"--tag=COMMENT=\"{track.Metadata.Comment}\" "                  +
-                    $"--tag=ARTIST=\"{string.Join(';', track.Metadata.Artists)}\" " +
+        Arguments = "--best "                                      +
+                    $"--picture=\"{cover.Name}\" "                 +
+                    $"--tag=TITLE=\"{track.Title}\" "              +
+                    $"--tag=TRACKNUMBER=\"{track.Number}\" "       +
+                    $"--tag=ALBUM=\"{track.Metadata.Album}\" "     +
+                    $"--tag=GENRE=\"{track.Metadata.Genre}\" "     +
+                    $"--tag=COMMENT=\"{track.Metadata.Comment}\" " +
+                    (track.Metadata.Artists is {Count: > 0}
+                      ? $"--tag=ARTIST=\"{string.Join(';', track.Metadata.Artists)}\" "
+                      : string.Empty) +
                     $"{source.Name} "
       })?.WaitForExit();
 
