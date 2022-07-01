@@ -23,6 +23,7 @@ class SourceController extends Controller
         $sources = Source
             ::query()
             ->has('records.entries')
+            ->orderByDesc('created_at')
             ->get();
 
         /**
