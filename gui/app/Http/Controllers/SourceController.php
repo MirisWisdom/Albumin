@@ -20,11 +20,23 @@ class SourceController extends Controller
      */
     public function index(): View|Factory|Application
     {
+        $sources = Source
+            ::query()
+            ->has('records.entries')
+            ->get();
+
+        /**
+         * We'll temporarily assign the Record with most Entries as the "main Record".
+         * This is used as a shortcut in the index view to quickly point the User to the Record with most Entries.
+         */
+
+        $sources->map(function ($source) {
+            $source['record'] = $source->records()->withCount('entries')->orderBy('entries_count', 'desc')->first();
+            return $source;
+        });
+
         return view('sources.index', [
-            'sources' => Source
-                ::query()
-                ->has('records.entries')
-                ->get()
+            'sources' => $sources
         ]);
     }
 

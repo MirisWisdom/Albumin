@@ -32,15 +32,39 @@
                             <div class="content">
                                 {{ \Illuminate\Support\Str::limit($source->description, 72) }}
                                 <hr>
-                                <a href="{{ route('sources.show', $source) }}"
-                                   class="button is-link">
-                                    View Records
-                                </a>
-                                <a href="https://youtu.be/{{ $source->id }}"
-                                   class="button is-outlined is-link"
-                                   target="_blank">
-                                    Watch Video
-                                </a>
+                                <label class="label"
+                                       for="url-text">
+                                    Run the
+                                    <a href="https://github.com/yumiris/Gunloader/releases/"
+                                       target="_blank">
+                                        Gunloader CLI
+                                    </a>
+                                    and enter the following ID:
+                                </label>
+                                <div class="field has-addons">
+                                    <div class="control is-expanded">
+                                        <input class="input is-large is-family-monospace has-text-centered"
+                                               type="text"
+                                               id="url-text"
+                                               readonly
+                                               value="{{ $source->record->alias }}">
+                                    </div>
+                                </div>
+                                <div class="columns">
+                                    <div class="column">
+                                        <a href="{{ route('sources.show', $source) }}"
+                                           class="button is-link is-fullwidth">
+                                            View All Records
+                                        </a>
+                                    </div>
+                                    <div class="column">
+                                        <a href="https://youtu.be/{{ $source->id }}"
+                                           class="button is-outlined is-link is-fullwidth"
+                                           target="_blank">
+                                            Watch Video
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
