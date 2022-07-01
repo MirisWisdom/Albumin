@@ -15,11 +15,6 @@ class InstructionController extends Controller
      */
     public function show(string $id): array
     {
-        $explode = explode('-', $id);
-        $alias   = sprintf("%s-%s", $explode[0], $explode[1]);
-        $key     = $explode[2];
-        $record  = Record::query()->where('id', $key)->where('alias', $alias)->first();
-
-        return Instruction::generate($record);
+        return Instruction::generate(Record::infer($id));
     }
 }

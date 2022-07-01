@@ -46,6 +46,14 @@ class Record extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public static function infer(string $alias_id): Model|Builder
+    {
+        $explode = explode('-', $alias_id);
+        $alias   = sprintf("%s-%s", $explode[0], $explode[1]);
+        $key     = $explode[2];
+        return Record::query()->where('id', $key)->where('alias', $alias)->first();
+    }
+
     public static function store(Source|Builder $source): Record
     {
         $record             = new Record();
