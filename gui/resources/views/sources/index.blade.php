@@ -7,10 +7,10 @@
                 <div class="column">
                     <div class="card">
                         <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img src="https://i.ytimg.com/vi/{{ $source->id }}/hqdefault.jpg"
-                                     alt="Thumbnail for {{ $source->title }}">
-                            </figure>
+                            <div class="video-container">
+                                <iframe src="https://www.youtube.com/embed/{{ $source->id }}"></iframe>
+                            </div>
+
                         </div>
                         <div class="card-content">
                             <div class="media">
