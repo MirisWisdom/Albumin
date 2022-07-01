@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="content">
-                                {{ \Illuminate\Support\Str::limit($source->description, 150) }}
+                                {{ \Illuminate\Support\Str::limit($source->description, 72) }}
                                 <hr>
                                 <a href="{{ route('sources.show', $source) }}"
                                    class="button is-link">
