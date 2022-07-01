@@ -44,10 +44,10 @@
             </div>
             <div class="column">
                 <div class="control">
-                    <a href="{{ route('instructions.show', $record->alias) }}"
+                    <a href="{{ route('ffmpeg.show', $record->alias) }}"
                        class="button is-outlined is-link is-large is-fullwidth"
                        target="_blank">
-                        Inspect JSON
+                        Shell Script
                     </a>
                 </div>
             </div>
