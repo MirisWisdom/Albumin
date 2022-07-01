@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EntryController;
+use App\Http\Controllers\ShellController;
 use App\Http\Controllers\RecordController;
 use App\Http\Controllers\SourceController;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,4 @@ Route::get('/', function () {
 Route::resource('sources', SourceController::class)->only(['store', 'show', 'index']);
 Route::resource('sources.records', RecordController::class)->only(['store', 'show']);
 Route::resource('sources.records.entries', EntryController::class)->only(['store', 'destroy']);
+Route::resource('shell', ShellController::class)->only('show');

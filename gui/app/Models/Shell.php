@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class FFmpeg
+class Shell
 {
     /**
      * @param Builder|Record $record
@@ -68,6 +68,6 @@ SH;
             );
         }
 
-        return sprintf("<pre>\n%s</pre>", $command);
+        return $command;
     }
 }

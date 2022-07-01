@@ -44,7 +44,7 @@
             </div>
             <div class="column">
                 <div class="control">
-                    <a href="{{ route('ffmpeg.show', $record->alias) }}"
+                    <a href="{{ route('shell.show', $record->alias) }}"
                        class="button is-outlined is-link is-large is-fullwidth"
                        target="_blank">
                         Shell Script
