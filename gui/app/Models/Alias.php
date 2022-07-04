@@ -251,8 +251,8 @@ class Alias
     public static function generate(): string
     {
         return sprintf("%s-%s",
-                       self::$animals[rand(0, count(self::$animals) - 1)],
-                       self::$adjectives[rand(0, count(self::$adjectives) - 1)]
+                       self::$adjectives[rand(0, count(self::$animals) - 1)],
+                       self::$animals[rand(0, count(self::$adjectives) - 1)]
         );
     }
 }
