@@ -8,9 +8,9 @@ class Time
     {
         $array = explode(':', $time);
 
-        $hours   = (int)$array[0];
-        $minutes = (int)$array[1];
-        $seconds = (int)$array[2];
+        $hours   = (int)($array[0] ?? 0);
+        $minutes = (int)($array[1] ?? 0);
+        $seconds = (int)($array[2] ?? 0);
 
         return ($hours * 60 * 60) + ($minutes * 60) + ($seconds);
     }

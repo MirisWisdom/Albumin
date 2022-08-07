@@ -97,4 +97,32 @@ class TimeTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests that passing data through both Time::fromSeconds() and Time::toSeconds() works reliably when
+     * SECONDS are NOT provided.
+     *
+     * @return void
+     */
+    public function test_time_integration_missing_seconds()
+    {
+        $expected = '08:18:00';
+        $actual   = Time::fromSeconds(Time::toSeconds('08:18'));
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests that passing data through both Time::fromSeconds() and Time::toSeconds() works reliably when
+     * SECONDS *and* MINUTES are NOT provided.
+     *
+     * @return void
+     */
+    public function test_time_integration_missing_seconds_and_minutes()
+    {
+        $expected = '08:00:00';
+        $actual   = Time::fromSeconds(Time::toSeconds('08'));
+
+        $this->assertEquals($expected, $actual);
+    }
 }
