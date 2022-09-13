@@ -45,9 +45,9 @@
             <div class="column">
                 <div class="control">
                     <a href="{{ route('shell.show', $record->alias) }}"
-                       class="button is-outlined is-link is-large is-fullwidth"
+                       class="button is-outlined is-link is-large is-family-monospace is-fullwidth"
                        target="_blank">
-                        Shell Script
+                        ffmpeg/yt-dlp
                     </a>
                 </div>
             </div>
