@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "**** applying permissions ****"
+
+for i in "storage" "bootstrap/cache" "database"
+do
+    sudo chgrp -R users  "/app/www/${i}"
+    sudo chmod -R ug+rwx "/app/www/${i}"
+done
