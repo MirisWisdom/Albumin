@@ -19,6 +19,6 @@
         "sass-loader": "^12.6.0"
     },
     "dependencies": {
-        "bulma": "^0.9.4"
+        "@picocss/pico": "^1.5.7"
     }
 }

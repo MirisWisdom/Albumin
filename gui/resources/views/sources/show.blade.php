@@ -1,64 +1,63 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="box has-text-centered">
-        <h1 class="title">
+<div class="container">
+    <header>
+        <h1>
             {{ $source->title }}
         </h1>
-    </div>
-    <div class="columns">
-        <div class="column">
-            <div class="card">
+    </header>
+</div>
+<div class="container-fluid">
+    <div class="grid">
+        <div>
+            <article>
                 <div class="card-content">
                     <h2 class="subtitle">
                         Available Records
                     </h2>
                     @if($records->count() > 0)
-                        <div class="block">
-                            <p>
-                                The following existing records have been found for this video! Feel free to use them or
-                                create your own! =)
-                                <br><br>
-                                To use them, paste their ID into Gunloader:
-                            </p>
-                        </div>
-                        <table class="table is-fullwidth">
-                            <thead>
+                    <p>
+                        The following existing records have been found for this video! Feel free to use them or
+                        create your own! =)
+                        <br><br>
+                        To use them, paste their ID into Gunloader:
+                    </p>
+                    <table>
+                        <thead>
                             <tr>
-                                <th class="has-text-centered">Gunloader ID</th>
-                                <th class="has-text-centered">Songs</th>
-                                <th class="has-text-centered">Votes</th>
-                                <th class="has-text-centered">Actions</th>
+                                <th style="text-align: center">Gunloader ID</th>
+                                <th style="text-align: center">Songs</th>
+                                <th style="text-align: center">Votes</th>
+                                <th style="text-align: center">Actions</th>
                             </tr>
-                            </thead>
-                            <tbody>
+                        </thead>
+                        <tbody>
                             @foreach($records as $record)
-                                <tr class="has-text-centered">
-                                    <td>
-                                        <div class="control">
-                                            <input type="text"
-                                                   value="{{ $record->alias }}"
-                                                   readonly
-                                                   class="input is-small is-family-monospace">
-                                        </div>
-                                    </td>
-                                    <td>{{ $record->entries()->count() }}</td>
-                                    <td>{{ $record->votes()->count() }}</td>
-                                    <td>
-                                        <a href="{{ route('sources.records.show', [$source, $record]) }}"
-                                           class="button is-link is-small"
-                                           target="_blank">
-                                            View
-                                        </a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td style="text-align: center">
+                                    <input type="text"
+                                           value="{{ $record->alias }}"
+                                           readonly>
+                                </td>
+                                <td style="text-align: center">{{ $record->entries()->count() }}</td>
+                                <td style="text-align: center">{{ $record->votes()->count() }}</td>
+                                <td style="text-align: center">
+                                    <a href="{{ route('sources.records.show', [$source, $record]) }}"
+                                       role="button"
+                                       target="_blank"
+                                       class="outline">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
                             @endforeach
-                            </tbody>
-                        </table>
+                        </tbody>
+                    </table>
                     @else
-                        <div class="content">
-                            No records found for this video! Would you like to create one?
-                        </div>
+                    <div class="content">
+                        No records found for this video! Would you like to create one?
+                    </div>
                     @endif
                     <form action="{{ route('sources.records.store', [$source]) }}"
                           method="post">
@@ -66,18 +65,19 @@
                         <input type="hidden"
                                name="source">
                         <input type="submit"
-                               class="button is-link is-fullwidth"
-                               value="Create New Records">
+                               value="Create New Records"
+                               style="width: 100%">
                     </form>
                 </div>
-            </div>
+            </article>
         </div>
-        <div class="column">
-            <div class="card">
+        <div>
+            <article>
                 <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/{{ $source->id }}"></iframe>
                 </div>
-            </div>
+            </article>
         </div>
     </div>
+</div>
 @endsection

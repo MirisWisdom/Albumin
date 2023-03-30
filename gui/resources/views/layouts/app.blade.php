@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -11,7 +12,7 @@
     <meta property="og:title"
           content="{{config('app.name') }} ~ {{ config('app.author') }}">
     <meta property="og:type"
-          content="website"/>
+          content="website" />
     <meta property="og:image"
           content="{{ asset('apple-touch-icon.png') }}">
     <meta property="og:url"
@@ -42,62 +43,158 @@
     <link rel="manifest"
           href="{{ asset('site.webmanifest') }}">
 </head>
+
 <body>
-<div class="container">
-    <section class="hero has-text-centered">
-        <div class="hero-body">
-            <img src="{{ asset('apple-touch-icon.png') }}"
-                 alt="Gunloader icon">
-            <p class="title">
-                <a href="{{ route('welcome') }}">{{ config('app.name') }}</a>
-            </p>
-            <p class="subtitle">
-                Split YouTube videos into audio tracks.
-            </p>
-            <a href="{{ route('sources.index') }}"
-               class="button is-small is-outlined is-link">
-                All Videos
-            </a>
-        </div>
-    </section>
-    @if(session('success'))
-        <article class="message is-success">
-            <div class="message-header">
+    <main class="container">
+        <nav>
+            <ul>
+                <li>
+                    <strong>{{ config('app.name') }}</strong>
+                    - YouTube Album Splitter
+                </li>
+            </ul>
+            <ul>
+                <li><a href="{{ route('welcome') }}">Home</a></li>
+                <li><a href="{{ route('sources.index') }}"
+                       role='button'>All Videos</a></li>
+            </ul>
+        </nav>
+
+        @if(session('success'))
+        <article>
+            <header>
                 <p>Success</p>
             </div>
-            <div class="message-body">
-                {{ session('success') }}
-            </div>
+            {{ session('success') }}
         </article>
-    @endif
-    @if(session('error'))
-        <article class="message is-danger">
-            <div class="message-header">
+        @endif
+
+        @if(session('error'))
+        <article>
+            <header>
                 <p>Error</p>
             </div>
-            <div class="message-body">
-                {{ session('error') }}
-            </div>
+            {{ session('error') }}
         </article>
-    @endif
+        @endif
+    </main>
+
     @yield('content')
-</div>
-<hr>
-<footer class="footer">
-    <div class="content has-text-centered">
-        <p>
-            Project by
-            <a href="https://github.com/yumiris"
-               target="-_blank">
-                Miris Wisdom
-            </a>
-            available on
-            <a href="https://github.com/yumiris/gunloader"
-               target="_blank">
-                GitHub
-            </a> =)
-        </p>
+
+    <div class="container">
+        <footer>
+            <p>
+                Project by
+                <a href="https://github.com/yumiris"
+                   target="-_blank">
+                    Miris Wisdom
+                </a>
+                available on
+                <a href="https://github.com/yumiris/gunloader"
+                   target="_blank">
+                    GitHub
+                </a> =)
+            </p>
+        </footer>
     </div>
-</footer>
+    </main>
 </body>
+<script>
+    /*
+    * Modal
+    *
+    * Pico.css - https://picocss.com
+    * Copyright 2019-2023 - Licensed under MIT
+    */
+
+    // Config
+    const isOpenClass = 'modal-is-open';
+    const openingClass = 'modal-is-opening';
+    const closingClass = 'modal-is-closing';
+    const animationDuration = 400; // ms
+    let visibleModal = null;
+
+
+    // Toggle modal
+    const toggleModal = event => {
+    event.preventDefault();
+    const modal = document.getElementById(event.currentTarget.getAttribute('data-target'));
+    (typeof(modal) != 'undefined' && modal != null)
+        && isModalOpen(modal) ? closeModal(modal) : openModal(modal)
+    }
+
+    // Is modal open
+    const isModalOpen = modal => {
+    return modal.hasAttribute('open') && modal.getAttribute('open') != 'false' ? true : false;
+    }
+
+    // Open modal
+    const openModal = modal => {
+    if (isScrollbarVisible()) {
+        document.documentElement.style.setProperty('--scrollbar-width', `${getScrollbarWidth()}px`);
+    }
+    document.documentElement.classList.add(isOpenClass, openingClass);
+    setTimeout(() => {
+        visibleModal = modal;
+        document.documentElement.classList.remove(openingClass);
+    }, animationDuration);
+    modal.setAttribute('open', true);
+    }
+
+    // Close modal
+    const closeModal = modal => {
+    visibleModal = null;
+    document.documentElement.classList.add(closingClass);
+    setTimeout(() => {
+        document.documentElement.classList.remove(closingClass, isOpenClass);
+        document.documentElement.style.removeProperty('--scrollbar-width');
+        modal.removeAttribute('open');
+    }, animationDuration);
+    }
+
+    // Close with a click outside
+    document.addEventListener('click', event => {
+    if (visibleModal != null) {
+        const modalContent = visibleModal.querySelector('article');
+        const isClickInside = modalContent.contains(event.target);
+        !isClickInside && closeModal(visibleModal);
+    }
+    });
+
+    // Close with Esc key
+    document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && visibleModal != null) {
+        closeModal(visibleModal);
+    }
+    });
+
+    // Get scrollbar width
+    const getScrollbarWidth = () => {
+
+    // Creating invisible container
+    const outer = document.createElement('div');
+    outer.style.visibility = 'hidden';
+    outer.style.overflow = 'scroll'; // forcing scrollbar to appear
+    outer.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
+    document.body.appendChild(outer);
+
+    // Creating inner element and placing it in the container
+    const inner = document.createElement('div');
+    outer.appendChild(inner);
+
+    // Calculating difference between container's full width and the child width
+    const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
+
+    // Removing temporary elements from the DOM
+    outer.parentNode.removeChild(outer);
+
+    return scrollbarWidth;
+    }
+
+    // Is scrollbar visible
+    const isScrollbarVisible = () => {
+    return document.body.scrollHeight > screen.height;
+    }
+</script>
+
 </html>
