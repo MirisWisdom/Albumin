@@ -6,7 +6,7 @@
     <article>
         <label>
             Run the
-            <a href="https://github.com/yumiris/Gunloader/releases/"
+            <a href="https://github.com/MirisWisdom/Gunloader/releases/"
             target="_blank">
                 Gunloader CLI
             </a>
@@ -20,7 +20,7 @@
                     value="{{ $record->alias }}">
             </div>
             <div>
-                <a href="https://github.com/yumiris/Gunloader/releases/"
+                <a href="https://github.com/MirisWisdom/Gunloader/releases/"
                 role="button"
                 target="_blank"
                 style="width: 100%">

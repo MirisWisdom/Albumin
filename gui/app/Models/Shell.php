@@ -22,7 +22,7 @@ class Shell
 #  \__, /\__,_/_/ /_/_/\____/\__,_/\__,_/\___/_/
 # /____/
 # ---------------------------------------------------
-# author miris ~ github yumiris/youtube.album.extract
+# Author :: Miris /// GitHub :: MirisWisdom/Gunloader
 # ---------------------------------------------------
 
 # This simple Bash script lets you download the video

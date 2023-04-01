@@ -8,7 +8,7 @@
     <p align='center'>
         <a href='https://gunloader.miris.design'>Gunloader Web GUI</a>
         •
-        <a href='https://github.com/yumiris/Gunloader/releases/latest'>Download Gunloader CLI</a>
+        <a href='https://github.com/MirisWisdom/Gunloader/releases/latest'>Download Gunloader CLI</a>
     </p>
 </html>
 
@@ -23,11 +23,11 @@ Long, hours-long video compilations without existing track times are a challenge
 1. Go to the Web UI, and provide a YouTube URL.
 2. If somebody already created a record, you can copy the ID for it.
 3. Otherwise, create a new record with song information and timings.
-4. Run the [Gunloader CLI](https://github.com/yumiris/Gunloader/) and provide the ID shown in the Web GUI.
+4. Run the [Gunloader CLI](https://github.com/MirisWisdom/Gunloader/) and provide the ID shown in the Web GUI.
 
 ## Dependencies
 
-Please refer to the main [Gunloader CLI page](https://github.com/yumiris/Gunloader/) for further information.
+Please refer to the main [Gunloader CLI page](https://github.com/MirisWisdom/Gunloader/) for further information.
 
 In essence:
 

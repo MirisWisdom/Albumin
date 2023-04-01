@@ -36,7 +36,7 @@
                 </header>
                 <p>
                     This website allows you to generate instructions for
-                    <a href="https://github.com/yumiris/gunloader"
+                    <a href="https://github.com/MirisWisdom/gunloader"
                        target="_blank">Gunloader</a>,
                     including the track titles, timings, and album/artist/genre information.
                 </p>
@@ -45,10 +45,10 @@
                 </p>
                 <p>
                     You should
-                    <a href="https://github.com/yumiris/Gunloader/releases"
+                    <a href="https://github.com/MirisWisdom/Gunloader/releases"
                        target="_blank">download the Gunloader program</a>,
                     along with the
-                    <a href="https://github.com/yumiris/Gunloader#dependencies"
+                    <a href="https://github.com/MirisWisdom/Gunloader#dependencies"
                        target="_blank">relevant dependencies</a>,
                     if you haven't done so already! =)
                 </p>

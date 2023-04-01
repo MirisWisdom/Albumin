@@ -16,7 +16,7 @@ namespace Gunloader
       WriteLine(@"      /____/                                                   ");
       ForegroundColor = DarkGray;
       WriteLine(@"      ---------------------------------------------------      ");
-      WriteLine(@"      author miris ~ github yumiris/youtube.album.extract      ");
+      WriteLine(@"      Author :: Miris /// GitHub :: MirisWisdom/Gunloader      ");
       WriteLine(@"      ---------------------------------------------------      ");
       ForegroundColor = White;
     }

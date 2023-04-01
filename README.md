@@ -8,7 +8,7 @@
     <p align='center'>
         <a href='https://gunloader.miris.design'>Gunloader Web GUI</a>
         •
-        <a href='https://github.com/yumiris/Gunloader/releases/latest'>Download Latest CLI</a>
+        <a href='https://github.com/MirisWisdom/Gunloader/releases/latest'>Download Latest CLI</a>
     </p>
 </html>
 
@@ -43,7 +43,7 @@ For advanced instructions, please refer to the [USAGE](./USAGE.md) document. Lin
 
 ## Installation
 
-Download [the latest release from here](https://github.com/yumiris/Gunloader/releases/latest), and also make sure you have the dependencies you need installed. See below for further information!
+Download [the latest release from here](https://github.com/MirisWisdom/Gunloader/releases/latest), and also make sure you have the dependencies you need installed. See below for further information!
 
 ## Dependencies
 

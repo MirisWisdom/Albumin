@@ -35,7 +35,7 @@
                 </header>
                 <label>
                     Run the
-                    <a href="https://github.com/yumiris/Gunloader/releases/"
+                    <a href="https://github.com/MirisWisdom/Gunloader/releases/"
                        target="_blank">
                         Gunloader CLI
                     </a>

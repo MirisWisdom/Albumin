@@ -85,12 +85,12 @@
         <footer>
             <p>
                 Project by
-                <a href="https://github.com/yumiris"
+                <a href="https://github.com/MirisWisdom"
                    target="-_blank">
                     Miris Wisdom
                 </a>
                 available on
-                <a href="https://github.com/yumiris/gunloader"
+                <a href="https://github.com/MirisWisdom/gunloader"
                    target="_blank">
                     GitHub
                 </a> =)

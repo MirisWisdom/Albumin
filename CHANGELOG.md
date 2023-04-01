@@ -152,7 +152,7 @@ Fix issues caused by null values. One day, a testing suite may be developed.
 
 ## [v0.1.0] - 2021-10-03
 
-Equivalent to [v0.0.2](https://github.com/yumiris/YouTube.Album.Extract/releases/tag/v0.0.2), but with a more appropriate version bump.
+Equivalent to [v0.0.2](https://github.com/MirisWisdom/YouTube.Album.Extract/releases/tag/v0.0.2), but with a more appropriate version bump.
 
 - **Introduce new JSON format for records & batch files**
   - use records & batch files for metadata
