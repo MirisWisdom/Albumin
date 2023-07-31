@@ -1,0 +1,50 @@
+---
+kind: pipeline
+type: ssh
+name: default
+
+server:
+  host:
+    from_secret: ssh_host
+  user:
+    from_secret: ssh_username
+  ssh_key:
+    from_secret: ssh_key
+
+steps:
+- name: build
+  environment:
+    DOCKER_IMAGE_PHP:
+      from_secret: docker_image_php
+    DOCKER_IMAGE_CADDY:
+      from_secret: docker_image_caddy
+  commands:
+  - export DOCKER_BUILDKIT=1
+    # latest
+  - docker-compose -f gui/docker-compose.yml build
+    # semver
+  - docker tag "$DOCKER_IMAGE_PHP:latest"   "$DOCKER_IMAGE_PHP:$DRONE_SEMVER"   || echo "skipping semver tag"
+  - docker tag "$DOCKER_IMAGE_CADDY:latest" "$DOCKER_IMAGE_CADDY:$DRONE_SEMVER" || echo "skipping semver tag"
+
+- name: push
+  environment:
+    DOCKER_IMAGE_PHP:
+      from_secret: docker_image_php
+    DOCKER_IMAGE_CADDY:
+      from_secret: docker_image_caddy
+    DOCKER_REGISTRY:
+      from_secret: docker_registry
+    DOCKER_USERNAME:
+      from_secret: docker_username
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+  commands:
+  - docker login --username "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD" "$DOCKER_REGISTRY"
+    # latest
+  - docker push "$DOCKER_IMAGE_PHP:latest"
+  - docker push "$DOCKER_IMAGE_CADDY:latest"
+    # semver
+  - docker push "$DOCKER_IMAGE_PHP:$DRONE_SEMVER"   || echo "skipping semver push"
+  - docker push "$DOCKER_IMAGE_CADDY:$DRONE_SEMVER" || echo "skipping semver push"
+  depends_on:
+  - build

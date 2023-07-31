@@ -1,6 +1,0 @@
-#!/bin/bash
-
-echo "**** deploying database ****"
-
-su abc -s /bin/bash -c 'php /app/www/artisan migrate --no-interaction --force'
-su abc -s /bin/bash -c 'php /app/www/artisan db:seed --no-interaction --force'

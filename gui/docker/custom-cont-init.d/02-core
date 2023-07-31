@@ -1,8 +1,0 @@
-#!/bin/bash
-
-echo "**** caching platform ****"
-
-for i in "config:cache" "route:cache" "view:cache" "event:cache"
-do
-    su abc -s /bin/bash -c "php /app/www/artisan ${i}"
-done
