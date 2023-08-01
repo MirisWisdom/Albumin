@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Before Gunloader [encodes](./encoding.md) the given video to music files, it first compiles the given [album record](./album.md) and [track metadata](./track.md) to a `.gun` file. The values in this file will be used during encoding, so it's recommended to review it! You have granular control over every single [track](./track.md)'s information.
+Before Albumin [encodes](./encoding.md) the given video to music files, it first compiles the given [album record](./album.md) and [track metadata](./track.md) to a `.gun` file. The values in this file will be used during encoding, so it's recommended to review it! You have granular control over every single [track](./track.md)'s information.
 
 This is what the file tends to look like:
 
@@ -49,7 +49,7 @@ This is what the file tends to look like:
 
 ## In-depth Pedantry
 
-Compiling refers to serialising the [album](./album.md) object to a `.gun` file. Gunloader first [hydrates](./hydration.md) the album object, then serialises the properties to the aforementioned `.gun` file, either in JSON or XML format.
+Compiling refers to serialising the [album](./album.md) object to a `.gun` file. Albumin first [hydrates](./hydration.md) the album object, then serialises the properties to the aforementioned `.gun` file, either in JSON or XML format.
 
 The values in this file will be used for the encoding mechanism. Saving the data to a file provides advantages such as:
 

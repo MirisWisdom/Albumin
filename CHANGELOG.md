@@ -1,10 +1,10 @@
-# Gunloader Changelog
+# Albumin Changelog
 
 ## [v0.7.5] - 2021-12-22
 
 ### AAC encoding support
 
-This update introduces support for encoding audio to AAC (.m4a) files. Invoke `gunloader` with `--format aac` or `--format m4a` - or specify `aac` in the wizard -- to use this format.
+This update introduces support for encoding audio to AAC (.m4a) files. Invoke `albumin` with `--format aac` or `--format m4a` - or specify `aac` in the wizard -- to use this format.
 
 #### Notes
 
@@ -15,7 +15,7 @@ This update introduces support for encoding audio to AAC (.m4a) files. Invoke `g
 
 ### Interactive Wizard
 
-This update introduces an interactive wizard for Gunloader. When you run the program without specifying arguments, it will interactively walk you through setting everything up.
+This update introduces an interactive wizard for Albumin. When you run the program without specifying arguments, it will interactively walk you through setting everything up.
 
 ![image](https://user-images.githubusercontent.com/10241434/145281119-2c05acaf-c988-443c-a149-46a89550ae24.png)
 
@@ -36,11 +36,11 @@ This update introduces an interactive wizard for Gunloader. When you run the pro
 
 TLDR: Download *only* the audio when all tracks have local existing covers
 
-Gunloader usually downloads both the video & audio from a YouTube URL, for the sake of using frames within the video as covers for each track.
+Albumin usually downloads both the video & audio from a YouTube URL, for the sake of using frames within the video as covers for each track.
 
 When all tracks have local images assigned as covers to them, it's not necessary to download the video from YouTube; instead, we could just retrieve only the audio.
 
-This release teaches Gunloader to download *only* the audio stream from YouTube when all of the Album Tracks have local images assigned to them.
+This release teaches Albumin to download *only* the audio stream from YouTube when all of the Album Tracks have local images assigned to them.
 
 ### Logic Tweaks & Improvements
 
@@ -71,9 +71,9 @@ MP3 is once again the default format; however, `--format <format>` can continue 
 
 ## YouTube Chapters/Timeline Support
 
-Gunloader can now split songs using information from YouTube Chapters/Timeline metadata. This can spare you from manually writing out the songs and their starting times.
+Albumin can now split songs using information from YouTube Chapters/Timeline metadata. This can spare you from manually writing out the songs and their starting times.
 
-To enable this feature, make sure the records file you provide Gunloader has a **YouTube Video URL** as its **first line**. Of course, you will need to make sure the video in question has chapters!
+To enable this feature, make sure the records file you provide Albumin has a **YouTube Video URL** as its **first line**. Of course, you will need to make sure the video in question has chapters!
 
 ## Quality of Life & Robustness
 
@@ -105,7 +105,7 @@ By virtue, `--album` is now used as an alias for `--records`/`--tracks`. Also, t
 Processing multiple albums can now be done by simply passing the `--album` parameter multiple times:
 
 ```
-./gunloader \
+./albumin \
     --album '~/album 01 songs.txt' \
     --album '~/90s nostalgia album.txt' \
 ```
@@ -118,7 +118,7 @@ As such, batch files are no longer used.
 
 Ogg Vorbis & Opus are now supported, using `oggenc` and `opusenc` respectively.
 
-When invoking Gunloader, provide the `--format` (or `--encoder`) parameter with any of the following values: `mp3`, `flac`, `vorbis`, `opus`. By default, MP3 will be used.
+When invoking Albumin, provide the `--format` (or `--encoder`) parameter with any of the following values: `mp3`, `flac`, `vorbis`, `opus`. By default, MP3 will be used.
 
 ### Dynamic `.gun` File Names
 

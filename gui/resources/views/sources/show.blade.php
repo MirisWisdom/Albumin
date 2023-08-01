@@ -21,12 +21,12 @@
                         The following existing records have been found for this video! Feel free to use them or
                         create your own! =)
                         <br><br>
-                        To use them, paste their ID into Gunloader:
+                        To use them, paste their ID into Albumin:
                     </p>
                     <table>
                         <thead>
                             <tr>
-                                <th style="text-align: center">Gunloader ID</th>
+                                <th style="text-align: center">Albumin ID</th>
                                 <th style="text-align: center">Songs</th>
                                 <th style="text-align: center">Votes</th>
                                 <th style="text-align: center">Actions</th>

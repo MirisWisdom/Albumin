@@ -6,9 +6,9 @@
     <article>
         <label>
             Run the
-            <a href="https://github.com/MirisWisdom/Gunloader/releases/"
+            <a href="https://github.com/MirisWisdom/Albumin/releases/"
             target="_blank">
-                Gunloader CLI
+                Albumin CLI
             </a>
             and enter the following ID...
         </label>
@@ -20,11 +20,11 @@
                     value="{{ $record->alias }}">
             </div>
             <div>
-                <a href="https://github.com/MirisWisdom/Gunloader/releases/"
+                <a href="https://github.com/MirisWisdom/Albumin/releases/"
                 role="button"
                 target="_blank"
                 style="width: 100%">
-                    Download Gunloader
+                    Download Albumin
                 </a>
             </div>
             <div>

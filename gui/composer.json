@@ -1,9 +1,9 @@
 {
-  "name": "miris/gunloader.web",
+  "name": "miris/albumin.web",
   "type": "project",
-  "description": "Web GUI for Gunloader.",
+  "description": "Web GUI for Albumin.",
   "keywords": [
-    "gunloader",
+    "albumin",
     "web",
     "ui"
   ],

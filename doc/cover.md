@@ -1,6 +1,6 @@
 # Cover Art
 
-Before creating the encoded file, Gunloader will instruct FFmpeg to extract an image of a frame from the source video. It will use the image as a cover art for the encoded audio file.
+Before creating the encoded file, Albumin will instruct FFmpeg to extract an image of a frame from the source video. It will use the image as a cover art for the encoded audio file.
 
 The frame of the cover art will always be **30 seconds** after the **start** of the song in the video:
 

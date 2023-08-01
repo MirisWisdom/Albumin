@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gunloader", "Gunloader.csproj", "{CEB70AAD-142E-47CB-B7D7-F60CBBE51D1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Albumin", "Albumin.csproj", "{CEB70AAD-142E-47CB-B7D7-F60CBBE51D1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

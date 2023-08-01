@@ -10,7 +10,7 @@ On top of the metadata, a track represents its title, track number in the album,
 
 ## Metadata
 
-Metadata refers to the additional information which is embedded into an encoded audio file. Gunloader, at the moment, supports the following tags:
+Metadata refers to the additional information which is embedded into an encoded audio file. Albumin, at the moment, supports the following tags:
 
 - Album title
 - Cover art
@@ -18,11 +18,11 @@ Metadata refers to the additional information which is embedded into an encoded 
 - Comment
 - Artists
 
-Metadata can be mass assigned through parameters when invoking Gunloader. Each individual track's metadata can be granularly edited in the [compiled `.gun` file](./compiling.md) before the [encoding](./encoding.md) process.
+Metadata can be mass assigned through parameters when invoking Albumin. Each individual track's metadata can be granularly edited in the [compiled `.gun` file](./compiling.md) before the [encoding](./encoding.md) process.
 
 ### Comment
 
-If a [track](./track.md) has a blank comment, Gunloader will attempt to assign the YouTube video URL as the comment. This can only be possible if:
+If a [track](./track.md) has a blank comment, Albumin will attempt to assign the YouTube video URL as the comment. This can only be possible if:
 
 A. The source is a YouTube URL; or
 B. The local file has a YouTube ID as its name

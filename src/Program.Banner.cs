@@ -1,23 +1,23 @@
 using static System.Console;
 using static System.ConsoleColor;
 
-namespace Gunloader
+namespace Albumin
 {
   public static partial class Program
   {
     public static void Banner()
     {
       ForegroundColor = Red;
-      WriteLine(@"                            __                __               ");
-      WriteLine(@"         ____ ___  ______  / /___  ____ _____/ /__  _____      ");
-      WriteLine(@"        / __ `/ / / / __ \/ / __ \/ __ `/ __  / _ \/ ___/      ");
-      WriteLine(@"       / /_/ / /_/ / / / / / /_/ / /_/ / /_/ /  __/ /          ");
-      WriteLine(@"       \__, /\__,_/_/ /_/_/\____/\__,_/\__,_/\___/_/           ");
-      WriteLine(@"      /____/                                                   ");
+      WriteLine(@"          ___    ____                    _           ");
+      WriteLine(@"         /   |  / / /_  __  ______ ___  (_)___       ");
+      WriteLine(@"        / /| | / / __ \/ / / / __ `__ \/ / __ \      ");
+      WriteLine(@"       / ___ |/ / /_/ / /_/ / / / / / / / / / /      ");
+      WriteLine(@"      /_/  |_/_/_.___/\__,_/_/ /_/ /_/_/_/ /_/       ");
+      WriteLine(@"                                                     ");
       ForegroundColor = DarkGray;
-      WriteLine(@"      ---------------------------------------------------      ");
-      WriteLine(@"      Author :: Miris /// GitHub :: MirisWisdom/Gunloader      ");
-      WriteLine(@"      ---------------------------------------------------      ");
+      WriteLine(@"      -----------------------------------------------");
+      WriteLine(@"      GITHUB PROJECT  ::  MirisWisdom/YouTube.Albumin");
+      WriteLine(@"      -----------------------------------------------");
       ForegroundColor = White;
     }
   }

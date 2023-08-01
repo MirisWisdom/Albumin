@@ -5,7 +5,7 @@ using static System.Environment;
 using static System.Runtime.InteropServices.OSPlatform;
 using static System.Runtime.InteropServices.RuntimeInformation;
 
-namespace Gunloader
+namespace Albumin
 {
   public static partial class Program
   {
@@ -46,12 +46,12 @@ namespace Gunloader
 
         if (IsOSPlatform(Windows))
         {
-          Step("2nd", @"Open a CMD window and run Gunloader, as instructed in the README. Example:");
+          Step("2nd", @"Open a CMD window and run Albumin, as instructed in the README. Example:");
           Example($@"  .\{process}.exe --album 'C:\Path\To\Records-File.txt' --format flac --genre OST");
         }
         else
         {
-          Step("2nd", @"Open a Terminal and run Gunloader as instructed in the README. Example:");
+          Step("2nd", @"Open a Terminal and run Albumin as instructed in the README. Example:");
           Example($@"  ./{process} --album 'C:\Path\To\Records-File.txt' --format flac --genre OST");
         }
 

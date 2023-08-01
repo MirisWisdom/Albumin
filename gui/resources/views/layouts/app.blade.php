@@ -25,7 +25,7 @@
     <meta property="og:site_name"
           content="{{ config('app.name') }} ~ {{ config('app.author') }}">
     <meta name="twitter:image:alt"
-          content="Screenshot of Gunloader Website">
+          content="Screenshot of Albumin Website">
 
     <link rel="stylesheet"
           href="{{ asset('css/app.css') }}">
@@ -90,7 +90,7 @@
                     Miris Wisdom
                 </a>
                 available on
-                <a href="https://github.com/MirisWisdom/gunloader"
+                <a href="https://github.com/MirisWisdom/albumin"
                    target="_blank">
                     GitHub
                 </a> =)

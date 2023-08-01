@@ -1,6 +1,6 @@
 # Documentation
 
-This directory contains the documentation for the concept and mechanisms of Gunloader:
+This directory contains the documentation for the concept and mechanisms of Albumin:
 
 - [Album](./album.md)
 - [Track](./track.md)

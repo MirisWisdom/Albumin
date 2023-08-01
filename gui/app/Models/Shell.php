@@ -22,7 +22,7 @@ class Shell
 #  \__, /\__,_/_/ /_/_/\____/\__,_/\__,_/\___/_/
 # /____/
 # ---------------------------------------------------
-# Author :: Miris /// GitHub :: MirisWisdom/Gunloader
+# Author :: Miris /// GitHub :: MirisWisdom/Albumin
 # ---------------------------------------------------
 
 # This simple Bash script lets you download the video

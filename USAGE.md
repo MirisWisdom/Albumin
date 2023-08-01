@@ -1,10 +1,10 @@
-# Gunloader Usage
+# Albumin Usage
 
-To keep things simple, you can just double click on Gunloader. The wizard will walk you through the whole process.
+To keep things simple, you can just double click on Albumin. The wizard will walk you through the whole process.
 
 ![wizard](https://user-images.githubusercontent.com/10241434/145333289-27e462f6-eb21-4793-853b-1b18b684994e.png)
 
-If you are a Linux user, you may have to run `./gunloader` through the terminal to see the wizard!
+If you are a Linux user, you may have to run `./albumin` through the terminal to see the wizard!
 
 ## Album Records
 
@@ -28,19 +28,19 @@ https://youtu.be/divcisums90
 
 ## YouTube Chapters
 
-If you want Gunloader to attempt to use a YouTube video's chapter information for the songs, please:
+If you want Albumin to attempt to use a YouTube video's chapter information for the songs, please:
 
 1. Ensure the YouTube video in question has **chapters in its timeline**; and
 2. Create a [records](./doc/album.md) file containing just the **YouTube video URL**!
 
 ## Advanced Usage
 
-For more advanced usage, you can pass parameters to Gunloader and skip the wizard altogether.
+For more advanced usage, you can pass parameters to Albumin and skip the wizard altogether.
 
 First, create the album records file as described [here](#album-records). Once you're done, invoke the program like so:
 
 ```shell
-./gunloader \
+./albumin \
     # records file
     --album '~/album.txt' \
     --album '~/another-album.txt' \

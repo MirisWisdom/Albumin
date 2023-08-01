@@ -1,14 +1,14 @@
 <html>
     <h1 align='center'>
-        Gunloader
+        YouTube.Albumin
     </h1>
     <p align='center'>
         Split YouTube videos into songs, all tagged and in your favourite audio format.
     </p>
     <p align='center'>
-        <a href='https://gunloader.miris.design'>Gunloader Web GUI</a>
+        <a href='https://albumin.miris.design'>Albumin Web GUI</a>
         •
-        <a href='https://github.com/MirisWisdom/Gunloader/releases/latest'>Download Latest CLI</a>
+        <a href='https://github.com/MirisWisdom/Albumin/releases/latest'>Download Latest CLI</a>
     </p>
 </html>
 
@@ -36,14 +36,14 @@ At the moment, the project consists of two components:
 
 ## Usage
 
-To make things simpler, give the [Web GUI a try here](https://gunloader.miris.design/)! It will let you organise your tracks (or use other people's existing records).
-Simply double click on Gunloader, and specify the ID that the Web GUI will give you.
+To make things simpler, give the [Web GUI a try here](https://albumin.miris.design/)! It will let you organise your tracks (or use other people's existing records).
+Simply double click on Albumin, and specify the ID that the Web GUI will give you.
 
-For advanced instructions, please refer to the [USAGE](./USAGE.md) document. Linux users may have to run `./gunloader` through the terminal to see the wizard.
+For advanced instructions, please refer to the [USAGE](./USAGE.md) document. Linux users may have to run `./albumin` through the terminal to see the wizard.
 
 ## Installation
 
-Download [the latest release from here](https://github.com/MirisWisdom/Gunloader/releases/latest), and also make sure you have the dependencies you need installed. See below for further information!
+Download [the latest release from here](https://github.com/MirisWisdom/Albumin/releases/latest), and also make sure you have the dependencies you need installed. See below for further information!
 
 ## Dependencies
 
@@ -60,7 +60,7 @@ Download whichever dependency you need for your use-case:
 If you need to specify a dependency's executable to the program, do it like so:
 
 ```shell
-./gunloader \
+./albumin \
     # records file
     --album '~/album.txt' \
 
@@ -74,9 +74,3 @@ If you need to specify a dependency's executable to the program, do it like so:
     --artist "Various" --artist "Artists" \
     --comment 'Very Important Music'
 ```
-
-## FAQ
-
-It's called `gunloader` because it was originally meant to be used to download compilations by Gundober.
-
-This repository's numskull of an author realised only afterwards that this solution works for any YouTube album video.

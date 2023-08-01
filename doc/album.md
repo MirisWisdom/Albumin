@@ -2,9 +2,9 @@
 
 An album represents a YouTube (or local) video, along with the [tracks](./track.md) inside it. When [encoding](./encoding.md) an album, each track will be extracted from the respective video, and then encoded into the desired format.
 
-## Gunloader Records
+## Albumin Records
 
-Record files are plain text files for you to create and fill out with the bare minimum information that Gunloader needs:
+Record files are plain text files for you to create and fill out with the bare minimum information that Albumin needs:
 
 - album title
 - video source -- either a YouTube video or a local file
@@ -27,7 +27,7 @@ https://youtu.be/divcisums90    - source
 
 ## YouTube Chapters
 
-A special mode has been introduced in v0.6.0, where Gunloader can attempt to retrieve chapter metadata from YouTube for each Track's Title, Starting Time and Ending Time.
+A special mode has been introduced in v0.6.0, where Albumin can attempt to retrieve chapter metadata from YouTube for each Track's Title, Starting Time and Ending Time.
 
 ![chapters](./chapters.svg)
 

@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   php:
-    image: ${DOCKER_IMAGE_PHP:-git.n2.network/miris/gunloader-php:latest}
+    image: ${DOCKER_IMAGE_PHP:-git.n2.network/miris/albumin-php:latest}
     build:
       context: .
       target: app_php
@@ -20,7 +20,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-15}&charset=${POSTGRES_CHARSET:-utf8}
 
   caddy:
-    image: ${DOCKER_IMAGE_CADDY:-git.n2.network/miris/gunloader-caddy:latest}
+    image: ${DOCKER_IMAGE_CADDY:-git.n2.network/miris/albumin-caddy:latest}
     build:
       context: .
       target: app_caddy

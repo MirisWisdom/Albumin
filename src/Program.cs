@@ -1,35 +1,35 @@
 /**
  * Copyright (C) 2021 Miris Wisdom
  * 
- * This file is part of Gunloader.
+ * This file is part of Albumin.
  * 
- * Gunloader is free software: you can redistribute it and/or modify
+ * Albumin is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 2.
  * 
- * Gunloader is distributed in the hope that it will be useful,
+ * Albumin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Gunloader.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Albumin.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Gunloader.Albums;
+using Albumin.Albums;
 using static System.Console;
 using static System.ConsoleColor;
 using static System.Environment;
 using static System.IO.File;
 
-namespace Gunloader
+namespace Albumin
 {
   /**
-   * Gunloader Program.
+   * Albumin Program.
    */
   public static partial class Program
   {
@@ -62,7 +62,7 @@ namespace Gunloader
     {
       if (Instructions != null)
       {
-        var album = new Albums.Gunloader();
+        var album = new Albums.Albumin();
         album.Load(Toolkit.Serialisation, Instructions);
         album.Encode(Toolkit);
         Exit(0);
@@ -80,7 +80,7 @@ namespace Gunloader
 
         Album album = first.Contains("https") && first.Contains("youtu")
           ? new YouTube(first, Toolkit.YTDL)
-          : new Albums.Gunloader(record);
+          : new Albums.Albumin(record);
 
         album.Compile(Metadata, Toolkit.Serialisation);
 

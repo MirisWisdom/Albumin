@@ -1,20 +1,20 @@
 using System;
 using System.IO;
 using System.Net.Http;
-using Gunloader.Encoders;
+using Albumin.Encoders;
 using static System.Console;
 using static System.ConsoleColor;
 using static System.IO.File;
 using static System.IO.Path;
 
-namespace Gunloader
+namespace Albumin
 {
   public static partial class Program
   {
     public static void Wizard()
     {
-      const string URL = "https://gunloader.miris.design";
-      const string API = "https://gunloader.miris.design/api/instructions";
+      const string URL = "https://albumin.miris.design";
+      const string API = "https://albumin.miris.design/api/instructions";
 
       void Prompt(string prompt)
       {
@@ -34,7 +34,7 @@ namespace Gunloader
       Banner();
 
       Info($"Please go to {URL} and follow the instructions there, then type the ID in here!");
-      Prompt("Gunloader ID");
+      Prompt("Albumin ID");
 
       var path = new FileInfo(GetTempFileName());
 

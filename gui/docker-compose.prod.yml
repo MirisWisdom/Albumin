@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   php:
-    image: ${DOCKER_IMAGE_PHP:-pkg.miris.design/gunloader/php:latest}
+    image: ${DOCKER_IMAGE_PHP:-pkg.miris.design/albumin/php:latest}
     restart: unless-stopped
     volumes:
       - php_socket:/var/run/php
@@ -17,7 +17,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-15}&charset=${POSTGRES_CHARSET:-utf8}
 
   caddy:
-    image: ${DOCKER_IMAGE_CADDY:-pkg.miris.design/gunloader/caddy:latest}
+    image: ${DOCKER_IMAGE_CADDY:-pkg.miris.design/albumin/caddy:latest}
     depends_on:
       - php
     environment:
