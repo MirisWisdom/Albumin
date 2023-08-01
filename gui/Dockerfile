@@ -23,6 +23,7 @@ RUN apk add --no-cache \
 		gettext \
 		git \
 		postgresql-client \
+		sqlite \
 	;
 
 RUN set -eux; \
@@ -32,6 +33,7 @@ RUN set -eux; \
 		opcache \
 		zip \
 		pdo_pgsql \
+		pdo_sqlite \
     ;
 
 ###> recipes ###
