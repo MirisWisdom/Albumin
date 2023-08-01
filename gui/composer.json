@@ -12,6 +12,7 @@
     "php": "^8.1.0",
     "ext-curl": "*",
     "alaouy/youtube": "^2.2",
+    "doctrine/dbal": "^3.6",
     "guzzlehttp/guzzle": "^7.2",
     "laravel/framework": "^10.0",
     "laravel/sanctum": "^3.2",
