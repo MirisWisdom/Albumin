@@ -12,7 +12,22 @@ server:
     from_secret: ssh_key
 
 steps:
-- name: build
+- name: cli-win-x64
+  commands:
+  - dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=True -p:TrimMode=link src/Albumin.sln
+  - zip -j "bin/Release/net6.0/win-x64/publish/release.zip"   "bin/Release/net6.0/win-x64/publish/albumin.exe" "CHANGELOG.md" "README.md" "USAGE.md"
+
+- name: cli-linux-x64
+  commands:
+  - dotnet publish -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=True -p:TrimMode=link src/Albumin.sln
+  - zip -j "bin/Release/net6.0/linux-x64/publish/release.zip" "bin/Release/net6.0/linux-x64/publish/albumin"   "CHANGELOG.md" "README.md" "USAGE.md"
+
+- name: cli-osx-x64
+  commands:
+  - dotnet publish -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=True -p:TrimMode=link src/Albumin.sln
+  - zip -j "bin/Release/net6.0/osx-x64/publish/release.zip"   "bin/Release/net6.0/osx-x64/publish/albumin"     "CHANGELOG.md" "README.md" "USAGE.md"
+
+- name: gui-docker
   environment:
     DOCKER_IMAGE_PHP:
       from_secret: docker_image_php
@@ -20,26 +35,42 @@ steps:
       from_secret: docker_image_caddy
   commands:
   - export DOCKER_BUILDKIT=1
-    # latest
   - docker-compose -f gui/docker-compose.yml build
     # semver
   - docker tag "$DOCKER_IMAGE_PHP:latest"   "$DOCKER_IMAGE_PHP:$DRONE_SEMVER"   || echo "skipping semver tag"
   - docker tag "$DOCKER_IMAGE_CADDY:latest" "$DOCKER_IMAGE_CADDY:$DRONE_SEMVER" || echo "skipping semver tag"
 
-- name: push
+- name: publish-cli
+  environment:
+    REGISTRY_HOST:
+      from_secret: registry_host
+    REGISTRY_USERNAME:
+      from_secret: registry_username
+    REGISTRY_PASSWORD:
+      from_secret: registry_password
+  commands:
+  - curl --user "$REGISTRY_USERNAME:$REGISTRY_PASSWORD" --upload-file "bin/Release/net6.0/linux-x64/publish/release.zip"  "https://$REGISTRY_HOST/api/packages/albumin/generic/cli/$DRONE_SEMVER/albumin-$DRONE_SEMVER-linux-x64.zip"
+  - curl --user "$REGISTRY_USERNAME:$REGISTRY_PASSWORD" --upload-file "bin/Release/net6.0/win-x64/publish/release.zip"    "https://$REGISTRY_HOST/api/packages/albumin/generic/cli/$DRONE_SEMVER/albumin-$DRONE_SEMVER-win-x64.zip"
+  - curl --user "$REGISTRY_USERNAME:$REGISTRY_PASSWORD" --upload-file "bin/Release/net6.0/osx-x64/publish/release.zip"    "https://$REGISTRY_HOST/api/packages/albumin/generic/cli/$DRONE_SEMVER/albumin-$DRONE_SEMVER-osx-x64.zip"
+  depends_on:
+  - cli-win-x64
+  - cli-linux-x64
+  - cli-osx-x64
+
+- name: publish-gui
   environment:
     DOCKER_IMAGE_PHP:
       from_secret: docker_image_php
     DOCKER_IMAGE_CADDY:
       from_secret: docker_image_caddy
-    DOCKER_REGISTRY:
-      from_secret: docker_registry
-    DOCKER_USERNAME:
-      from_secret: docker_username
-    DOCKER_PASSWORD:
-      from_secret: docker_password
+    REGISTRY_HOST:
+      from_secret: registry_host
+    REGISTRY_USERNAME:
+      from_secret: registry_username
+    REGISTRY_PASSWORD:
+      from_secret: registry_password
   commands:
-  - docker login --username "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD" "$DOCKER_REGISTRY"
+  - docker login --username "$REGISTRY_USERNAME" --password "$REGISTRY_PASSWORD" "$REGISTRY_HOST"
     # latest
   - docker push "$DOCKER_IMAGE_PHP:latest"
   - docker push "$DOCKER_IMAGE_CADDY:latest"
@@ -47,4 +78,8 @@ steps:
   - docker push "$DOCKER_IMAGE_PHP:$DRONE_SEMVER"   || echo "skipping semver push"
   - docker push "$DOCKER_IMAGE_CADDY:$DRONE_SEMVER" || echo "skipping semver push"
   depends_on:
-  - build
+  - gui-docker
+
+trigger:
+  event:
+  - tag
