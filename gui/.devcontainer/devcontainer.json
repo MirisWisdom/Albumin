@@ -1,0 +1,32 @@
+// https://aka.ms/devcontainer.json
+{
+	"name": "Existing Docker Compose (Extend)",
+	"dockerComposeFile": [
+		"../compose.yaml"
+	],
+	"service": "laravel.test",
+	"workspaceFolder": "/var/www/html",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"onecentlin.php-productive-pack",
+				"onecentlin.laravel-extension-pack",
+				"kokororin.vscode-phpfmt",
+				"cweijan.vscode-database-client2"
+			],
+			"settings": {
+				"html.format.wrapAttributes": "force-aligned",
+				"bladeFormatter.format.wrapAttributes": "force-aligned",
+				"phpfmt.enable_auto_align": true
+			}
+		}
+	},
+	"remoteUser": "sail",
+	"postCreateCommand": "chown -R 1000:1000 /var/www/html 2>/dev/null || true",
+	"forwardPorts": [
+		80,
+		3306
+	]
+	// "runServices": [],
+	// "shutdownAction": "none",
+}
